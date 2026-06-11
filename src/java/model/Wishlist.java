@@ -18,7 +18,6 @@ public class Wishlist {
         this.propertyList = propertyList != null ? propertyList : new ArrayList<>();
     }
 
-    // Getters and Setters
     public int getWishlistId() {
         return wishlistId;
     }
