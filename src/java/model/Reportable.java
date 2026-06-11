@@ -8,6 +8,8 @@ package model;
  *
  * @author Lenovo
  */
-public class Reportable {
-    
+public interface Reportable {
+    void report();
+    String getReportStatus();
+    void createReport(Report report);
 }
