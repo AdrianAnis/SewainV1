@@ -8,14 +8,14 @@ package model;
  *
  * @author Lenovo
  */
+
+
 public class Owner extends User {
 
-    
     public Owner() {
         super();
     }
 
-    
     public Owner(String userId, String name, String email, String password, String phone, String role) {
         super(userId, name, email, password, phone, role);
     }
@@ -27,6 +27,7 @@ public class Owner extends User {
     public void addProperty(String propertyName) {
         System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") mendaftarkan properti baru: " + propertyName);
     }
+
 
     public void viewProperty() {
         System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") melihat daftar properti miliknya.");
