@@ -38,6 +38,6 @@ public class Owner extends User {
     }
 
     public void deleteProperty(int propertyId) {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") menghapus properti ID: " + propertyId);
+        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") menghapus properti  ID: " + propertyId);
     }
 }
