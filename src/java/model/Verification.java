@@ -52,14 +52,14 @@ public class Verification {
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date =  date;
     }
     
     public void approve() {
         status = "Approved";
     }
 
-    public void reject() {
+    public void reject()  {
         status = "Rejected";
     }
 }
