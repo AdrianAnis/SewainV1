@@ -1,6 +1,3 @@
-/* =================================================
-   dashboard.css — SewaIn Tenant Dashboard Styles
-   ================================================= */
 
 body {
   font-family: "Inter", sans-serif;
@@ -10,7 +7,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ANIMATED BACKGROUND BLUR BLOBS */
+
 .blur-blobs {
   position: fixed;
   inset: 0;
@@ -65,9 +62,6 @@ body {
   }
 }
 
-/* ================================================
-   NAVBAR (Consistent with index.jsp)
-   ================================================ */
 .navbar {
   position: relative;
   width: 100%;
@@ -140,7 +134,7 @@ body {
   box-shadow: 0 4px 12px rgba(124, 154, 146, 0.15);
 }
 
-/* Green SVG avatar circle — consistent with profile page */
+
 .nav-avatar-circle {
   width: 30px;
   height: 30px;
@@ -169,7 +163,7 @@ body {
   transform: translateY(1px);
 }
 
-/* PROFILE DROPDOWN */
+
 .profile-dropdown {
   position: absolute;
   top: calc(100% + 12px);
@@ -269,9 +263,7 @@ body {
   color: #ef4444;
 }
 
-/* ================================================
-   MAIN LAYOUT (Full Width, No Sidebar)
-   ================================================ */
+
 .dashboard-container {
   max-width: 1200px;
   margin: 40px auto 80px;
@@ -280,9 +272,7 @@ body {
   z-index: 10;
 }
 
-/* ================================================
-   EXPLORER GREETING & STATISTICS
-   ================================================ */
+
 .explorer-header {
   margin-bottom: 32px;
 }
@@ -323,7 +313,7 @@ body {
   line-height: 1.5;
 }
 
-/* Fix WebKit/Blink rendering bugs during 3D transform on property cards */
+
 .property-card {
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -331,7 +321,7 @@ body {
   isolation: isolate;
 }
 
-/* HORIZONTAL SEARCH & FILTER BAR */
+
 .search-filter-bar {
   position: relative;
   z-index: 100;
@@ -382,7 +372,7 @@ body {
   pointer-events: none;
 }
 
-/* CUSTOM DROPDOWNS */
+
 .custom-dropdown {
   position: relative;
   flex: 1;
@@ -497,9 +487,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* ================================================
-   MAIN CONTENT AREA
-   ================================================ */
+
 .main-explorer {
   width: 100%;
 }
@@ -539,10 +527,6 @@ body {
   }
 }
 
-
-/* ================================================
-   ALERT & PAGINATION
-   ================================================ */
 .pagination {
   display: flex;
   justify-content: center;
@@ -615,9 +599,6 @@ body {
   border-left-color: #ef4444;
 }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
 @media (max-width: 992px) {
   .dashboard-container {
     flex-direction: column;
@@ -640,9 +621,6 @@ body {
   }
 }
 
-/* =============================================
-   AUTOCOMPLETE SUGGESTIONS
-   ============================================= */
 .autocomplete-wrapper {
   position: relative;
 }

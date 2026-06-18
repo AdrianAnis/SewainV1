@@ -22,12 +22,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Aktivitas - SewaIn Admin</title>
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     
-    <!-- CSS Stylesheets -->
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.4" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.4" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin/dashboard_admin.css?v=2.1" />
@@ -39,15 +39,15 @@
     </script>
 </head>
 <body>
-    <!-- AJAX Loader Spinner -->
+
     <div id="ajax-loader" class="loader-overlay" style="display: none;">
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- MAIN CONTAINER -->
+
     <div class="admin-container">
         
-        <!-- SIDEBAR -->
+
         <aside class="admin-sidebar-floating">
             <div class="sidebar-header">
                 <span class="brand-title">Sewa<span class="logo-highlight">In</span></span>
@@ -82,9 +82,9 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+
         <main class="admin-main">
-            <!-- HEADER -->
+
             <header class="main-header">
                 <div class="header-title-container">
                     <h1 class="main-title">Log Aktivitas</h1>
@@ -96,7 +96,7 @@
                 </div>
             </header>
 
-            <!-- FILTER BAR -->
+
             <section class="filter-card">
                 <form id="filter-form" method="GET" action="${pageContext.request.contextPath}/admin/activity" class="filter-form-layout">
                     <div class="filter-group">
@@ -129,7 +129,7 @@
                 </form>
             </section>
 
-            <!-- LOG TABLE CARD -->
+
             <section class="table-card">
                 <div class="card-header">
                     <h3 class="table-card-title">Histori Aktivitas Sistem</h3>
@@ -172,7 +172,7 @@
                     </table>
                 </div>
 
-                <!-- PAGINATION CONTROLS -->
+
                 <div class="pagination-container" id="pagination-controls" style="display: none;">
                     <button class="btn-pagination" id="btn-prev"><i class="fa-solid fa-chevron-left"></i> Sebelumnya</button>
                     <span class="pagination-info" id="pagination-info">Halaman 1 dari 10</span>
@@ -182,7 +182,7 @@
         </main>
     </div>
 
-    <!-- JS Scripts -->
+
     <script src="${pageContext.request.contextPath}/assets/js/admin/activity_log.js"></script>
 </body>
 </html>

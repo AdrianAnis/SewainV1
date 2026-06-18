@@ -1,4 +1,4 @@
-/* FILTER CARD STYLING */
+
 .filter-card {
     background-color: var(--white);
     border-radius: var(--radius-lg);
@@ -93,7 +93,7 @@
     box-shadow: 0 0 0 3px rgba(122, 158, 126, 0.15);
 }
 
-/* TABLE CARD STYLING */
+
 .table-card {
     background-color: var(--white);
     border-radius: var(--radius-lg);
@@ -161,7 +161,7 @@
     font-weight: 600;
 }
 
-/* BADGES STYLING */
+
 .role-badge {
     display: inline-block;
     padding: 4px 10px;
@@ -189,7 +189,7 @@
 .status-active { background-color: #E8F8F5; color: #27AE60; }
 .status-suspended { background-color: #FDF2F2; color: #E74C3C; }
 
-/* ACTION BUTTONS */
+
 .action-buttons {
     display: flex;
     justify-content: center;
@@ -243,7 +243,7 @@
     color: #1E8449;
 }
 
-/* MODALS LAYOUT */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -334,7 +334,7 @@
     gap: 12px;
 }
 
-/* DETAIL MODAL INTERNALS */
+
 .detail-avatar-container {
     display: flex;
     flex-direction: column;
@@ -381,7 +381,7 @@
     color: var(--text-main);
 }
 
-/* BUTTONS */
+
 .btn-primary {
     padding: 10px 20px;
     border-radius: var(--radius-md);
@@ -418,7 +418,7 @@
     background-color: #C0392B;
 }
 
-/* EXTRA SPACING UTIL */
+
 .py-8 {
     padding-top: 32px;
     padding-bottom: 32px;

@@ -1,8 +1,4 @@
-/* ==========================================================================
-   PROFILE PAGE STYLES — Premium Glassmorphic Design
-   ========================================================================== */
 
-/* Animated background blobs */
 .blur-blobs {
   position: fixed;
   inset: 0;
@@ -25,7 +21,7 @@
   to   { transform: scale(1.12) translate(20px, -20px); }
 }
 
-/* Container */
+
 .profile-container {
   position: relative;
   z-index: 1;
@@ -41,7 +37,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Back nav */
+
 .back-nav { margin-bottom: 24px; }
 
 .btn-back {
@@ -69,7 +65,7 @@
 .btn-back svg { transition: transform 0.3s ease; }
 .btn-back:hover svg { transform: translateX(-2px); }
 
-/* Main Card */
+
 .profile-card {
   background: rgba(255, 255, 255, 0.52);
   backdrop-filter: blur(24px);
@@ -80,7 +76,7 @@
   box-shadow: 0 16px 48px rgba(21, 49, 44, 0.07);
 }
 
-/* Avatar section */
+
 .profile-avatar-section {
   display: flex;
   align-items: center;
@@ -118,14 +114,14 @@
   text-transform: capitalize;
 }
 
-/* Divider */
+
 .profile-divider {
   border: none;
   border-top: 1px solid var(--border);
   margin-bottom: 32px;
 }
 
-/* Form */
+
 .profile-form { display: flex; flex-direction: column; gap: 20px; }
 
 .form-group { display: flex; flex-direction: column; gap: 6px; }
@@ -176,7 +172,7 @@
   margin-top: 2px;
 }
 
-/* Alert box */
+
 .alert-box {
   padding: 12px 16px;
   border-radius: var(--radius-md);
@@ -199,7 +195,7 @@
   color: #b91c1c;
 }
 
-/* Save Button */
+
 .btn-save {
   display: flex;
   align-items: center;
@@ -230,7 +226,7 @@
   transform: none;
 }
 
-/* Responsive */
+
 @media (max-width: 640px) {
   .profile-card { padding: 28px 20px; }
   .profile-avatar-section { flex-direction: column; text-align: center; }

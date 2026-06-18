@@ -117,7 +117,7 @@ public abstract class User implements Reportable {
         System.out.println("Membuat laporan dari user ID: " + userId);
     }
 
-    // Pulled up methods from subclasses to avoid redundancy
+
     public void searchProperty() {
         System.out.println("Mencari property");
     }

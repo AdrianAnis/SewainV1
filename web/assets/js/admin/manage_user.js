@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Initial counter update
+    
     updateUserCount();
 });
 
@@ -15,7 +15,7 @@ function updateUserCount(count = null) {
     badge.textContent = `${count} Pengguna`;
 }
 
-// 2. User Detail Modal
+
 function showUserDetail(userId) {
     const row = document.querySelector(`.user-row[data-id="${userId}"]`);
     if (!row) return;
@@ -26,7 +26,7 @@ function showUserDetail(userId) {
     const role = row.getAttribute("data-role");
     const status = row.getAttribute("data-status");
 
-    // Populate modal fields
+
     document.getElementById("detail-id").textContent = userId;
     document.getElementById("detail-name").textContent = name;
     document.getElementById("detail-email").textContent = email;
@@ -40,7 +40,7 @@ function showUserDetail(userId) {
     statusBadge.textContent = status;
     statusBadge.className = `status-badge status-${status.toLowerCase()}`;
 
-    // Open Modal
+
     document.getElementById("detail-modal").style.display = "flex";
 }
 
@@ -48,7 +48,7 @@ function closeDetailModal() {
     document.getElementById("detail-modal").style.display = "none";
 }
 
-// 3. User Suspend / Activate Action Handling via AJAX
+
 let activeActionUserId = null;
 let activeActionStatus = null;
 
@@ -72,10 +72,10 @@ function confirmToggleStatus(userId, targetStatus) {
         submitBtn.textContent = "Ya, Aktifkan";
     }
 
-    // Set submit button action
+
     submitBtn.onclick = executeToggleStatus;
 
-    // Show Confirmation Modal
+
     document.getElementById("confirm-modal").style.display = "flex";
 }
 
@@ -91,7 +91,7 @@ function executeToggleStatus() {
     closeConfirmModal();
     showLoaderSpinner();
 
-    // Prepare parameters for POST request
+
     const params = new URLSearchParams();
     params.append("action", "toggleStatus");
     params.append("userId", activeActionUserId);
@@ -125,17 +125,17 @@ function updateRowUI(userId, newStatus) {
     const row = document.querySelector(`.user-row[data-id="${userId}"]`);
     if (!row) return;
 
-    // 1. Update data attribute
+
     row.setAttribute("data-status", newStatus);
 
-    // 2. Update status badge TD
+
     const statusBadge = row.querySelector(".status-badge");
     if (statusBadge) {
         statusBadge.textContent = newStatus;
         statusBadge.className = `status-badge status-${newStatus.toLowerCase()}`;
     }
 
-    // 3. Update action buttons container
+
     const actionCell = row.querySelector(".action-buttons");
     if (actionCell) {
         const detailBtnHtml = `<button class="btn-action btn-detail" onclick="showUserDetail('${userId}')" title="Detail Pengguna"><i class="fa-solid fa-eye"></i></button>`;

@@ -28,30 +28,30 @@ public class DashboardTenantController extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userSession") == null) {
-            // User is not logged in, redirect to login page
+            
             response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp");
             return;
         }
 
         User user = (User) session.getAttribute("userSession");
         
-        // PBO: Panggil viewProperty() pada objek Tenant untuk OOP compliance
+        
         if (user instanceof Tenant) {
             ((Tenant) user).viewProperty();
         }
         
-        // If user is Admin, redirect to their dashboard page
+        
         if ("admin".equalsIgnoreCase(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/pages/admin/dashboard_admin.jsp");
             return;
         }
 
-        // Fetch default property list (all)
+        
         List<Property> properties = propertyDAO.searchProperties(null, null, null, null);
         String json = convertToJson(properties);
         request.setAttribute("propertiesJson", json);
 
-        // Otherwise, serve the tenant dashboard
+        
         request.getRequestDispatcher("/pages/tenant/dashboard.jsp").forward(request, response);
     }
 

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggle = document.querySelector(".toggle-pass");
   const inputs = document.querySelectorAll(".field input");
 
-  // Toggle password visibility
+
   if (toggle && passInput) {
     toggle.addEventListener("click", function () {
       const isPwd = passInput.getAttribute("type") === "password";
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Floating label handling: add .has-value when input has content
+
   function toggleValueClass(el) {
     if (el.value && el.value.trim() !== "") el.classList.add("has-value");
     else el.classList.remove("has-value");
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     inp.addEventListener("blur", () => inp.classList.remove("focus"));
   });
 
-  // Optional: prevent double submit / simple validation
+
   const form = document.getElementById("loginForm");
   if (form) {
     form.addEventListener("submit", (e) => {

@@ -21,12 +21,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola User - SewaIn Admin</title>
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     
-    <!-- CSS Stylesheets -->
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.4" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.4" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin/dashboard_admin.css?v=2.1" />
@@ -38,15 +38,15 @@
     </script>
 </head>
 <body>
-    <!-- AJAX Loader Spinner -->
+
     <div id="ajax-loader" class="loader-overlay" style="display: none;">
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- MAIN CONTAINER -->
+
     <div class="admin-container">
         
-        <!-- SIDEBAR -->
+
         <aside class="admin-sidebar-floating">
             <div class="sidebar-header">
                 <span class="brand-title">Sewa<span class="logo-highlight">In</span></span>
@@ -81,11 +81,11 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+
         <main class="admin-main">
 
 
-            <!-- USERS TABLE CARD -->
+
             <section class="table-card">
                 <div class="card-header">
                     <h3 class="table-card-title">Daftar Pengguna</h3>
@@ -163,7 +163,7 @@
         </main>
     </div>
 
-    <!-- DETAIL USER MODAL -->
+
     <div id="detail-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card">
             <div class="modal-header">
@@ -201,7 +201,7 @@
         </div>
     </div>
 
-    <!-- CONFIRMATION MODAL (GENERIC FOR DESTRUCTIVE ACTIONS) -->
+
     <div id="confirm-modal" class="modal-overlay" style="display: none;">
         <div class="modal-card modal-confirm">
             <div class="modal-header header-warning">
@@ -218,7 +218,7 @@
         </div>
     </div>
 
-    <!-- JS Scripts -->
+
     <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
     <script src="${pageContext.request.contextPath}/assets/js/admin/manage_user.js"></script>
 </body>

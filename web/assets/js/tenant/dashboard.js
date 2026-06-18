@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. PROFILE DROPDOWN TOGGLE
+
   const avatarBtn = document.getElementById("avatarBtn");
   const profileDropdown = document.getElementById("profileDropdown");
 
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 1b. UPGRADE MODAL LOGIC
+
   const upgradeOwnerLink = document.getElementById("upgradeOwnerLink");
   const upgradeModalOverlay = document.getElementById("upgradeModalOverlay");
   const cancelUpgradeBtn = document.getElementById("cancelUpgradeBtn");
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (upgradeOwnerLink && upgradeModalOverlay) {
     upgradeOwnerLink.addEventListener("click", function(e) {
       e.preventDefault();
-      // Hide profile dropdown when modal opens
+
       if (profileDropdown) profileDropdown.style.display = "none";
       upgradeModalOverlay.style.display = "flex";
     });
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       upgradeModalOverlay.style.display = "none";
     });
 
-    // Close on click outside
+
     upgradeModalOverlay.addEventListener("click", function(e) {
       if (e.target === upgradeModalOverlay) {
         upgradeModalOverlay.style.display = "none";
@@ -43,22 +43,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     confirmUpgradeBtn.addEventListener("click", async function() {
-      // Show loading state
+
       const originalText = this.textContent;
       this.textContent = "Memproses...";
       this.disabled = true;
       
       const ctx = window.contextPath || "";
       try {
-        // We assume /upgrade handles a GET or POST. We can just use window.location.href
-        // Or if it's an API, we fetch. The instructions say "jalankan fungsi AJAX Fetch API untuk menembak rute /upgrade. Setelah backend sukses memproses dan merespons dengan status OK, munculkan alert sukses singkat lalu reload halaman atau redirect ke halaman dashboard owner"
         
-        // Let's do a GET/POST. If your backend uses GET for /upgrade (as the original link was a GET):
-        // Note: typically links are GET. The instruction says "menembak rute /upgrade. Setelah backend sukses memproses..."
         const response = await fetch(ctx + "/upgrade", { method: 'GET' });
         
         if (response.ok) {
-          // If the backend redirects or returns OK:
+
           SewainAlert.success("Selamat! Anda berhasil beralih ke mode Owner.").then(() => {
             window.location.reload();
           });
@@ -76,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-  // 2. PROPERTY DATA SOURCE FROM DATABASE (WITH STATIC MOCK FALLBACK)
+
   const urlParamsCheck = new URLSearchParams(window.location.search);
   const isSearchPerformedCheck = urlParamsCheck.has("search_property_name") || 
                                  urlParamsCheck.has("search_location") || 
@@ -112,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return ctxPath + "/uploads/" + photo;
   }
 
-  // Unified properties mapping to keep client-side compatibility
+
   const properties = (rawProperties || []).map(p => {
     if (!p) return null;
     const id = p.propertyId ? String(p.propertyId) : (p.id ? String(p.id) : "");
@@ -159,13 +155,13 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }).filter(p => p !== null);
 
-  // Favorite list stored in LocalStorage
+
   let favorites = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
 
   const propertyGrid = document.getElementById("propertyGrid");
   const ctx = window.contextPath || "";
 
-  // Filter input elements & State values
+
   const mainSearchInput = document.getElementById("mainSearchInput");
   const searchLocationInput = document.getElementById("searchLocationInput");
   const locationSuggestions = document.getElementById("locationSuggestions");
@@ -174,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const hiddenPrice = document.getElementById("hiddenPrice");
   const hiddenType = document.getElementById("hiddenType");
 
-  // Keep dropdown UI updated with query params if they exist
+
   const urlParams = new URLSearchParams(window.location.search);
   const paramName = urlParams.get("search_property_name") || "";
   const paramLoc = urlParams.get("search_location") || "";
@@ -186,10 +182,10 @@ document.addEventListener("DOMContentLoaded", function () {
   if (hiddenPrice) hiddenPrice.value = paramPrice;
   if (hiddenType) hiddenType.value = paramType;
 
-  // State variable to store current filtered list
+
   let filteredProperties = [...properties];
 
-  // Helper to initialize custom dropdown components
+
   function initCustomDropdown(dropdownId, initialValue, onSelectCallback) {
     const dropdown = document.getElementById(dropdownId);
     if (!dropdown) return;
@@ -198,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const label = dropdown.querySelector(".trigger-label");
     const options = dropdown.querySelectorAll(".dropdown-option");
 
-    // Set initial active label based on URL param
+
     if (initialValue) {
       options.forEach(opt => {
         if (opt.getAttribute("data-value") === initialValue) {
@@ -211,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     trigger.addEventListener("click", function (e) {
       e.stopPropagation();
-      // Close other active dropdowns
+
       document.querySelectorAll(".custom-dropdown").forEach(d => {
         if (d !== dropdown) {
           d.classList.remove("active");
@@ -237,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Initialize custom dropdowns
+
   initCustomDropdown("priceDropdown", paramPrice, function (val) {
     if (hiddenPrice) hiddenPrice.value = val;
   });
@@ -246,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (hiddenType) hiddenType.value = val;
   });
 
-  // Global click listener to close dropdowns when clicking outside
+
   document.addEventListener("click", function (e) {
     document.querySelectorAll(".custom-dropdown").forEach(d => {
       d.classList.remove("active");
@@ -259,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // AUTOCOMPLETE FUNCTIONALITY FOR LOKASI
+
   if (searchLocationInput && locationSuggestions) {
     let debounceTimer;
     searchLocationInput.addEventListener("input", function () {
@@ -309,11 +305,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 3. PAGINATION STATE
+
   const ITEMS_PER_PAGE = 6;
   let currentPage = 1;
 
-  // 4. RENDER FUNCTION
+
   function renderProperties() {
     const paginationEl = document.querySelector(".pagination");
     if (!propertyGrid) return;
@@ -333,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Pagination calculation
+
     const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
     if (currentPage > totalPages) currentPage = totalPages;
     if (currentPage < 1) currentPage = 1;
@@ -414,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       Min. ${prop.durasiMinimum || 12} Bln
                     </span>
                   `;
-                } else { // apartemen / apartement
+                } else { 
                   return `
                     <span style="display: flex; align-items: center; gap: 6px;">
                       <i class="fa-solid fa-layer-group"></i>
@@ -441,12 +437,12 @@ document.addEventListener("DOMContentLoaded", function () {
     renderPagination(totalPages);
   }
 
-  // PAGINATION RENDERER
+
   function renderPagination(totalPages) {
     const paginationEl = document.querySelector(".pagination");
     if (!paginationEl) return;
 
-    // Hide if 1 page or less
+
     if (totalPages <= 1) {
       paginationEl.style.display = "none";
       return;
@@ -454,7 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
     paginationEl.style.display = "flex";
     paginationEl.innerHTML = "";
 
-    // Prev button
+ 
     const prevLink = document.createElement("a");
     prevLink.href = "#";
     prevLink.className = "page-link" + (currentPage <= 1 ? " disabled" : "");
@@ -466,7 +462,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     paginationEl.appendChild(prevLink);
 
-    // Page number buttons
+
     for (let i = 1; i <= totalPages; i++) {
       const pageLink = document.createElement("a");
       pageLink.href = "#";
@@ -481,7 +477,7 @@ document.addEventListener("DOMContentLoaded", function () {
       paginationEl.appendChild(pageLink);
     }
 
-    // Next button
+
     const nextLink = document.createElement("a");
     nextLink.href = "#";
     nextLink.className = "page-link" + (currentPage >= totalPages ? " disabled" : "");
@@ -494,9 +490,9 @@ document.addEventListener("DOMContentLoaded", function () {
     paginationEl.appendChild(nextLink);
   }
 
-  // 5. CARD INTERACTIONS (Wishlist & Parallax Tilt)
+
   function bindCardInteractions() {
-    // Wishlist Heart pop animation
+
     const wishlistBtns = document.querySelectorAll(".property-wishlist");
     wishlistBtns.forEach(btn => {
       btn.addEventListener("click", function (e) {
@@ -523,10 +519,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // 3D Parallax Tilt hover effect
+
     const cards = document.querySelectorAll(".property-grid .property-card");
     cards.forEach(card => {
-      // Redirect to details page on card click
+
       card.addEventListener("click", function () {
         const id = this.getAttribute("data-id");
         window.location.href = `${ctx}/property/detail?id=${id}`;
@@ -553,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // AUTOCOMPLETE FUNCTIONALITY FOR NAMA PROPERTI
+
   if (mainSearchInput && nameSuggestions) {
     let debounceTimerName;
     mainSearchInput.addEventListener("input", function () {
@@ -603,6 +599,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Initial render
+
   renderProperties();
 });
