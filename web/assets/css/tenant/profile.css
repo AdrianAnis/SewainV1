@@ -1,0 +1,238 @@
+/* ==========================================================================
+   PROFILE PAGE STYLES — Premium Glassmorphic Design
+   ========================================================================== */
+
+/* Animated background blobs */
+.blur-blobs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: blobFloat 8s ease-in-out infinite alternate;
+}
+.blob-1 { width: 500px; height: 500px; background: radial-gradient(circle, #7c9a92 0%, transparent 70%); top: -100px; left: -100px; }
+.blob-2 { width: 400px; height: 400px; background: radial-gradient(circle, #a8c5be 0%, transparent 70%); bottom: -80px; right: -80px; animation-delay: -3s; }
+.blob-3 { width: 300px; height: 300px; background: radial-gradient(circle, #d4e8e4 0%, transparent 70%); top: 40%; left: 50%; animation-delay: -5s; }
+@keyframes blobFloat {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.12) translate(20px, -20px); }
+}
+
+/* Container */
+.profile-container {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 50px auto 80px;
+  padding: 0 24px;
+  min-height: 80vh;
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Back nav */
+.back-nav { margin-bottom: 24px; }
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: var(--deep);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 16px rgba(21, 49, 44, 0.04);
+}
+.btn-back:hover {
+  background: var(--deep);
+  color: var(--white);
+  transform: translateX(-4px);
+}
+.btn-back svg { transition: transform 0.3s ease; }
+.btn-back:hover svg { transform: translateX(-2px); }
+
+/* Main Card */
+.profile-card {
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 28px;
+  padding: 48px;
+  box-shadow: 0 16px 48px rgba(21, 49, 44, 0.07);
+}
+
+/* Avatar section */
+.profile-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.avatar-circle {
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(124, 154, 146, 0.35);
+}
+.profile-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--deep);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.profile-role-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+}
+
+/* Divider */
+.profile-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+/* Form */
+.profile-form { display: flex; flex-direction: column; gap: 20px; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+.profile-input {
+  width: 100%;
+  padding: 13px 14px 13px 40px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-family: "Inter", sans-serif;
+  color: var(--deep);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+.profile-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 154, 146, 0.18);
+}
+.disabled-input {
+  background: rgba(230, 235, 233, 0.5);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+.field-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Alert box */
+.alert-box {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.alert-success {
+  background: rgba(124, 154, 146, 0.15);
+  border: 1px solid var(--primary);
+  color: var(--primary-dark);
+}
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #b91c1c;
+}
+
+/* Save Button */
+.btn-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--deep);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 8px 24px rgba(21, 49, 44, 0.18);
+}
+.btn-save:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(124, 154, 146, 0.3);
+}
+.btn-save:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .profile-card { padding: 28px 20px; }
+  .profile-avatar-section { flex-direction: column; text-align: center; }
+  .profile-name { font-size: 20px; }
+}

@@ -1,6 +1,4 @@
-package java.DAO;
-
-public package DAO;
+package DAO;
 
 import database.DatabaseConnection;
 import java.sql.*;
@@ -85,6 +83,4 @@ public class ActivityLogDAO {
         }
         return list;
     }
-} {
-    
 }
