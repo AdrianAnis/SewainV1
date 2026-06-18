@@ -29,7 +29,7 @@ public class AdminActivityServlet extends HttpServlet {
         String actionType = request.getParameter("actionType");
         String date = request.getParameter("date");
 
-        // Set default filter if 'all' is passed
+        
         if ("all".equalsIgnoreCase(actionType)) {
             actionType = null;
         }

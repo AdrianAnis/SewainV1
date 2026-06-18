@@ -27,10 +27,10 @@ public class SwitchRoleController extends HttpServlet {
                 currentUser.setRole("Tenant");
             }
             
-            // Simpan perubahan kembali ke session
+            
             session.setAttribute("userSession", currentUser);
             
-            // Redirect ke Controller resmi, BUKAN ke file fisik JSP langsung!
+            
             if ("Owner".equalsIgnoreCase(currentUser.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/owner/dashboard");
                 return;

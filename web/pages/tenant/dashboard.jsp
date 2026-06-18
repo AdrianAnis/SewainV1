@@ -15,19 +15,19 @@
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Dashboard Tenant - SewaIn</title>
-                <!-- Fonts -->
+                
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                     rel="stylesheet" />
 
-                <!-- CSS Stylesheets -->
+                
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.4" />
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.4" />
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tenant/dashboard.css?v=1.4" />
 
-                <!-- Context Path Injection for External JavaScript -->
+                
                 <script>
                     window.contextPath = "${pageContext.request.contextPath}";
                     window.serverProperties = <%= request.getAttribute("propertiesJson") != null ? request.getAttribute("propertiesJson") : "null" %>;
@@ -39,20 +39,19 @@
 
             <body>
 
-                <!-- ANIMATED BACKGROUND BLUR BLOBS -->
                 <div class="blur-blobs">
                     <div class="blob blob-1"></div>
                     <div class="blob blob-2"></div>
                     <div class="blob blob-3"></div>
                 </div>
 
-                <!-- NAVBAR (Consistent with index.jsp but minimal) -->
+
                 <jsp:include page="../components/navbar.jsp" />
 
-                <!-- DASHBOARD CONTAINER -->
+
                 <main class="dashboard-container">
 
-                    <!-- MAIN CONTENT AREA -->
+
                     <section class="main-explorer">
                         <div class="explorer-header">
                             <div class="explorer-greeting-box">
@@ -62,10 +61,10 @@
                             </div>
                         </div>
 
-                        <!-- HORIZONTAL SEARCH & FILTER BAR -->
+
                         <form action="${pageContext.request.contextPath}/search" method="GET" class="search-filter-bar"
                             id="searchForm">
-                            <!-- Search Input -->
+
                             <div class="search-input-wrapper autocomplete-wrapper" style="position: relative;">
                                 <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
@@ -77,7 +76,7 @@
                                 <div class="autocomplete-suggestions" id="nameSuggestions"></div>
                             </div>
 
-                            <!-- Lokasi Autocomplete Input -->
+
                             <div class="search-input-wrapper autocomplete-wrapper"
                                 style="flex: 1; min-width: 150px; position: relative;">
                                 <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -91,11 +90,11 @@
                                 <div class="autocomplete-suggestions" id="locationSuggestions"></div>
                             </div>
 
-                            <!-- Hidden inputs for drop-down filter values -->
+
                             <input type="hidden" name="price" id="hiddenPrice" value="">
                             <input type="hidden" name="type" id="hiddenType" value="">
 
-                            <!-- Harga Custom Dropdown -->
+
                             <div class="custom-dropdown" id="priceDropdown">
                                 <div class="dropdown-trigger">
                                     <span class="trigger-label">Harga</span>
@@ -114,7 +113,7 @@
                                 </div>
                             </div>
 
-                            <!-- Tipe Properti Custom Dropdown -->
+
                             <div class="custom-dropdown" id="typeDropdown">
                                 <div class="dropdown-trigger">
                                     <span class="trigger-label">Tipe Properti</span>
@@ -132,7 +131,7 @@
                                 </div>
                             </div>
 
-                            <!-- Search Button -->
+
                             <button type="submit" id="searchSubmitBtn" class="search-submit-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.5">
@@ -143,12 +142,12 @@
                             </button>
                         </form>
 
-                        <!-- PROPERTY LIST GRID (Renders cards using index.jsp structures) -->
+
                         <div class="property-grid" id="propertyGrid">
-                            <!-- Items are dynamically rendered via javascript -->
+
                         </div>
 
-                        <!-- PAGINATION -->
+
                         <div class="pagination">
                             <a href="#" class="page-link disabled" aria-label="Previous page">&lt;</a>
                             <a href="#" class="page-link active">1</a>
@@ -160,7 +159,7 @@
 
                 </main>
 
-                <!-- TOAST ALERTS (Success/Error session messages) -->
+
                 <% if (session.getAttribute("errorMsg") !=null) { %>
                     <div class="alert-overlay">
                         <div class="toast-alert error">
@@ -178,7 +177,7 @@
                     <% session.removeAttribute("errorMsg"); %>
                         <% } %>
 
-                            <!-- UPGRADE MODAL OVERLAY -->
+
                             <div id="upgradeModalOverlay" class="modal-overlay" style="display: none;">
                                 <div class="glass-modal-card">
                                     <div class="modal-icon-container">
@@ -196,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <!-- JavaScript Bundle -->
+                            
                             <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
                             <script src="${pageContext.request.contextPath}/assets/js/tenant/dashboard.js?v=1.5"></script>
             </body>

@@ -69,7 +69,7 @@ public class AdminUserServlet extends HttpServlet {
                 return;
             }
 
-            // Prevent self-suspension
+            
             if (targetUser.getUserId().equals(currentUser.getUserId())) {
                 response.getWriter()
                         .write("{\"success\": false, \"message\": \"Tidak dapat menangguhkan akun sendiri.\"}");
@@ -78,7 +78,7 @@ public class AdminUserServlet extends HttpServlet {
 
             boolean success = userDAO.updateUserStatus(userId, status);
             if (success) {
-                // Log action
+                
                 ActivityLogDAO logDAO = new ActivityLogDAO();
                 String actionName = "Suspended".equalsIgnoreCase(status) ? "SUSPEND USER" : "ACTIVATE USER";
                 String description = "Admin " + currentUser.getName() + " mengubah status " + targetUser.getName()

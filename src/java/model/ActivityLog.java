@@ -7,14 +7,14 @@ import java.util.ArrayList;
 public class ActivityLog {
 
     private int logId;
-    private User user; // Added for UML compliance
-    private int userId; // Kept for compatibility
-    private String userName; // Kept for compatibility
+    private User user; 
+    private int userId; 
+    private String userName; 
     private String action;
     private Timestamp timestamp;
     private String description;
 
-    // Constructors
+
     public ActivityLog() {}
 
     public ActivityLog(int logId, int userId, String userName, String action, Timestamp timestamp, String description) {
@@ -32,7 +32,7 @@ public class ActivityLog {
         this.description = description;
     }
 
-    // Getters and Setters
+
     public int getLogId() {
         return logId;
     }
@@ -103,8 +103,7 @@ public class ActivityLog {
         System.out.println("Menampilkan log ID: " + logId);
     }
 
-    // UML Compliance Method
+
     public List<ActivityLog> getLogsList() {
-        return new ArrayList<>(); // Kept for compatibility and UML compliance
+        return new ArrayList<>(); 
     }
-}

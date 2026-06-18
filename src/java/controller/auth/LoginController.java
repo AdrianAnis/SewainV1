@@ -23,14 +23,14 @@ public class LoginController extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAOImpl();
 
-    // doGet bertugas menampilkan halaman form login saat URL diakses
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
     }
 
-    // doPost bertugas memeriksa kecocokan akun saat user menekan tombol Sign In
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

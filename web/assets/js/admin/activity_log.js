@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Client-Side Pagination setup
+    
     initPagination();
 });
 
@@ -13,7 +13,7 @@ function initPagination() {
 
     const totalPages = Math.ceil(rows.length / ROWS_PER_PAGE);
 
-    // Only show pagination if there are more rows than limit
+    
     const paginationControls = document.getElementById("pagination-controls");
     if (rows.length > ROWS_PER_PAGE) {
         if (paginationControls) paginationControls.style.display = "flex";
@@ -33,13 +33,13 @@ function initPagination() {
 function changePage(page) {
     const totalPages = Math.ceil(rows.length / ROWS_PER_PAGE);
     
-    // Boundary check
+    
     if (page < 1) page = 1;
     if (page > totalPages) page = totalPages;
 
     currentPage = page;
 
-    // Show/hide matching rows
+
     const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
     const endIdx = startIdx + ROWS_PER_PAGE;
 
@@ -51,13 +51,13 @@ function changePage(page) {
         }
     });
 
-    // Update Pagination Info UI
+
     const infoSpan = document.getElementById("pagination-info");
     if (infoSpan) {
         infoSpan.textContent = `Halaman ${currentPage} dari ${totalPages}`;
     }
 
-    // Update Button Disabled States
+
     const btnPrev = document.getElementById("btn-prev");
     const btnNext = document.getElementById("btn-next");
 
