@@ -1,0 +1,14 @@
+/* register.css
+   Reuse and override login styles where necessary. Imports base login styles. */
+@import url("login.css?v=1.2");
+
+/* Example override for register-specific spacing */
+.login-card {
+  /* keep same look but slightly taller for extra field */
+  padding-bottom: 48px;
+}
+
+.btn-login {
+  /* ensure button label matches create account weight */
+  letter-spacing: 0.4px;
+}
