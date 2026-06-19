@@ -1,0 +1,13 @@
+
+@import url("login.css?v=1.2");
+
+
+.login-card {
+
+  padding-bottom: 48px;
+}
+
+.btn-login {
+
+  letter-spacing: 0.4px;
+}

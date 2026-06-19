@@ -1,6 +1,4 @@
-package java.DAO;
-
-public package DAO;
+package DAO;
 
 import database.DatabaseConnection;
 import java.sql.*;
@@ -28,7 +26,7 @@ public class ActivityLogDAO {
         }
     }
 
-    // UML mandated methods
+    
     public List<ActivityLog> getAllLogs() {
         return getLogs(null, null);
     }
@@ -37,7 +35,7 @@ public class ActivityLogDAO {
         return getLogs(action, null);
     }
 
-    // Existing method kept for compatibility with AdminActivityServlet
+    
     public List<ActivityLog> getLogs(String actionType, String dateStr) {
         List<ActivityLog> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
@@ -85,6 +83,4 @@ public class ActivityLogDAO {
         }
         return list;
     }
-} {
-    
 }
