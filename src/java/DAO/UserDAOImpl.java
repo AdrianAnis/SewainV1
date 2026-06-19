@@ -22,14 +22,10 @@ public class UserDAOImpl implements UserDAO {
                 return;
             }
             try (Statement stmt = conn.createStatement()) {
-                // Ensure users table has status column
                 try {
                     stmt.execute("ALTER TABLE users ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'Active'");
                 } catch (SQLException ignored) {
-                    // Column already exists
                 }
-
-                // Create activity_log table
                 String createActivityLogSql = "CREATE TABLE IF NOT EXISTS activity_log (" +
                         "logId INT AUTO_INCREMENT PRIMARY KEY, " +
                         "userId INT, " +
@@ -40,8 +36,6 @@ public class UserDAOImpl implements UserDAO {
                         ")";
                 stmt.execute(createActivityLogSql);
                 System.out.println("Table 'activity_log' initialized successfully.");
-
-                // Seed admin user if not exists
                 try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM users WHERE role = 'admin'")) {
                     if (rs.next() && rs.getInt(1) == 0) {
                         String insertAdminSql = "INSERT INTO users (name, email, password, phone, role, status) VALUES "
@@ -98,7 +92,6 @@ public class UserDAOImpl implements UserDAO {
                     String pass = rs.getString("password");
 
                     if (util.PasswordUtil.checkPassword(password, pass)) {
-                        // Otomatis upgrade plain-text password ke hash yang aman saat login
                         if (pass != null && !pass.contains(":")) {
                             String newHash = util.PasswordUtil.hashPassword(password);
                             String updateSql = "UPDATE users SET password = ? WHERE userId = ?";
@@ -107,7 +100,7 @@ public class UserDAOImpl implements UserDAO {
                                 updateStmt.setInt(2, rs.getInt("userId"));
                                 updateStmt.executeUpdate();
                             }
-                            pass = newHash; // Update in memory object
+                            pass = newHash;
                         }
 
                         String role = rs.getString("role");
