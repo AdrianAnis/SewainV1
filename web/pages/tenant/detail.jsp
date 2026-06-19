@@ -3,9 +3,14 @@
         <%@page import="model.Property" %>
             <%@page import="DAO.PropertyDAO" %>
                 <%@page import="java.util.List" %>
-                    <% // Ensure user session exists and role is tenant User currentUser=(User)
-                        session.getAttribute("userSession"); if (currentUser==null) {
-                        response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return; } %>
+                    <% 
+                        /* Ensure user session exists and role is tenant */
+                        User currentUser=(User) session.getAttribute("userSession"); 
+                        if (currentUser==null) {
+                            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); 
+                            return; 
+                        } 
+                    %>
                         <!DOCTYPE html>
                         <html lang="id">
 

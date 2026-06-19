@@ -1,8 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page import="model.User" %>
-        <% // Ensure user session exists and role is tenant User currentUser=(User) session.getAttribute("userSession");
-            if (currentUser==null) { response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return;
-            } %>
+        <% 
+            /* Ensure user session exists and role is tenant */
+            User currentUser=(User) session.getAttribute("userSession");
+            if (currentUser==null) { 
+                response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); 
+                return;
+            } 
+        %>
             <!DOCTYPE html>
             <html lang="id">
 

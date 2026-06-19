@@ -200,8 +200,7 @@
                                                                                                     heroProperty.getDurasiMinimum()
                                                                                                     %> Bln
                                                                                             </span>
-                                                                                            <% } else { // apartement /
-                                                                                                apartemen %>
+                                                                                            <% } else { %>
                                                                                                 <span
                                                                                                     style="display: flex; align-items: center; gap: 6px;">
                                                                                                     <i
@@ -445,8 +444,7 @@
                                                                                                 prop.getDurasiMinimum()
                                                                                                 %> Bln
                                                                                         </span>
-                                                                                        <% } else { // apartement /
-                                                                                            apartemen %>
+                                                                                        <% } else { %>
                                                                                             <span
                                                                                                 style="display: flex; align-items: center; gap: 6px;">
                                                                                                 <i

@@ -1,11 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page import="model.User" %>
-        <% // Ensure user session exists and role is owner or admin User currentUser=(User)
-            session.getAttribute("userSession"); if (currentUser==null ||
-            !("Owner".equalsIgnoreCase(currentUser.getRole()) || "Admin" .equalsIgnoreCase(currentUser.getRole()))) {
-            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return; } // Check if form is in
-            Edit Mode boolean isEditMode=request.getAttribute("property") !=null || request.getParameter("id") !=null;
-            %>
+        <% 
+            /* Ensure user session exists and role is owner or admin */
+            User currentUser=(User) session.getAttribute("userSession"); 
+            if (currentUser==null || !("Owner".equalsIgnoreCase(currentUser.getRole()) || "Admin" .equalsIgnoreCase(currentUser.getRole()))) {
+                response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); 
+                return; 
+            } 
+            /* Check if form is in Edit Mode */
+            boolean isEditMode=request.getAttribute("property") !=null || request.getParameter("id") !=null;
+        %>
             <!DOCTYPE html>
             <html lang="id">
 

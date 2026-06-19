@@ -1,12 +1,19 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
     <%@page import="model.User, model.Property" %>
         <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-            <% // Ensure user session exists and role is admin User currentUser=(User)
-                session.getAttribute("userSession"); if (currentUser==null ||
-                !"admin".equalsIgnoreCase(currentUser.getRole())) { response.sendRedirect(request.getContextPath()
-                + "/pages/auth/login.jsp" ); return; } // Check if request attributes from servlet exist. If not,
-                redirect to servlet. if (request.getAttribute("flaggedProperties")==null) {
-                response.sendRedirect(request.getContextPath() + "/admin/flagged" ); return; } %>
+            <% 
+                /* Ensure user session exists and role is admin */
+                User currentUser=(User) session.getAttribute("userSession"); 
+                if (currentUser==null || !"admin".equalsIgnoreCase(currentUser.getRole())) { 
+                    response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); 
+                    return; 
+                } 
+                /* Check if request attributes from servlet exist. If not, redirect to servlet. */
+                if (request.getAttribute("flaggedProperties")==null) {
+                    response.sendRedirect(request.getContextPath() + "/admin/flagged" ); 
+                    return; 
+                } 
+            %>
                 <!DOCTYPE html>
                 <html lang="id">
 

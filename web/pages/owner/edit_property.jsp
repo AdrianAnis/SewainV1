@@ -1,11 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page import="model.User, model.Property, model.Kost, model.Rumah, model.Kontrakan, model.Apartement" %>
-        <% // Ensure user session exists and role is owner or admin User currentUser=(User)
-            session.getAttribute("userSession"); if (currentUser==null ||
-            !("Owner".equalsIgnoreCase(currentUser.getRole()) || "Admin" .equalsIgnoreCase(currentUser.getRole()))) {
-            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return; } Property
-            property=(Property) request.getAttribute("property"); if (property==null) {
-            response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp" ); return; } %>
+        <% 
+            /* Ensure user session exists and role is owner or admin */
+            User currentUser=(User) session.getAttribute("userSession"); 
+            if (currentUser==null || !("Owner".equalsIgnoreCase(currentUser.getRole()) || "Admin" .equalsIgnoreCase(currentUser.getRole()))) {
+                response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); 
+                return; 
+            } 
+            Property property=(Property) request.getAttribute("property"); 
+            if (property==null) {
+                response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp" ); 
+                return; 
+            } 
+        %>
             <!DOCTYPE html>
             <html lang="id">
 
