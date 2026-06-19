@@ -1,5 +1,4 @@
 package controller.owner;
-
 import DAO.PropertyDAO;
 import model.Property;
 import model.User;

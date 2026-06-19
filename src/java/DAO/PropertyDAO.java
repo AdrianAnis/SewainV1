@@ -12,7 +12,6 @@ public class PropertyDAO {
     }
 
     private void initializeDatabase() {
-        // Initialize table and ensure Class Diagram compliance (NO beds, baths, area)
             String createTableSql = "CREATE TABLE IF NOT EXISTS properties (" +
                 "propertyId INT PRIMARY KEY AUTO_INCREMENT, " +
                 "name VARCHAR(255) NOT NULL, " +
@@ -68,13 +67,9 @@ public class PropertyDAO {
                     tableExists = false;
                 }
             }
-
-            // Create table
             try (Statement stmt = conn.createStatement()) {
                 stmt.execute(createTableSql);
             }
-
-            // Alter table if it had data and wasn't dropped
             if (tableExists && !isEmpty) {
                 try (Statement stmt = conn.createStatement()) {
                     try { stmt.execute("ALTER TABLE properties ADD COLUMN description TEXT"); } catch (SQLException ignored) {}
@@ -118,17 +113,15 @@ public class PropertyDAO {
             pstmt.setString(10, p.getFacilities());
             pstmt.setInt(11, ownerId);
 
-            // Subclass specific fields: set all to NULL initially to guarantee clean STI inheritance
-            pstmt.setNull(12, Types.VARCHAR); // gender
-            pstmt.setNull(13, Types.VARCHAR); // roomType
-            pstmt.setNull(14, Types.INTEGER); // jumlahKamar
-            pstmt.setNull(15, Types.DOUBLE);  // luasTanah
-            pstmt.setNull(16, Types.INTEGER); // durasiMinimum
-            pstmt.setNull(17, Types.INTEGER); // lantai
-            pstmt.setNull(18, Types.VARCHAR); // nomorUnit
-            pstmt.setNull(19, Types.VARCHAR); // tipeUnit
+            pstmt.setNull(12, Types.VARCHAR); 
+            pstmt.setNull(13, Types.VARCHAR); 
+            pstmt.setNull(14, Types.INTEGER); 
+            pstmt.setNull(15, Types.DOUBLE);  
+            pstmt.setNull(16, Types.INTEGER); 
+            pstmt.setNull(17, Types.INTEGER); 
+            pstmt.setNull(18, Types.VARCHAR); 
+            pstmt.setNull(19, Types.VARCHAR); 
 
-            // Set only the subclass specific attributes
             if (p instanceof Kost) {
                 Kost k = (Kost) p;
                 pstmt.setString(12, k.getGenderType());
@@ -271,10 +264,6 @@ public class PropertyDAO {
         return results;
     }
 
-    /**
-     * Centralized ResultSet-to-Property mapping using STI (Single Table Inheritance).
-     * Reads propertyType to determine which concrete subclass to instantiate.
-     */
     private Property mapResultSetToProperty(ResultSet rs) throws SQLException {
         int id = rs.getInt("propertyId");
         String pName = rs.getString("name");
@@ -313,7 +302,6 @@ public class PropertyDAO {
         return prop;
     }
 
-    // Autocomplete locations matching the search query
     public List<String> autocompleteLocations(String query) {
         List<String> suggestions = new ArrayList<>();
         String sql = "SELECT DISTINCT location FROM properties WHERE location LIKE ? LIMIT 10";
@@ -334,7 +322,6 @@ public class PropertyDAO {
         return suggestions;
     }
 
-    // Autocomplete property names matching the search query
     public List<String> autocompletePropertyNames(String query) {
         List<String> suggestions = new ArrayList<>();
         String sql = "SELECT DISTINCT name FROM properties WHERE name LIKE ? LIMIT 10";
@@ -413,17 +400,15 @@ public class PropertyDAO {
             pstmt.setString(6, p.getDescription());
             pstmt.setString(7, p.getFacilities());
 
-            // Subclass specific fields: set all to NULL initially to guarantee clean STI inheritance
-            pstmt.setNull(8, Types.VARCHAR); // gender
-            pstmt.setNull(9, Types.VARCHAR); // roomType
-            pstmt.setNull(10, Types.INTEGER); // jumlahKamar
-            pstmt.setNull(11, Types.DOUBLE);  // luasTanah
-            pstmt.setNull(12, Types.INTEGER); // durasiMinimum
-            pstmt.setNull(13, Types.INTEGER); // lantai
-            pstmt.setNull(14, Types.VARCHAR); // nomorUnit
-            pstmt.setNull(15, Types.VARCHAR); // tipeUnit
-
-            // Set only the subclass specific attributes
+            pstmt.setNull(8, Types.VARCHAR); 
+            pstmt.setNull(9, Types.VARCHAR); 
+            pstmt.setNull(10, Types.INTEGER); 
+            pstmt.setNull(11, Types.DOUBLE); 
+            pstmt.setNull(12, Types.INTEGER); 
+            pstmt.setNull(13, Types.INTEGER); 
+            pstmt.setNull(14, Types.VARCHAR); 
+            pstmt.setNull(15, Types.VARCHAR); 
+            
             if (p instanceof Kost) {
                 Kost k = (Kost) p;
                 pstmt.setString(8, k.getGenderType());
