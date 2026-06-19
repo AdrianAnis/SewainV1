@@ -107,3 +107,4 @@ public class ActivityLog {
     public List<ActivityLog> getLogsList() {
         return new ArrayList<>(); 
     }
+}
