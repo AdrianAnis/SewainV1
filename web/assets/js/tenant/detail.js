@@ -476,8 +476,10 @@ document.addEventListener("DOMContentLoaded", function () {
         '    <div class="booking-card" style="background: #fff; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.03);">' +
         '        <div class="booking-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 16px;">' +
         '            <div class="booking-title" style="font-size: 11px; color: var(--text-secondary);">Rent Price</div>' +
-        '            <div class="booking-price" style="font-size: 28px; font-weight: 800; color: var(--deep);">' + property.priceLabel.replace("/bln", "") + ' <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">/ month</span></div>' +
-        '            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-weight: 500;">Minimum rent: 6 Months</div>' +
+        '            <div class="booking-price" style="font-size: 28px; font-weight: 800; color: var(--deep);">' + property.priceLabel.replace("/bln", "").replace("/thn", "") + ' <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">' + (typeLower === "rumah" ? "/ year" : "/ month") + '</span></div>' +
+        '            ' + (typeLower === "kontrakan" 
+                            ? '<div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-weight: 500;">Minimum rent: ' + (property.durasiMinimum || 12) + ' Months</div>' 
+                            : '') +
         '        </div>' +
         '' +
         '        <form class="booking-form" onsubmit="event.preventDefault(); SewainAlert.alert(\'Mengajukan pesan sewa kepada pemilik...\');" style="gap: 12px;">' +

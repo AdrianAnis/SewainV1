@@ -177,7 +177,7 @@
 
                             <!-- JavaScript Bundle -->
                             <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
-                            <script src="${pageContext.request.contextPath}/assets/js/tenant/detail.js?v=1.6"></script>
+                            <script src="${pageContext.request.contextPath}/assets/js/tenant/detail.js?v=1.9"></script>
                         </body>
 
                         </html>
