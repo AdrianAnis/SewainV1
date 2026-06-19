@@ -15,10 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "EditPropertyServlet", urlPatterns = { "/owner/edit" })
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50 // 50MB
-)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
 public class EditPropertyServlet extends HttpServlet {
 
     @Override
@@ -111,12 +108,10 @@ public class EditPropertyServlet extends HttpServlet {
             return;
         }
 
-        // PBO Compliance: Panggil editProperty() pada objek Owner
         if (currentUser instanceof Owner) {
             ((Owner) currentUser).editProperty(propertyId);
         }
 
-        // Extract parameters
         String name = request.getParameter("name");
         String location = request.getParameter("location");
         double price = 0;
@@ -129,9 +124,8 @@ public class EditPropertyServlet extends HttpServlet {
         String statusParam = request.getParameter("status");
         boolean availability = "Available".equalsIgnoreCase(statusParam);
         String facilities = request.getParameter("facilities");
-        String propertyType = existingProperty.getPropertyType(); // type cannot be changed
+        String propertyType = existingProperty.getPropertyType();
 
-        // Photo processing
         String existingPhotosStr = request.getParameter("existingPhotos");
         List<String> existingPhotosList = new ArrayList<>();
         if (existingPhotosStr != null && !existingPhotosStr.trim().isEmpty()) {
@@ -139,7 +133,6 @@ public class EditPropertyServlet extends HttpServlet {
         }
 
         String coverUrl = null;
-        // Check new cover upload
         Part coverPart = request.getPart("cover_photo");
         if (coverPart != null && coverPart.getSize() > 0) {
             String fileName = getSubmittedFileName(coverPart);
@@ -150,19 +143,16 @@ public class EditPropertyServlet extends HttpServlet {
                 return;
             }
         } else {
-            // Keep old cover (first photo from existing list if present)
             if (!existingPhotosList.isEmpty()) {
                 coverUrl = existingPhotosList.get(0);
             }
         }
 
         List<String> galleryUrls = new ArrayList<>();
-        // Add existing gallery photos (index >= 1) first
         for (int i = 1; i < existingPhotosList.size(); i++) {
             galleryUrls.add(existingPhotosList.get(i));
         }
 
-        // Check new gallery uploads and append them
         for (Part part : request.getParts()) {
             if ("gallery_photos".equals(part.getName()) && part.getSize() > 0) {
                 String fileName = getSubmittedFileName(part);
@@ -174,7 +164,6 @@ public class EditPropertyServlet extends HttpServlet {
             }
         }
 
-        // Reconstruct final photos list
         List<String> finalPhotos = new ArrayList<>();
         if (coverUrl != null && !coverUrl.trim().isEmpty()) {
             finalPhotos.add(coverUrl);
@@ -186,7 +175,6 @@ public class EditPropertyServlet extends HttpServlet {
         }
         String photosJoined = String.join(",", finalPhotos);
 
-        // Subclass logic: Capture parameters and map objects
         Property prop = null;
         if ("Kost".equalsIgnoreCase(propertyType)) {
             Kost k = new Kost();

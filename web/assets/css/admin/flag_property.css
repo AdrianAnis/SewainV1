@@ -1,0 +1,31 @@
+.btn-unflag {
+    background-color: #EAF2F8;
+    color: #2980B9;
+}
+
+.btn-unflag:hover {
+    background-color: #D4E6F1;
+    color: #1A5276;
+}
+
+.btn-delete-perm {
+    background-color: #FDEDEC;
+    color: #E74C3C;
+}
+
+.btn-delete-perm:hover {
+    background-color: #FADBD8;
+    color: #922B21;
+}
+
+.text-danger-warning {
+    color: #C0392B;
+    background-color: #FDF2F2;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #FADBD8;
+}
+
+.mt-2 {
+    margin-top: 8px;
+}
