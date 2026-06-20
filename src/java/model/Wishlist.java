@@ -42,20 +42,52 @@ public class Wishlist {
         this.propertyList = propertyList;
     }
 
-    public void addProperty(Property property) {
+    public boolean addProperty(Property property) {
         if (propertyList == null) {
             propertyList = new ArrayList<>();
         }
         propertyList.add(property);
+        if (this.tenant != null && this.tenant.getUserId() != null) {
+            try {
+                int tenantId = Integer.parseInt(this.tenant.getUserId());
+                DAO.WishlistDAO dao = new DAO.WishlistDAO();
+                return dao.addToWishlist(tenantId, property.getPropertyId());
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
     }
 
-    public void removeProperty(Property property) {
+    public boolean removeProperty(Property property) {
         if (propertyList != null) {
             propertyList.remove(property);
         }
+        if (this.tenant != null && this.tenant.getUserId() != null) {
+            try {
+                int tenantId = Integer.parseInt(this.tenant.getUserId());
+                DAO.WishlistDAO dao = new DAO.WishlistDAO();
+                return dao.removeFromWishlist(tenantId, property.getPropertyId());
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     public ArrayList<Property> getWishlist() {
         return propertyList;
+    }
+
+    public void loadWishlistFromDB() {
+        if (this.tenant != null && this.tenant.getUserId() != null) {
+            try {
+                int tenantId = Integer.parseInt(this.tenant.getUserId());
+                DAO.WishlistDAO dao = new DAO.WishlistDAO();
+                java.util.List<Integer> ids = dao.getWishlistPropertyIds(tenantId);
+                DAO.PropertyDAO pDao = new DAO.PropertyDAO();
+                this.propertyList = new ArrayList<>(pDao.getPropertiesByIds(ids));
+            } catch (NumberFormatException e) {}
+        }
     }
 }

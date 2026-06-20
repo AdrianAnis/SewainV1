@@ -36,11 +36,12 @@ public class DetailPropertyController extends HttpServlet {
 
         User user = (User) session.getAttribute("userSession");
 
+        List<Property> properties;
         if (user instanceof Tenant) {
-            ((Tenant) user).viewProperty();
+            properties = ((Tenant) user).viewProperty();
+        } else {
+            properties = propertyDAO.searchProperties(null, null, null, null);
         }
-
-        List<Property> properties = propertyDAO.searchProperties(null, null, null, null);
         request.setAttribute("propertiesList", properties);
 
         request.getRequestDispatcher("/pages/tenant/detail.jsp").forward(request, response);

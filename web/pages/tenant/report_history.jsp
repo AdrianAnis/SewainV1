@@ -7,7 +7,9 @@
         return;
     }
     List<Object[]> reportRows = (List<Object[]>) request.getAttribute("reportRows");
-    String role = currentUser.getRole() != null ? currentUser.getRole().toLowerCase() : "tenant";
+    String roleSessionVal = (String) session.getAttribute("roleSession");
+    String role = roleSessionVal != null ? roleSessionVal.toLowerCase() 
+        : (currentUser.getRole() != null ? currentUser.getRole().toLowerCase() : "tenant");
     String backUrl = "owner".equals(role)
             ? request.getContextPath() + "/pages/owner/dashboard_owner.jsp"
             : request.getContextPath() + "/landing";
@@ -28,7 +30,7 @@
 </head>
 <body>
 
-    <!-- ANIMATED BACKGROUND BLOBS -->
+    
     <div class="blur-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -37,7 +39,7 @@
 
     <main class="rh-container">
 
-        <!-- Back Button -->
+        
         <div class="back-nav">
             <a href="<%= backUrl %>" class="btn-back">
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -47,7 +49,7 @@
             </a>
         </div>
 
-        <!-- Header -->
+        
         <div class="rh-header-card">
             <div class="rh-header-icon">
                 <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -64,12 +66,12 @@
             </div>
         </div>
 
-        <!-- Table Card -->
+        
         <div class="rh-table-card">
 <%
     if (reportRows == null || reportRows.isEmpty()) {
 %>
-            <!-- Empty State -->
+            
             <div class="rh-empty">
                 <div class="rh-empty-icon">
                     <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -101,7 +103,7 @@
     int no = 1;
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMM yyyy");
     for (Object[] row : reportRows) {
-        // row: [0]=reportId, [1]=propertyName, [2]=issueType, [3]=description, [4]=reportDate, [5]=status
+        
         String propName  = row[1] != null ? row[1].toString() : "-";
         String issueType = row[2] != null ? row[2].toString() : "-";
         String desc      = row[3] != null ? row[3].toString() : "-";
@@ -145,7 +147,7 @@
 <%
     }
 %>
-        </div><!-- /.rh-table-card -->
+        </div>
     </main>
 
 </body>

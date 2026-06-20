@@ -21,20 +21,19 @@
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Verifikasi Properti - SewaIn Admin</title>
-                    <!-- Fonts -->
+
                     <link rel="preconnect" href="https://fonts.googleapis.com" />
                     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                     <link
                         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                         rel="stylesheet" />
 
-                    <!-- CSS Stylesheets -->
                     <link rel="stylesheet"
                         href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.4" />
                     <link rel="stylesheet"
                         href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.4" />
                     <link rel="stylesheet"
-                        href="${pageContext.request.contextPath}/assets/css/admin/dashboard_admin.css?v=2.1" />
+                        href="${pageContext.request.contextPath}/assets/css/admin/dashboard_admin.css?v=2.2" />
                     <link rel="stylesheet"
                         href="${pageContext.request.contextPath}/assets/css/admin/verify_property.css?v=3.3" />
                     <link rel="stylesheet"
@@ -51,43 +50,11 @@
                         <div class="loader-spinner"></div>
                     </div>
 
-                    <!-- MAIN CONTAINER -->
+                    
                     <div class="admin-container">
 
                         
-                        <aside class="admin-sidebar-floating">
-                            <div class="sidebar-header">
-                                <span class="brand-title">Sewa<span class="logo-highlight">In</span></span>
-                            </div>
-                            <nav class="sidebar-menu">
-                                <a href="${pageContext.request.contextPath}/admin/dashboard" class="menu-item ${pageContext.request.requestURI.contains('dashboard') ? 'active' : ''}">
-                                    <i class="fa-solid fa-table-cells-large"></i> <span>Dashboard</span>
-                                </a>
-                                <a href="${pageContext.request.contextPath}/admin/verify" class="menu-item ${pageContext.request.requestURI.contains('verify') ? 'active' : ''}">
-                                    <i class="fa-solid fa-shield-halved"></i> <span>Verification</span>
-                                </a>
-                                <a href="${pageContext.request.contextPath}/admin/users" class="menu-item ${pageContext.request.requestURI.contains('users') ? 'active' : ''}">
-                                    <i class="fa-solid fa-user-gear"></i> <span>User Management</span>
-                                </a>
-                                <a href="${pageContext.request.contextPath}/admin/reports" class="menu-item ${pageContext.request.requestURI.contains('reports') || pageContext.request.requestURI.contains('flagged') ? 'active' : ''}">
-                                    <i class="fa-solid fa-triangle-exclamation"></i> <span>Reports & Flagging</span>
-                                </a>
-                            </nav>
-                            <div class="sidebar-footer">
-                                <div class="user-profile-sidebar" style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 16px; background-color: var(--bg-soft); border-radius: 16px;">
-                                    <div class="avatar-circle" style="width: 42px; height: 42px; background-color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-dark); font-size: 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                                        <i class="fa-solid fa-user-shield"></i>
-                                    </div>
-                                    <div class="user-info-text" style="display: flex; flex-direction: column;">
-                                        <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);"><%= currentUser.getName() %></span>
-                                        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Administrator</span>
-                                    </div>
-                                </div>
-                                <a href="${pageContext.request.contextPath}/logout" class="btn-logout-minimal" style="width: 100%; justify-content: center; background-color: #FDF3F2; color: #D9534F;">
-                                    <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
-                                </a>
-                            </div>
-                        </aside>
+                        <jsp:include page="../components/sidebar_admin.jsp" />
 
                         
                         <main class="admin-main">
@@ -111,9 +78,9 @@
                                     <c:forEach var="p" items="${pendingProperties}">
                                         <div class="prop-card">
                                             
-                                            <div class="prop-thumb">
-                                                <c:set var="photosParts" value="${fn:split(p.photos, ',')}" />
-                                                <c:set var="photoUrl" value="${fn:trim(photosParts[0])}" />
+                                            <c:set var="photosParts" value="${fn:split(p.photos, ',')}" />
+                                            <c:set var="photoUrl" value="${fn:trim(photosParts[0])}" />
+                                            <div class="prop-thumb" onclick="viewPropertyImage('${photoUrl}')">
                                                 <img src="${photoUrl}" alt="${p.name}" 
                                                      style="width:180px;height:140px;object-fit:cover;
                                                             border-radius:10px;flex-shrink:0;"
@@ -153,40 +120,32 @@
 
                                             
                                             <div class="prop-actions">
-                                                <form method="POST" action="${pageContext.request.contextPath}/admin/verify">
-                                                    <input type="hidden" name="propertyId" value="${p.propertyId}" />
-                                                    <input type="hidden" name="action" value="approve" />
-                                                    <button type="submit" class="btn-approve">
-                                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                                             stroke="currentColor" stroke-width="2.5"
-                                                             stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
-                                                          <polyline points="20 6 9 17 4 12"/>
-                                                        </svg>
-                                                        Setujui
-                                                    </button>
-                                                </form>
-                                                <form method="POST" action="${pageContext.request.contextPath}/admin/verify">
-                                                    <input type="hidden" name="propertyId" value="${p.propertyId}" />
-                                                    <input type="hidden" name="action" value="reject" />
-                                                    <button type="submit" class="btn-reject">
-                                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                                                             stroke="currentColor" stroke-width="2.5"
-                                                             stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
-                                                          <line x1="18" y1="6" x2="6" y2="18"/>
-                                                          <line x1="6" y1="6" x2="18" y2="18"/>
-                                                        </svg>
-                                                        Tolak
-                                                    </button>
-                                                </form>
+                                                <button type="button" class="btn-approve" onclick="approveProperty(${p.propertyId})">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                                         stroke="currentColor" stroke-width="2.5"
+                                                         stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
+                                                      <polyline points="20 6 9 17 4 12"/>
+                                                    </svg>
+                                                    Setujui
+                                                </button>
+                                                <button type="button" class="btn-reject" onclick="openRejectModal(${p.propertyId})">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                                                         stroke="currentColor" stroke-width="2.5"
+                                                         stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: -2px;">
+                                                      <line x1="18" y1="6" x2="6" y2="18"/>
+                                                      <line x1="6" y1="6" x2="18" y2="18"/>
+                                                    </svg>
+                                                    Tolak
+                                                </button>
                                             </div>
                                         </div>
                                     </c:forEach>
 
                                     <c:if test="${empty pendingProperties}">
                                         <div class="no-pending-state">
-                                            <i class="fa-solid fa-shield-check success-icon" style="font-size: 4.5rem; margin-bottom: 12px; background: -webkit-linear-gradient(135deg, #0f766e, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                                            <h3 style="font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0;">Antrean Bersih!</h3>
-                                            <p style="color: #64748b; font-size: 1.05rem; margin-top: 8px;">Semua pengajuan properti telah selesai ditinjau.</p>
+                                            <i class="fa-solid fa-shield-check success-icon"></i>
+                                            <h3>Antrean Bersih!</h3>
+                                            <p>Semua pengajuan properti telah selesai ditinjau.</p>
                                         </div>
                                     </c:if>
                                 </div>
@@ -195,28 +154,28 @@
                     </div>
 
                     
-                    <div id="reject-modal" class="modal-overlay" style="display: none;">
-                        <div class="modal-card">
-                            <div class="modal-header header-warning">
-                                <h3>Tolak Pengajuan Properti</h3>
-                                <button class="modal-close" onclick="closeRejectModal()">&times;</button>
+                    <div id="reject-modal" class="sewain-modal-overlay" style="display: none; align-items: center; justify-content: center; opacity: 1;">
+                        <div class="sewain-modal-card" style="width: 450px; max-width: 90%; transform: scale(1) translateY(0);">
+                            <div class="sewain-modal-icon warning">
+                                <i class="fa-solid fa-exclamation"></i>
                             </div>
-                            <div class="modal-body">
-                                <form id="reject-form" onsubmit="executeReject(event)">
-                                    <input type="hidden" id="reject-property-id">
-                                    <p class="form-instruction">Harap berikan alasan penolakan properti secara rinci
-                                        agar owner dapat merevisi data mereka.</p>
-                                    <div class="form-group">
-                                        <label for="reject-reason">Alasan Penolakan:</label>
-                                        <textarea id="reject-reason" rows="4" required
-                                            placeholder="Contoh: Deskripsi kurang jelas atau gambar tidak relevan..."></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn-secondary" onclick="closeRejectModal()">Batal</button>
-                                <button type="submit" form="reject-form" class="btn-primary btn-danger">Ya, Tolak
-                                    Pengajuan</button>
+                            <h3 class="sewain-modal-title">Tolak Pengajuan Properti</h3>
+                            
+                            <form id="reject-form" onsubmit="executeReject(event)" style="width: 100%; text-align: left; margin-bottom: 0;">
+                                <input type="hidden" id="reject-property-id">
+                                <p class="sewain-modal-text" style="text-align: center; margin-bottom: 16px;">
+                                    Harap berikan alasan penolakan secara rinci agar owner dapat merevisi data mereka.
+                                </p>
+                                <div style="margin-bottom: 24px;">
+                                    <textarea id="reject-reason" rows="4" required 
+                                        style="width: 100%; border-radius: 12px; padding: 12px; border: 1px solid var(--border); font-family: inherit; font-size: 14px; outline: none; resize: vertical;" 
+                                        placeholder="Contoh: Deskripsi kurang jelas atau gambar tidak relevan..."></textarea>
+                                </div>
+                            </form>
+
+                            <div class="sewain-modal-actions">
+                                <button type="button" class="sewain-btn-secondary" onclick="closeRejectModal()">Batal</button>
+                                <button type="submit" form="reject-form" class="sewain-btn-primary danger">Ya, Tolak Pengajuan</button>
                             </div>
                         </div>
                     </div>

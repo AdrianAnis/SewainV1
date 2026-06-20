@@ -86,55 +86,17 @@ public abstract class User implements Reportable {
         this.status = status;
     }
 
-    public void login() {
-        System.out.println(name + " berhasil login");
-    }
-
-    public void logout() {
-        System.out.println(name + " berhasil logout");
-    }
-
-    public void getProfile() {
-        System.out.println("Mendapatkan profil " + name);
-    }
-
-    public void updateProfile() {
-        System.out.println("Memperbarui profil " + name);
+    public boolean updateProfile() {
+        DAO.UserDAO dao = new DAO.UserDAOImpl();
+        return dao.updateProfile(this);
     }
 
     @Override
-    public void report() {
-        System.out.println("Laporan dikirim");
-    }
-
-    @Override
-    public String getReportStatus() {
-        return "Pending";
-    }
-
-    @Override
-    public void createReport(Report report) {
-        System.out.println("Membuat laporan dari user ID: " + userId);
-    }
-
-
-    public void searchProperty() {
-        System.out.println("Mencari property");
-    }
-
-    public void addToWishlist() {
-        System.out.println("Menambahkan ke wishlist");
-    }
-
-    public void viewProperty() {
-        System.out.println("Melihat detail property");
-    }
-
-    public void handleReport() {
-        System.out.println("Menangani laporan");
-    }
-
-    public void reportProperty() {
-        System.out.println("Melaporkan property");
+    public Report report(int targetId, String issueType, String desc) {
+        int tId = 0;
+        try {
+            if (this.userId != null) tId = Integer.parseInt(this.userId);
+        } catch(Exception e) {}
+        return new Report(targetId, tId, issueType, desc);
     }
 }

@@ -43,7 +43,7 @@ public class Report {
         this.status = "Pending";
     }
 
-    // Getters and Setters
+    
     public int getReportId() {
         return reportId;
     }
@@ -116,11 +116,11 @@ public class Report {
         this.tenantName = tenantName;
     }
 
-    public void submitReport() {
-        System.out.println("Laporan penipuan berhasil dikirim untuk properti ID: " + propertyId);
+    public boolean submitReport() {
+        DAO.ReportDAO dao = new DAO.ReportDAO();
+        return dao.insertReport(this);
     }
-
-    // UML Compliance Method
+    
     public void updateStatus(String status) {
         this.status = status;
     }

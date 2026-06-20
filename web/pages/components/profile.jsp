@@ -1,11 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page import="model.User" %>
         <% User currentUser=(User) session.getAttribute("userSession"); if (currentUser==null) {
-            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return; } String
-            role=currentUser.getRole() !=null ? currentUser.getRole().toLowerCase() : "tenant" ; String backUrl="owner"
-            .equals(role) ? request.getContextPath() + "/pages/owner/dashboard_owner.jsp" : request.getContextPath()
-            + "/landing" ; String backLabel="owner" .equals(role) ? "Kembali ke Dashboard Owner"
-            : "Kembali ke Dashboard" ; %>
+            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp" ); return; } 
+            String roleSessionVal = (String) session.getAttribute("roleSession");
+            String role = roleSessionVal != null ? roleSessionVal.toLowerCase() 
+                : (currentUser.getRole() != null ? currentUser.getRole().toLowerCase() : "tenant");
+            String backUrl = "owner".equals(role) ? 
+                request.getContextPath() + "/pages/owner/dashboard_owner.jsp" : 
+                request.getContextPath() + "/landing";
+            String backLabel = "owner".equals(role) ? 
+                "Kembali ke Dashboard Owner" : "Kembali ke Dashboard"; %>
             <!DOCTYPE html>
             <html lang="id">
 

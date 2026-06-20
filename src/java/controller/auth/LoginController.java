@@ -49,9 +49,9 @@ public class LoginController extends HttpServlet {
             if ("Admin".equalsIgnoreCase(role)) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             } else if ("Owner".equalsIgnoreCase(role)) {
-                response.sendRedirect("pages/owner/dashboard_owner.jsp");
+                response.sendRedirect(request.getContextPath() + "/owner/dashboard");
             } else {
-                response.sendRedirect("landing"); 
+                response.sendRedirect(request.getContextPath() + "/landing"); 
             }
         } else {
             request.setAttribute("errorMsg", "Email/Username atau Password Anda salah!");

@@ -36,18 +36,17 @@ public class DashboardTenantController extends HttpServlet {
         User user = (User) session.getAttribute("userSession");
         
         
-        if (user instanceof Tenant) {
-            ((Tenant) user).viewProperty();
-        }
-        
-        
         if ("admin".equalsIgnoreCase(user.getRole())) {
             response.sendRedirect(request.getContextPath() + "/pages/admin/dashboard_admin.jsp");
             return;
         }
 
-        
-        List<Property> properties = propertyDAO.searchProperties(null, null, null, null);
+        List<Property> properties;
+        if (user instanceof Tenant) {
+            properties = ((Tenant) user).viewProperty();
+        } else {
+            properties = propertyDAO.searchProperties(null, null, null, null);
+        }
         String json = convertToJson(properties);
         request.setAttribute("propertiesJson", json);
 

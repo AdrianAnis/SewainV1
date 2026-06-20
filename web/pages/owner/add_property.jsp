@@ -18,14 +18,14 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Add New Property - SewaIn</title>
 
-                <!-- Fonts -->
+                
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                     rel="stylesheet" />
 
-                <!-- CSS Stylesheets -->
+                
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.6" />
                 <link rel="stylesheet"
                     href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.6" />
@@ -45,13 +45,13 @@
 
             <body>
 
-                <!-- LOADING OVERLAY -->
+                
                 <div class="loading-overlay" id="loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text">Sedang memproses dan mengunggah gambar...</div>
                 </div>
 
-                <!-- HEADER / BACK BUTTON -->
+                
                 <div style="max-width: 800px; margin: 40px auto 0; padding: 0 24px;">
                     <a href="${pageContext.request.contextPath}/pages/owner/dashboard_owner.jsp" class="btn-back"
                         style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
@@ -64,7 +64,7 @@
                     </a>
                 </div>
 
-                <!-- PROGRESS INDICATOR -->
+                
                 <div class="progress-container">
                     <div class="step-indicator active" id="ind-1">
                         <div class="step-circle">1</div>
@@ -82,20 +82,18 @@
                     </div>
                 </div>
 
-                <!-- MAIN FORM -->
+                
                 <form id="propertyForm" action="${pageContext.request.contextPath}/addProperty" method="POST"
                     enctype="multipart/form-data">
 
-                    <!-- ==============================================
-             STEP 1: BASIC INFO
-             ============================================== -->
+                    
                     <div id="step1" class="form-step-container step-content" style="display: block;">
                         <div class="step-header">
                             <h1>Basic Information</h1>
                             <p>Let's start with the essential details of your property.</p>
                         </div>
 
-                        <!-- Card 1: General Info -->
+                        
                         <div class="form-card">
                             <h2>General Info</h2>
                             <div class="form-group">
@@ -144,7 +142,7 @@
                                     <% } %>
                         </div>
 
-                        <!-- Card 2: Property Type & Specs -->
+                        
                         <div class="form-card">
                             <h2>Property Type & Specs</h2>
                             <label class="form-label">Select Type</label>
@@ -169,13 +167,13 @@
                                 </div>
                             </div>
 
-                            <!-- Dynamic Fields Container -->
+                            
                             <div id="specificFields" style="display: none;">
-                                <!-- Filled by JavaScript -->
+                                
                             </div>
                         </div>
 
-                        <!-- Card 3: Location -->
+                        
                         <div class="form-card">
                             <h2>Location</h2>
                             <div class="form-group">
@@ -185,23 +183,21 @@
                             </div>
                         </div>
 
-                        <!-- Actions -->
+                        
                         <div class="form-actions end">
                             <button type="button" class="btn-next" onclick="goToStep(2)">Continue to Details
                                 &rarr;</button>
                         </div>
                     </div>
 
-                    <!-- ==============================================
-             STEP 2: FACILITIES
-             ============================================== -->
+                    
                     <div id="step2" class="form-step-container step-content">
                         <div class="step-header">
                             <h1>Property Details & Facilities</h1>
                             <p>Specify the amenities to make your listing stand out to potential tenants.</p>
                         </div>
 
-                        <!-- Card 1: Core Facilities -->
+                        
                         <div class="form-card">
                             <h2>Core Facilities</h2>
                             <input type="hidden" name="facilities" id="facilitiesInput">
@@ -259,12 +255,12 @@
                                         onclick="addCustomFacility()">+ Add</button>
                                 </div>
                                 <div id="customFacBadges" class="custom-badges-container">
-                                    <!-- Badges appear here -->
+                                    
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Actions -->
+                        
                         <div class="form-actions">
                             <button type="button" class="btn-back" onclick="goToStep(1)">&larr; Back</button>
                             <button type="button" class="btn-next" onclick="goToStep(3)">Continue to Photos
@@ -272,9 +268,7 @@
                         </div>
                     </div>
 
-                    <!-- ==============================================
-             STEP 3: PHOTOS
-             ============================================== -->
+                    
                     <div id="step3" class="form-step-container step-content">
                         <div class="step-header">
                             <h1>Property Photos</h1>
@@ -282,7 +276,7 @@
                                 features.</p>
                         </div>
 
-                        <!-- Card 1: Cover Image -->
+                        
                         <div class="form-card">
                             <h2>Cover Image</h2>
                             <div class="dropzone" id="coverDropzone"
@@ -302,13 +296,13 @@
                                     onclick="removeCoverPhoto(event)">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                                <!-- Assuming backend handles photos as text/url or file. For now it's file input -->
+                                
                                 <input type="file" name="cover_photo" id="coverPhotoInput" style="display:none;"
                                     accept="image/*">
                             </div>
                         </div>
 
-                        <!-- Card 2: Gallery Photos -->
+                        
                         <div class="form-card">
                             <h2>Gallery Photos</h2>
                             <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">Add up to 5
@@ -330,14 +324,14 @@
                                 accept="image/*">
                         </div>
 
-                        <!-- Actions -->
+                        
                         <div class="form-actions">
                             <button type="button" class="btn-back" onclick="goToStep(2)">&larr; Back</button>
                             <button type="submit" class="btn-next">Submit Property</button>
                         </div>
                 </form>
 
-                <!-- SCRIPTS -->
+                
                 <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/profile-dropdown.js"></script>
                 <script src="${pageContext.request.contextPath}/assets/js/owner/add_property.js"></script>

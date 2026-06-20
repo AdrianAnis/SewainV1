@@ -39,25 +39,23 @@ public class OwnerDashboardController extends HttpServlet {
 
         User currentUser = (User) session.getAttribute("userSession");
 
-        if (currentUser instanceof Owner) {
-            ((Owner) currentUser).viewProperty();
-            ((Owner) currentUser).viewReport();
+        if (!(currentUser instanceof Owner)) {
+            response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp");
+            return;
         }
-        
-        int ownerId = 1;
-        try {
-            ownerId = Integer.parseInt(currentUser.getUserId());
-        } catch (Exception e) {}
 
-        List<Property> properties = propertyDAO.getPropertiesByOwnerId(ownerId);
+        List<Property> properties = ((Owner) currentUser).viewProperty();
+        List<Report> ownerReports = ((Owner) currentUser).viewReport();
+        
         request.setAttribute("ownerProperties", properties);
 
         int pendingReportsCount = 0;
         try {
-            List<Report> ownerReports = reportDAO.getReportsByOwnerId(ownerId);
-            for (Report r : ownerReports) {
-                if ("Pending".equalsIgnoreCase(r.getStatus())) {
-                    pendingReportsCount++;
+            if (ownerReports != null) {
+                for (Report r : ownerReports) {
+                    if ("Pending".equalsIgnoreCase(r.getStatus())) {
+                        pendingReportsCount++;
+                    }
                 }
             }
         } catch (Exception e) {}

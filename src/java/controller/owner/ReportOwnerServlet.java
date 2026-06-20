@@ -26,13 +26,10 @@ public class ReportOwnerServlet extends HttpServlet {
             return;
         }
 
-        int ownerId = 1;
-        try {
-            ownerId = Integer.parseInt(currentUser.getUserId());
-        } catch (Exception e) {}
-
-        ReportDAO reportDAO = new ReportDAO();
-        List<Report> reports = reportDAO.getReportsByOwnerId(ownerId);
+        List<Report> reports = null;
+        if (currentUser instanceof model.Owner) {
+            reports = ((model.Owner) currentUser).viewReport();
+        }
 
         request.setAttribute("reports", reports);
         request.getRequestDispatcher("/pages/owner/report_owner.jsp").forward(request, response);

@@ -1,24 +1,5 @@
 (function () {
   const ctx = window.contextPath || "";
-  const wishlistKey = window.WISHLIST_KEY;
-
-  try {
-    var raw = localStorage.getItem(wishlistKey);
-    if (raw) {
-      var arr = JSON.parse(raw);
-      if (Array.isArray(arr)) {
-        var clean = arr.filter(function (id) {
-          if (id === null || id === undefined || id === "") return false;
-          return !isNaN(Number(String(id)));
-        });
-        if (clean.length !== arr.length) {
-          console.warn("[wishlist] Sanitized favorites:", arr, "->", clean);
-          localStorage.setItem(wishlistKey, JSON.stringify(clean));
-        }
-      }
-    }
-  } catch (e) { console.warn("[wishlist] Cleanup error:", e); }
-
 
   var originalFetch = window.fetch;
   window.fetch = function (url, options) {
@@ -67,56 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const ctx = window.contextPath || "";
 
 
-  let favorites = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
-
-  const favNavbarBtn = document.querySelector(".nav-icon-btn[aria-label='Favorit']");
-  if (favNavbarBtn) {
-    favNavbarBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.href = `${ctx}/pages/tenant/wishlist.jsp`;
-    });
-  }
-
-  const avatarBtn = document.getElementById("avatarBtn");
-  const profileDropdown = document.getElementById("profileDropdown");
-  if (avatarBtn && profileDropdown) {
-    avatarBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      const isVisible = profileDropdown.style.display === "flex";
-      profileDropdown.style.display = isVisible ? "none" : "flex";
-    });
-    document.addEventListener("click", function (e) {
-      if (!profileDropdown.contains(e.target) && !e.target.closest("#avatarBtn")) {
-        profileDropdown.style.display = "none";
-      }
-    });
-  }
-
-
-  function updateLayoutState(count) {
-    if (count === 0) {
-      if (headerPanel) headerPanel.style.display = "none";
-      if (wishlistGrid) wishlistGrid.style.display = "none";
-      if (emptyPanel) emptyPanel.style.display = "flex";
-    } else {
-      if (headerPanel) headerPanel.style.display = "flex";
-      if (wishlistGrid) wishlistGrid.style.display = "grid";
-      if (emptyPanel) emptyPanel.style.display = "none";
-      if (countHighlight) {
-        countHighlight.innerHTML = `<span class="count-highlight">${count} properti</span>`;
-      }
-    }
-  }
-
-
-  if (favorites.length === 0) {
-    updateLayoutState(0);
-    return;
-  }
-
-
-  const idsParam = favorites.join(",");
-  fetch(`${ctx}/wishlist-properties?ids=${encodeURIComponent(idsParam)}`)
+  fetch(`${ctx}/wishlist-properties`)
     .then(res => {
       if (!res.ok) throw new Error("Gagal mengambil data wishlist");
       return res.json();
@@ -172,6 +104,19 @@ document.addEventListener("DOMContentLoaded", function () {
       updateLayoutState(0);
     });
 
+
+  function updateLayoutState(count) {
+    if (countHighlight) countHighlight.textContent = count + " properti";
+    if (count > 0) {
+      wishlistGrid.style.display = "grid";
+      emptyPanel.style.display = "none";
+      headerPanel.style.display = "block";
+    } else {
+      wishlistGrid.style.display = "none";
+      emptyPanel.style.display = "flex";
+      headerPanel.style.display = "none";
+    }
+  }
 
   function renderWishlist(propertiesList) {
     if (!wishlistGrid) return;
@@ -290,29 +235,43 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (wishlistBtn) {
-        wishlistBtn.addEventListener("click", function (e) {
+        wishlistBtn.addEventListener("click", async function (e) {
           e.preventDefault();
           e.stopPropagation();
 
-          wishlistBtn.classList.add("pop");
+          wishlistBtn.disabled = true;
+          wishlistBtn.style.opacity = "0.5";
 
-          setTimeout(() => {
-            const idxFav = favorites.indexOf(id);
-            if (idxFav > -1) {
-              favorites.splice(idxFav, 1);
-              localStorage.setItem(WISHLIST_KEY, JSON.stringify(favorites));
+          try {
+            const res = await fetch(`${ctx}/wishlist`, {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: `action=remove&propertyId=${id}`
+            });
+            const result = await res.json();
+
+            if (result.success) {
+              card.classList.add("fade-out");
+              setTimeout(() => {
+                card.remove();
+                const updatedList = propertiesList.filter(p => p.id !== id);
+                updateLayoutState(updatedList.length);
+              }, 400);
+            } else {
+              if (window.SewainAlert) SewainAlert.error(result.message || "Gagal menghapus properti dari wishlist.");
+              else alert(result.message || "Gagal menghapus dari wishlist.");
+              
+              wishlistBtn.disabled = false;
+              wishlistBtn.style.opacity = "1";
             }
-
-            card.classList.add("fade-out");
-
-            setTimeout(() => {
-              card.remove();
-
-              const updatedList = propertiesList.filter(p => p.id !== id);
-              updateLayoutState(updatedList.length);
-              bindWishlistCardInteractions(updatedList);
-            }, 400);
-          }, 350);
+          } catch (err) {
+            console.error("Remove wishlist error:", err);
+            if (window.SewainAlert) SewainAlert.error("Kesalahan jaringan. Gagal menghapus.");
+            else alert("Kesalahan jaringan.");
+            
+            wishlistBtn.disabled = false;
+            wishlistBtn.style.opacity = "1";
+          }
         });
       }
 

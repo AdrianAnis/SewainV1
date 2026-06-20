@@ -35,9 +35,7 @@ public class AddPropertyServlet extends HttpServlet {
 
         String name = request.getParameter("name");
 
-        if (currentUser instanceof Owner) {
-            ((Owner) currentUser).addProperty(name);
-        }
+
 
         String location = request.getParameter("location");
         double price = 0;
@@ -133,12 +131,11 @@ public class AddPropertyServlet extends HttpServlet {
             prop.setFacilities(facilities);
             prop.setPropertyType(propertyType);
             prop.setAvailability(availability);
-            prop.setVerificationStatus("Pending");
-            prop.setFlagStatus("None");
             prop.setPhotos(photosJoined);
-
-            PropertyDAO dao = new PropertyDAO();
-            boolean success = dao.addProperty(prop, ownerId);
+            boolean success = false;
+            if (currentUser instanceof Owner) {
+                success = ((Owner) currentUser).addProperty(prop);
+            }
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -169,7 +166,7 @@ public class AddPropertyServlet extends HttpServlet {
                 if (eqIdx != -1) {
                     String fileName = trimmed.substring(eqIdx + 1).trim()
                             .replace("\"", "");
-                    // Handle path separators (some browsers send full path)
+                    
                     int lastSlash = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
                     if (lastSlash >= 0) {
                         fileName = fileName.substring(lastSlash + 1);

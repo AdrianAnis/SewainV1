@@ -15,7 +15,7 @@ function resolveCardImages() {
 }
 
 async function approveProperty(propertyId) {
-    if (!(await SewainAlert.confirm("Apakah Anda yakin ingin menyetujui iklan properti ini?"))) return;
+    if (!(await SewainAlert.confirm("Apakah Anda yakin ingin menyetujui iklan properti ini?", "Konfirmasi Persetujuan", "info"))) return;
 
     showSpinner();
 
@@ -138,4 +138,9 @@ function showSpinner() {
 function hideSpinner() {
     const loader = document.getElementById("ajax-loader");
     if (loader) loader.style.display = "none";
+}
+
+function viewPropertyImage(url) {
+    if (!url) return;
+    window.open(url, '_blank');
 }

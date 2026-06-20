@@ -60,8 +60,7 @@ public class UpdateProfileController extends HttpServlet {
 
         currentUser.setName(name);
         currentUser.setPhone(phone);
-
-        boolean success = userDAO.updateProfile(currentUser);
+        boolean success = currentUser.updateProfile();
 
         if (success) {
             session.setAttribute("userSession", currentUser);

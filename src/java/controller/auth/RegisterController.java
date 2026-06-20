@@ -36,6 +36,21 @@ public class RegisterController extends HttpServlet {
         String emailInput = request.getParameter("email");
         String passwordInput = request.getParameter("password");
         String phoneInput = request.getParameter("phone");
+        
+        
+        if (passwordInput == null || passwordInput.length() < 8) {
+            request.setAttribute("errorMsg", "Pendaftaran gagal! Password minimal 8 karakter.");
+            request.getRequestDispatcher("/pages/auth/register.jsp").forward(request, response);
+            return;
+        }
+
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        if (emailInput == null || !emailInput.matches(emailRegex)) {
+            request.setAttribute("errorMsg", "Pendaftaran gagal! Format email tidak valid.");
+            request.getRequestDispatcher("/pages/auth/register.jsp").forward(request, response);
+            return;
+        }
+
         User newUser = new Tenant();
         
         newUser.setName(usernameInput);

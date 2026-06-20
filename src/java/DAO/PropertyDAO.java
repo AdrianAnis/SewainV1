@@ -170,7 +170,7 @@ public class PropertyDAO {
         return results;
     }
 
-    // Dynamic search instantiating concrete subclass objects from model package
+    
     public List<Property> searchProperties(String name, String location, String priceRange, String propertyType) {
         List<Property> results = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId WHERE p.verificationStatus = 'Approved' AND p.flagCount = 0 AND p.availability = 1");
@@ -229,7 +229,7 @@ public class PropertyDAO {
         return results;
     }
 
-    // Get specific properties by a list of property IDs
+    
     public List<Property> getPropertiesByIds(List<Integer> ids) {
         List<Property> results = new ArrayList<>();
         if (ids == null || ids.isEmpty()) {
@@ -513,6 +513,19 @@ public class PropertyDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
+            pstmt.setInt(2, propertyId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateAvailability(int propertyId, boolean available) {
+        String sql = "UPDATE properties SET availability = ? WHERE propertyId = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, available ? 1 : 0);
             pstmt.setInt(2, propertyId);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {

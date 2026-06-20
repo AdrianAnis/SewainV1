@@ -1,7 +1,6 @@
 package controller.admin;
 
 import DAO.PropertyDAO;
-import DAO.ActivityLogDAO;
 import model.User;
 import model.Property;
 import javax.servlet.ServletException;
@@ -70,7 +69,7 @@ public class AdminFlagServlet extends HttpServlet {
             return;
         }
 
-        ActivityLogDAO logDAO = new ActivityLogDAO();
+        model.ActivityLog logModel = new model.ActivityLog();
         int adminId = 0;
         try {
             adminId = Integer.parseInt(currentUser.getUserId());
@@ -81,16 +80,20 @@ public class AdminFlagServlet extends HttpServlet {
         if ("unflagProperty".equalsIgnoreCase(action)) {
             success = propertyDAO.updateFlagStatus(propertyId, "None", null);
             if (success) {
+                
+                model.Flag flagModel = new model.Flag();
+                flagModel.removeFlag(propertyId);
+
                 String desc = "Admin " + currentUser.getName() + " mencabut flag pada properti: " + prop.getName()
                         + " (ID: " + propertyId + ")";
-                logDAO.addLog(adminId, "UNFLAG PROPERTY", desc);
+                logModel.addLog(adminId, "UNFLAG PROPERTY", desc);
             }
         } else if ("deleteProperty".equalsIgnoreCase(action)) {
-            success = propertyDAO.deleteProperty(propertyId);
+            success = ((model.Admin) currentUser).deleteProperty(propertyId);
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menghapus properti secara permanen: "
                         + prop.getName() + " (ID: " + propertyId + ")";
-                logDAO.addLog(adminId, "DELETE PROPERTY", desc);
+                logModel.addLog(adminId, "DELETE PROPERTY", desc);
             }
         }
 

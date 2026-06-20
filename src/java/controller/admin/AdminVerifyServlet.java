@@ -1,7 +1,6 @@
 package controller.admin;
 
 import DAO.PropertyDAO;
-import DAO.ActivityLogDAO;
 import model.User;
 import model.Property;
 import javax.servlet.ServletException;
@@ -27,8 +26,7 @@ public class AdminVerifyServlet extends HttpServlet {
             return;
         }
 
-        PropertyDAO propertyDAO = new PropertyDAO();
-        List<Property> list = propertyDAO.getPendingProperties();
+        List<Property> list = ((model.Admin) currentUser).viewPendingProperties();
         request.setAttribute("pendingProperties", list);
 
         request.getRequestDispatcher("/pages/admin/verify_property.jsp").forward(request, response);
@@ -67,35 +65,34 @@ public class AdminVerifyServlet extends HttpServlet {
             return;
         }
 
-        PropertyDAO propertyDAO = new PropertyDAO();
-        Property prop = propertyDAO.getPropertyById(propertyId);
+        Property prop = ((model.Admin) currentUser).getPropertyById(propertyId);
         if (prop == null) {
             response.getWriter().write("{\"success\": false, \"message\": \"Properti tidak ditemukan.\"}");
             return;
         }
 
         boolean success = false;
-        ActivityLogDAO logDAO = new ActivityLogDAO();
+        model.ActivityLog logModel = new model.ActivityLog();
         int adminId = 0;
         try {
             adminId = Integer.parseInt(currentUser.getUserId());
         } catch (Exception ignored) {}
 
         if ("approve".equalsIgnoreCase(action)) {
-            success = propertyDAO.updateVerificationStatus(propertyId, "Approved");
+            success = ((model.Admin) currentUser).verifyProperty(prop, "Approved");
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menyetujui properti: " + prop.getName() + " (ID: " + propertyId + ")";
-                logDAO.addLog(adminId, "VERIFY PROPERTY", desc);
+                logModel.addLog(adminId, "VERIFY PROPERTY", desc);
             }
         } else if ("reject".equalsIgnoreCase(action)) {
             String reason = request.getParameter("reason");
             if (reason == null || reason.trim().isEmpty()) {
                 reason = "Tidak ada alasan spesifik";
             }
-            success = propertyDAO.updateVerificationStatus(propertyId, "Rejected");
+            success = ((model.Admin) currentUser).verifyProperty(prop, "Rejected");
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menolak properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
-                logDAO.addLog(adminId, "VERIFY PROPERTY", desc);
+                logModel.addLog(adminId, "VERIFY PROPERTY", desc);
             }
         }
 

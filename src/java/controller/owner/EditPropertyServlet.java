@@ -108,9 +108,7 @@ public class EditPropertyServlet extends HttpServlet {
             return;
         }
 
-        if (currentUser instanceof Owner) {
-            ((Owner) currentUser).editProperty(propertyId);
-        }
+
 
         String name = request.getParameter("name");
         String location = request.getParameter("location");
@@ -225,7 +223,10 @@ public class EditPropertyServlet extends HttpServlet {
             prop.setAvailability(availability);
             prop.setPhotos(photosJoined);
 
-            boolean success = dao.updateProperty(prop);
+            boolean success = false;
+            if (currentUser instanceof Owner) {
+                success = ((Owner) currentUser).editProperty(prop);
+            }
             if (success) {
                 sendResponse(request, response, true, "Success", propertyId);
             } else {

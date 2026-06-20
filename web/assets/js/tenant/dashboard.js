@@ -22,19 +22,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const upgradeModalOverlay = document.getElementById("upgradeModalOverlay");
   const cancelUpgradeBtn = document.getElementById("cancelUpgradeBtn");
   const confirmUpgradeBtn = document.getElementById("confirmUpgradeBtn");
+  const upgradeForm = document.getElementById("upgradeForm");
+  const ktpPhotoInput = document.getElementById("ktpPhoto");
+  const ktpPreview = document.getElementById("ktpPreview");
 
   if (upgradeOwnerLink && upgradeModalOverlay) {
     upgradeOwnerLink.addEventListener("click", function(e) {
       e.preventDefault();
-
       if (profileDropdown) profileDropdown.style.display = "none";
       upgradeModalOverlay.style.display = "flex";
     });
 
-    cancelUpgradeBtn.addEventListener("click", function() {
-      upgradeModalOverlay.style.display = "none";
-    });
-
+    if (cancelUpgradeBtn) {
+        cancelUpgradeBtn.addEventListener("click", function() {
+            upgradeModalOverlay.style.display = "none";
+        });
+    }
 
     upgradeModalOverlay.addEventListener("click", function(e) {
       if (e.target === upgradeModalOverlay) {
@@ -42,35 +45,170 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    confirmUpgradeBtn.addEventListener("click", async function() {
+    const ktpUploadContent = document.getElementById("ktpUploadContent");
+    const ktpPreviewContainer = document.getElementById("ktpPreviewContainer");
+    const ktpFileName = document.getElementById("ktpFileName");
+    const changeKtpBtn = document.getElementById("changeKtpBtn");
 
-      const originalText = this.textContent;
-      this.textContent = "Memproses...";
-      this.disabled = true;
-      
-      const ctx = window.contextPath || "";
-      try {
-        
-        const response = await fetch(ctx + "/upgrade", { method: 'GET' });
-        
-        if (response.ok) {
+    if (ktpPhotoInput && ktpPreview && ktpUploadContent && ktpPreviewContainer) {
+        ktpPhotoInput.addEventListener("change", function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    ktpPreview.src = e.target.result;
+                    ktpFileName.textContent = file.name;
+                    ktpUploadContent.style.display = "none";
+                    ktpPreviewContainer.style.display = "flex";
+                }
+                reader.readAsDataURL(file);
+            } else {
+                resetKtpUpload();
+            }
+        });
 
-          SewainAlert.success("Selamat! Anda berhasil beralih ke mode Owner.").then(() => {
-            window.location.reload();
-          });
-          window.location.href = ctx + "/pages/owner/dashboard_owner.jsp";
-        } else {
-          SewainAlert.error(data.message || "Gagal melakukan upgrade.");
-          this.textContent = originalText;
-          this.disabled = false;
+        if (changeKtpBtn) {
+            changeKtpBtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                resetKtpUpload();
+                ktpPhotoInput.value = "";
+            });
         }
-      } catch (error) {
-        console.error("Upgrade error:", error);
-        SewainAlert.error("Terjadi kesalahan jaringan.");
-        this.textContent = originalText;
-        this.disabled = false;
+
+        function resetKtpUpload() {
+            ktpPreview.src = "";
+            if (ktpFileName) ktpFileName.textContent = "";
+            ktpPreviewContainer.style.display = "none";
+            ktpUploadContent.style.display = "block";
+        }
+    }
+
+    if (upgradeForm) {
+        upgradeForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            if (confirmUpgradeBtn) {
+                confirmUpgradeBtn.textContent = "Mengunggah...";
+                confirmUpgradeBtn.disabled = true;
+            }
+            
+            const formData = new FormData(upgradeForm);
+            const ctx = window.contextPath || "";
+
+            try {
+                const response = await fetch(ctx + "/upgrade", {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                
+                if (response.ok) {
+                    upgradeModalOverlay.style.display = "none";
+                    window.location.reload();
+                } else {
+                    SewainAlert.error("Gagal mengirimkan permintaan. Silakan coba lagi.");
+                    if (confirmUpgradeBtn) {
+                        confirmUpgradeBtn.textContent = "Ya, Ajukan Mode Owner";
+                        confirmUpgradeBtn.disabled = false;
+                    }
+                }
+            } catch (error) {
+                console.error("Upgrade error:", error);
+                SewainAlert.error("Terjadi kesalahan jaringan saat mengunggah form.");
+                if (confirmUpgradeBtn) {
+                    confirmUpgradeBtn.textContent = "Ya, Ajukan Mode Owner";
+                    confirmUpgradeBtn.disabled = false;
+                }
+            }
+        });
+    }
+  }
+
+  
+  const ctx = window.contextPath || "";
+  const CURRENT_USER_ROLE_VAL = typeof CURRENT_USER_ROLE !== 'undefined' ? CURRENT_USER_ROLE.toLowerCase() : "tenant";
+  
+  async function checkOwnerRequestStatus() {
+      if (!upgradeOwnerLink) return;
+      
+      try {
+          const response = await fetch(ctx + "/owner-request-status");
+          if (!response.ok) return;
+          const data = await response.json();
+          
+          if (!data.hasRequest) return; 
+          
+          if (data.status === "pending") {
+              upgradeOwnerLink.innerHTML = `
+                  <div style="display:flex; align-items:center; gap:8px;">
+                      <i class="fa-regular fa-clock"></i>
+                      <span>Menunggu Approval Admin</span>
+                  </div>
+              `;
+              upgradeOwnerLink.style.backgroundColor = "#fffbeb";
+              upgradeOwnerLink.style.color = "#d97706";
+              upgradeOwnerLink.style.borderRadius = "8px";
+              upgradeOwnerLink.style.cursor = "default";
+              
+              
+              const clone = upgradeOwnerLink.cloneNode(true);
+              upgradeOwnerLink.parentNode.replaceChild(clone, upgradeOwnerLink);
+              
+          } else if (data.status === "rejected") {
+              upgradeOwnerLink.innerHTML = `
+                  <div style="display:flex; flex-direction:column; gap:4px; width:100%;">
+                      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+                          <div style="display:flex; align-items:center; gap:8px;">
+                              <i class="fa-solid fa-xmark" style="color: #ef4444;"></i>
+                              <span style="color: #ef4444; font-weight: 500;">Permintaan Ditolak</span>
+                          </div>
+                          <button id="retryUpgradeBtn" style="background:var(--primary); color:white; border:none; border-radius:4px; padding:2px 8px; font-size:11px; cursor:pointer;">Ajukan Ulang</button>
+                      </div>
+                      <small style="color: var(--text-secondary); font-size: 11px; line-height:1.2;">Alasan: ${data.rejectReason || 'Tidak ada alasan'}</small>
+                  </div>
+              `;
+              upgradeOwnerLink.style.cursor = "default";
+              
+              const clone = upgradeOwnerLink.cloneNode(true);
+              upgradeOwnerLink.parentNode.replaceChild(clone, upgradeOwnerLink);
+              
+              const retryBtn = document.getElementById("retryUpgradeBtn");
+              if (retryBtn) {
+                  retryBtn.addEventListener("click", function(e) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (profileDropdown) profileDropdown.style.display = "none";
+                      if (upgradeForm) upgradeForm.reset();
+                      if (ktpPreview) {
+                          ktpPreview.src = "";
+                          ktpPreview.style.display = "none";
+                      }
+                      if (upgradeModalOverlay) upgradeModalOverlay.style.display = "flex";
+                  });
+              }
+              
+          } else if (data.status === "approved") {
+              upgradeOwnerLink.innerHTML = `
+                  <div style="display:flex; align-items:center; gap:8px; cursor: pointer;">
+                      <i class="fa-solid fa-check" style="color: #10b981;"></i>
+                      <span style="color: #10b981;">Disetujui! Muat Ulang Halaman</span>
+                  </div>
+              `;
+              const clone = upgradeOwnerLink.cloneNode(true);
+              upgradeOwnerLink.parentNode.replaceChild(clone, upgradeOwnerLink);
+              clone.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  window.location.reload();
+              });
+          }
+      } catch (e) {
+          console.error("Failed to check owner request status", e);
       }
-    });
+  }
+
+  if (CURRENT_USER_ROLE_VAL !== "owner" && CURRENT_USER_ROLE_VAL !== "admin") {
+      checkOwnerRequestStatus();
   }
 
   const urlParamsCheck = new URLSearchParams(window.location.search);
@@ -156,10 +294,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }).filter(p => p !== null);
 
 
-  let favorites = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+  let favorites = [];
 
   const propertyGrid = document.getElementById("propertyGrid");
-  const ctx = window.contextPath || "";
+  
 
 
   const mainSearchInput = document.getElementById("mainSearchInput");
@@ -495,27 +633,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const wishlistBtns = document.querySelectorAll(".property-wishlist");
     wishlistBtns.forEach(btn => {
-      btn.addEventListener("click", function (e) {
+      btn.addEventListener("click", async function (e) {
         e.preventDefault();
         e.stopPropagation();
         
         const id = this.getAttribute("data-id");
         const idx = favorites.indexOf(id);
+        const isRemoving = idx > -1;
 
-        if (idx > -1) {
-          favorites.splice(idx, 1);
-          this.classList.remove("active");
-        } else {
-          favorites.push(id);
-          this.classList.add("active");
-          
-          this.classList.add("pop");
-          setTimeout(() => {
-            this.classList.remove("pop");
-          }, 400);
+        this.disabled = true;
+        this.style.opacity = "0.5";
+
+        try {
+          const res = await fetch(`${ctx}/wishlist`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `action=${isRemoving ? 'remove' : 'add'}&propertyId=${id}`
+          });
+          const result = await res.json();
+
+          if (result.success) {
+            if (isRemoving) {
+              favorites.splice(idx, 1);
+              this.classList.remove("active");
+            } else {
+              favorites.push(id);
+              this.classList.add("active");
+              this.classList.add("pop");
+              setTimeout(() => this.classList.remove("pop"), 400);
+            }
+          } else {
+            if (window.SewainAlert) SewainAlert.error(result.message || "Gagal mengubah wishlist.");
+            else alert(result.message || "Gagal mengubah wishlist.");
+          }
+        } catch (err) {
+          console.error("Wishlist error:", err);
+          if (window.SewainAlert) SewainAlert.error("Kesalahan jaringan.");
+          else alert("Kesalahan jaringan.");
+        } finally {
+          this.disabled = false;
+          this.style.opacity = "1";
         }
-        
-        localStorage.setItem(WISHLIST_KEY, JSON.stringify(favorites));
       });
     });
 
@@ -600,5 +758,19 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  renderProperties();
+  fetch(`${ctx}/wishlist-properties`)
+    .then(res => {
+      if (!res.ok) throw new Error("Gagal mengambil wishlist awal");
+      return res.json();
+    })
+    .then(data => {
+      if (Array.isArray(data)) {
+        favorites = data.map(p => String(p.propertyId || p.id));
+      }
+      renderProperties();
+    })
+    .catch(err => {
+      console.warn("Error initial wishlist fetch", err);
+      renderProperties();
+    });
 });

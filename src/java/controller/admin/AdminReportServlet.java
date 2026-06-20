@@ -2,7 +2,6 @@ package controller.admin;
 
 import DAO.ReportDAO;
 import DAO.PropertyDAO;
-import DAO.ActivityLogDAO;
 import model.User;
 import model.Report;
 import model.Property;
@@ -58,7 +57,7 @@ public class AdminReportServlet extends HttpServlet {
         }
 
         String action = request.getParameter("action");
-        ActivityLogDAO logDAO = new ActivityLogDAO();
+        model.ActivityLog logModel = new model.ActivityLog();
         int adminId = 0;
         try {
             adminId = Integer.parseInt(currentUser.getUserId());
@@ -73,11 +72,18 @@ public class AdminReportServlet extends HttpServlet {
 
             int reportId = Integer.parseInt(reportIdParam);
             ReportDAO reportDAO = new ReportDAO();
-            boolean success = reportDAO.updateReportStatus(reportId, "Resolved");
+            Report report = reportDAO.getReportById(reportId);
+            model.Admin admin = (model.Admin) currentUser;
+            admin.handleReport(report, "Resolved");
+            
+            boolean success = false;
+            if (report != null) {
+                success = reportDAO.updateReportStatus(report.getReportId(), report.getStatus());
+            }
 
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menyelesaikan laporan ID: " + reportId;
-                logDAO.addLog(adminId, "RESOLVE REPORT", desc);
+                logModel.addLog(adminId, "RESOLVE REPORT", desc);
                 response.getWriter().write("{\"success\": true}");
             } else {
                 response.getWriter().write("{\"success\": false, \"message\": \"Gagal memperbarui status laporan.\"}");
@@ -102,7 +108,12 @@ public class AdminReportServlet extends HttpServlet {
                 return;
             }
 
-            boolean success = propertyDAO.incrementFlagCount(propertyId, reason);
+            model.Admin admin = (model.Admin) currentUser;
+            model.Flag newFlag = admin.flagProperty(prop, reason);
+            boolean success = (newFlag != null);
+            if (success) {
+                propertyDAO.incrementFlagCount(propertyId, reason);
+            }
             if (success) {
                 if (reportIdParam != null && !reportIdParam.isEmpty()) {
                     try {
@@ -113,7 +124,7 @@ public class AdminReportServlet extends HttpServlet {
                 }
 
                 String desc = "Admin " + currentUser.getName() + " menandai (flagged) properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
-                logDAO.addLog(adminId, "FLAG PROPERTY", desc);
+                logModel.addLog(adminId, "FLAG PROPERTY", desc);
                 response.getWriter().write("{\"success\": true}");
             } else {
                 response.getWriter().write("{\"success\": false, \"message\": \"Gagal menandai properti di database.\"}");

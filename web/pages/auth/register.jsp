@@ -66,6 +66,8 @@
                 id="email"
                 name="email"
                 type="email"
+                pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
+                title="Harap masukkan format email yang valid (contoh: user@gmail.com)"
                 required
                 autocomplete="email"
               />
@@ -88,6 +90,8 @@
                 id="password"
                 name="password"
                 type="password"
+                minlength="8"
+                title="Password minimal 8 karakter"
                 required
                 autocomplete="new-password"
               />

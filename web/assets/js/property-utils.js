@@ -1,4 +1,4 @@
-// Digunakan oleh: detail.jsp, detail_owner.jsp, dashboard.js
+
 
 window.PropertyUtils = {
 

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     window.openReportModal = function () {
         const modal = document.getElementById("reportModal");
         const reportPropIdInput = document.getElementById("reportPropertyId");
@@ -158,7 +158,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     let recsHtml = "";
-    let favorites = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+    let favorites = [];
+    try {
+        const res = await fetch(`${ctx}/wishlist-properties`);
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                favorites = data.map(p => String(p.propertyId || p.id));
+            }
+        }
+    } catch(e) { console.warn("Error initial wishlist fetch", e); }
     const otherProps = properties.filter(p => p.id !== property.id).slice(0, 3);
     if (otherProps.length === 0) {
         recsHtml = `<div class="no-recommendations" style="grid-column: 1 / -1; text-align: center; padding: 45px 20px; color: var(--text-secondary); font-size: 14px; font-weight: 500;">Tidak ada rekomendasi properti saat ini.</div>`;
@@ -419,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     container.innerHTML =
-        '<!-- Back Link -->' +
+        '' +
         '<div class="back-nav" style="margin-top: 20px;">' +
         '    <a href="' + ctx + '/landing" class="btn-back">' +
         '        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
@@ -429,10 +438,10 @@ document.addEventListener("DOMContentLoaded", function () {
         '    </a>' +
         '</div>' +
         '' +
-        '<!-- 5-Photo Grid Widget -->' +
+        '' +
         photoGridHtml +
         '' +
-        '<!-- LEFT COLUMN: Description & details -->' +
+        '' +
         '<div class="detail-main">' +
         '    <div class="title-badge-strip">' +
         '        ' + categoryBadge +
@@ -451,18 +460,18 @@ document.addEventListener("DOMContentLoaded", function () {
         '        </div>' +
         '    </div>' +
         '' +
-        '    <!-- Custom Dynamic Specs row (UML compliance) -->' +
+        '    ' +
         '    <div class="detail-specs-strip">' +
         '        ' + specsHtml +
         '    </div>' +
         '' +
-        '    <!-- Deskripsi Section -->' +
+        '    ' +
         '    <div class="detail-section">' +
         '        <h2>About this property</h2>' +
         '        <p style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; white-space: normal; max-width: 100%;">' + property.description + '</p>' +
         '    </div>' +
         '' +
-        '    <!-- Fasilitas Section -->' +
+        '    ' +
         '    <div class="detail-section">' +
         '        <h2>Facilities</h2>' +
         '        <div class="facility-grid">' +
@@ -471,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '    </div>' +
         '</div>' +
         '' +
-        '<!-- RIGHT COLUMN: Booking/Owner Widget -->' +
+        '' +
         '<div class="detail-sidebar">' +
         '    <div class="booking-card" style="background: #fff; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.03);">' +
         '        <div class="booking-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 16px;">' +
@@ -498,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '            </button>' +
         '        </form>' +
         '' +
-        '        <!-- Owner profile banner widget -->' +
+        '        ' +
         '        <div class="owner-profile-widget">' +
         '            <span class="nav-avatar-circle" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: #6b8c80; border-radius: 50%; color: white; flex-shrink: 0; margin-right: 12px;">' +
         '                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' +
@@ -520,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '    </div>' +
         '</div>' +
         '' +
-        '<!-- recommendations bottom block -->' +
+        '' +
         '<div class="recommendations-section">' +
         '    <h2 class="recommendations-title">You might also like</h2>' +
         '    <div class="recommendations-grid">' +
@@ -541,31 +550,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const wishlistBtns = document.querySelectorAll(".recommendations-grid .property-wishlist");
     wishlistBtns.forEach(btn => {
-        btn.addEventListener("click", function (e) {
+        btn.addEventListener("click", async function (e) {
             e.preventDefault();
             e.stopPropagation();
 
             const id = this.getAttribute("data-id");
             const idx = favorites.indexOf(id);
+            const isRemoving = idx > -1;
 
-            if (idx > -1) {
-                favorites.splice(idx, 1);
-                this.classList.remove("active");
-            } else {
-                favorites.push(id);
-                this.classList.add("active");
+            this.disabled = true;
+            this.style.opacity = "0.5";
 
-                this.classList.add("pop");
-                setTimeout(() => {
-                    this.classList.remove("pop");
-                }, 400);
-            }
+            try {
+                const res = await fetch(`${ctx}/wishlist`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `action=${isRemoving ? 'remove' : 'add'}&propertyId=${id}`
+                });
+                const result = await res.json();
 
-            localStorage.setItem(WISHLIST_KEY, JSON.stringify(favorites));
-
-
-            if (id === property.id) {
-                updateSidebarWishlistUI();
+                if (result.success) {
+                    if (isRemoving) {
+                        favorites.splice(idx, 1);
+                        this.classList.remove("active");
+                    } else {
+                        favorites.push(id);
+                        this.classList.add("active");
+                        this.classList.add("pop");
+                        setTimeout(() => this.classList.remove("pop"), 400);
+                    }
+                    if (id === property.id) updateSidebarWishlistUI();
+                } else {
+                    if (window.SewainAlert) SewainAlert.error(result.message || "Gagal mengubah wishlist.");
+                    else alert(result.message || "Gagal mengubah wishlist.");
+                }
+            } catch (err) {
+                console.error("Wishlist error:", err);
+                if (window.SewainAlert) SewainAlert.error("Kesalahan jaringan.");
+                else alert("Kesalahan jaringan.");
+            } finally {
+                this.disabled = false;
+                this.style.opacity = "1";
             }
         });
     });
@@ -602,29 +627,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const sidebarBtn = document.getElementById("sidebarWishlistBtn");
     if (sidebarBtn) {
-        sidebarBtn.addEventListener("click", function (e) {
+        sidebarBtn.addEventListener("click", async function (e) {
             e.preventDefault();
 
             const id = property.id;
             const idx = favorites.indexOf(id);
+            const isRemoving = idx > -1;
 
-            if (idx > -1) {
-                favorites.splice(idx, 1);
-            } else {
-                favorites.push(id);
-            }
+            sidebarBtn.disabled = true;
+            sidebarBtn.style.opacity = "0.5";
 
-            localStorage.setItem(WISHLIST_KEY, JSON.stringify(favorites));
-            updateSidebarWishlistUI();
+            try {
+                const res = await fetch(`${ctx}/wishlist`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `action=${isRemoving ? 'remove' : 'add'}&propertyId=${id}`
+                });
+                const result = await res.json();
 
+                if (result.success) {
+                    if (isRemoving) favorites.splice(idx, 1);
+                    else favorites.push(id);
+                    
+                    updateSidebarWishlistUI();
 
-            document.querySelectorAll(`.recommendations-grid .property-wishlist[data-id="${id}"]`).forEach(btn => {
-                if (idx > -1) {
-                    btn.classList.remove("active");
+                    document.querySelectorAll(`.recommendations-grid .property-wishlist[data-id="${id}"]`).forEach(btn => {
+                        if (isRemoving) btn.classList.remove("active");
+                        else btn.classList.add("active");
+                    });
                 } else {
-                    btn.classList.add("active");
+                    if (window.SewainAlert) SewainAlert.error(result.message || "Gagal mengubah wishlist.");
+                    else alert(result.message || "Gagal mengubah wishlist.");
                 }
-            });
+            } catch (err) {
+                console.error("Wishlist error:", err);
+                if (window.SewainAlert) SewainAlert.error("Kesalahan jaringan.");
+                else alert("Kesalahan jaringan.");
+            } finally {
+                sidebarBtn.disabled = false;
+                sidebarBtn.style.opacity = "1";
+            }
         });
     }
 

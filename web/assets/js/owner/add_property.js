@@ -1,4 +1,4 @@
-// JavaScript khusus untuk halaman Add Property (Wizard/Stepper)
+
 
 let currentStep = 1;
 let selectedGalleryFiles = [];

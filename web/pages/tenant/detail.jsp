@@ -18,14 +18,14 @@
                             <meta charset="UTF-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0">
                             <title>Detail Properti - SewaIn</title>
-                            <!-- Fonts -->
+                            
                             <link rel="preconnect" href="https://fonts.googleapis.com" />
                             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                             <link
                                 href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                                 rel="stylesheet" />
 
-                            <!-- CSS Stylesheets -->
+                            
                             <link rel="stylesheet"
                                 href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.6" />
                             <link rel="stylesheet"
@@ -35,7 +35,7 @@
                             <link rel="stylesheet"
                                 href="${pageContext.request.contextPath}/assets/css/tenant/detail.css?v=1.6" />
 
-                            <!-- Context Path Injection & Properties Data for External JavaScript -->
+                            
                             <script>
                                 window.contextPath = "${pageContext.request.contextPath}";
                                 const CURRENT_USER_ID = "${not empty userSession.userId ? userSession.userId : userSession.id}";
@@ -65,18 +65,18 @@
 
                         <body>
 
-                            <!-- ANIMATED BACKGROUND BLUR BLOBS -->
+                            
                             <div class="blur-blobs">
                                 <div class="blob blob-1"></div>
                                 <div class="blob blob-2"></div>
                                 <div class="blob blob-3"></div>
                             </div>
-                            <!-- PROPERTY DETAIL WORKSPACE -->
+                            
                             <main class="detail-container" id="detailContainer" style="margin-top: 60px;">
-                                <!-- Rendered Dynamically via detail.js -->
+                                
                             </main>
 
-                            <!-- Modal Pelaporan Penipuan -->
+                            
                             <div id="reportModal" class="report-modal">
                                 <div class="report-modal-content">
                                     <div class="report-modal-header">
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
 
-                            <!-- PHOTO GALLERY LIGHTBOX MODAL -->
+                            
                             <div id="photoLightbox" class="photo-lightbox-overlay">
                                 <button class="lightbox-close-btn" id="lightboxClose" aria-label="Close Gallery">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -156,7 +156,7 @@
 
                                 <div class="lightbox-slider-wrapper">
                                     <div class="lightbox-slider" id="lightboxSlider">
-                                        <!-- Slides dynamically injected -->
+                                        
                                     </div>
                                 </div>
 
@@ -170,12 +170,12 @@
                                 <div class="lightbox-bottom-bar">
                                     <div class="lightbox-caption" id="lightboxCaption">Main Photo</div>
                                     <div class="lightbox-thumbnails" id="lightboxThumbs">
-                                        <!-- Thumbnails dynamically injected -->
+                                        
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- JavaScript Bundle -->
+                            
                             <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
                             <script src="${pageContext.request.contextPath}/assets/js/tenant/detail.js?v=1.9"></script>
                         </body>

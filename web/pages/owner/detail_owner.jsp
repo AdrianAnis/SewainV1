@@ -16,14 +16,14 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Detail Properti - Owner - SewaIn</title>
 
-                <!-- Fonts -->
+                
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                     rel="stylesheet" />
 
-                <!-- CSS Stylesheets -->
+                
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.6" />
                 <link rel="stylesheet"
                     href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.6" />
@@ -32,7 +32,7 @@
                 <link rel="stylesheet"
                     href="${pageContext.request.contextPath}/assets/css/owner/detail_owner.css?v=1.6" />
 
-                <!-- JavaScript Utils and Shared Logic -->
+                
                 <script src="${pageContext.request.contextPath}/assets/js/property-utils.js"></script>
 
 
@@ -59,7 +59,7 @@
 
                 </main>
 
-                <!-- DELETE CONFIRMATION MODAL -->
+                
                 <div id="deleteModal" class="delete-modal">
                     <div class="delete-modal-content">
                         <div class="delete-icon-container">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <!-- PHOTO GALLERY LIGHTBOX MODAL -->
+                
                 <div id="photoLightbox" class="photo-lightbox-overlay">
                     <button class="lightbox-close-btn" id="lightboxClose" aria-label="Close Gallery">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -107,7 +107,7 @@
 
                     <div class="lightbox-slider-wrapper">
                         <div class="lightbox-slider" id="lightboxSlider">
-                            <!-- Slides dynamically injected -->
+                            
                         </div>
                     </div>
 
@@ -121,12 +121,12 @@
                     <div class="lightbox-bottom-bar">
                         <div class="lightbox-caption" id="lightboxCaption">Main Photo</div>
                         <div class="lightbox-thumbnails" id="lightboxThumbs">
-                            <!-- Thumbnails dynamically injected -->
+                            
                         </div>
                     </div>
                 </div>
 
-                <!-- External detail owner page logic script -->
+                
                 <script src="${pageContext.request.contextPath}/assets/js/owner/detail_owner.js?v=1.6"></script>
             </body>
 

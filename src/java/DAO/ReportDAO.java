@@ -38,7 +38,7 @@ public class ReportDAO {
         }
     }
 
-    // UML / Instruction required methods
+    
     public boolean addReport(Report report) {
         return insertReport(report);
     }

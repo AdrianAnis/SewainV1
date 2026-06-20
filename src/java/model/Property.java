@@ -166,29 +166,15 @@ public abstract class Property implements Reportable {
         this.ownerProfilePic = ownerProfilePic;
     }
 
-    public void getDetail() {
-        System.out.println("Nama Property : " + name);
-        System.out.println("Lokasi : " + location);
-        System.out.println("Harga : " + price);
-    }
 
-    public void updateStatus() {
-        System.out.println("Status property diperbarui");
+
+    public void updateStatus(boolean isAvailable) {
+        this.availability = isAvailable;
     }
 
     @Override
-    public void report() {
-        System.out.println("Property dilaporkan");
-    }
-
-    @Override
-    public String getReportStatus() {
-        return "Pending";
-    }
-
-    @Override
-    public void createReport(Report report) {
-        System.out.println("Membuat laporan pelanggaran untuk properti ID: " + propertyId);
+    public Report report(int targetId, String issueType, String desc) {
+        return new Report(targetId, this.ownerId, issueType, desc);
     }
 
     public String getGender() {

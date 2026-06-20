@@ -21,14 +21,14 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Edit Properti - SewaIn</title>
 
-                <!-- Fonts -->
+                
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
                     rel="stylesheet" />
 
-                <!-- CSS Stylesheets -->
+                
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.6" />
                 <link rel="stylesheet"
                     href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.6" />
@@ -48,13 +48,13 @@
 
             <body>
 
-                <!-- LOADING OVERLAY -->
+                
                 <div class="loading-overlay" id="loadingOverlay">
                     <div class="spinner"></div>
                     <div class="loading-text">Sedang menyimpan perubahan properti...</div>
                 </div>
 
-                <!-- HEADER / BACK BUTTON -->
+                
                 <div style="max-width: 800px; margin: 40px auto 0; padding: 0 24px;">
                     <a href="${pageContext.request.contextPath}/pages/owner/dashboard_owner.jsp" class="btn-back"
                         style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
@@ -67,7 +67,7 @@
                     </a>
                 </div>
 
-                <!-- MAIN FORM -->
+                
                 <form id="propertyForm" action="${pageContext.request.contextPath}/owner/edit" method="POST"
                     enctype="multipart/form-data"
                     data-photos="<%= property.getPhotos() != null ? property.getPhotos() : "" %>"
@@ -82,7 +82,7 @@
                         <p>Ubah informasi detail properti sewa Anda pada form berikut.</p>
                     </div>
 
-                    <!-- Section 1 — Informasi Dasar -->
+                    
                     <div class="form-card">
                         <h2>Informasi Dasar</h2>
 
@@ -160,7 +160,7 @@
                         </div>
                     </div>
 
-                    <!-- Section 2 — Detail Spesifik -->
+                    
                     <div class="form-card">
                         <h2>Detail Spesifik</h2>
                         <div id="specificFields">
@@ -288,7 +288,7 @@
                         </div>
                     </div>
 
-                    <!-- Section 3 — Deskripsi & Fasilitas -->
+                    
                     <div class="form-card">
                         <h2>Deskripsi & Fasilitas</h2>
 
@@ -356,17 +356,17 @@
                                         onclick="addCustomFacility()">+ Add</button>
                                 </div>
                                 <div id="customFacBadges" class="custom-badges-container">
-                                    <!-- Badges appear here -->
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Section 4 — Foto Properti -->
+                    
                     <div class="form-card">
                         <h2>Foto Properti</h2>
 
-                        <!-- Cover Image -->
+                        
                         <div class="form-group">
                             <label class="form-label">Cover Image <span
                                     style="font-weight: normal; color: var(--text-secondary);">(Biarkan kosong jika
@@ -392,7 +392,7 @@
                             </div>
                         </div>
 
-                        <!-- Gallery Photos -->
+                        
                         <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">Gallery Photos <span
                                     style="font-weight: normal; color: var(--text-secondary);">(Add up to 5
@@ -414,7 +414,7 @@
                         </div>
                     </div>
 
-                    <!-- Submit & Cancel Actions -->
+                    
                     <div class="form-actions">
                         <a href="${pageContext.request.contextPath}/pages/owner/dashboard_owner.jsp" class="btn-back"
                             style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Batal</a>

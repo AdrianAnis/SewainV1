@@ -9,7 +9,5 @@ package model;
  * @author Lenovo
  */
 public interface Reportable {
-    void report();
-    String getReportStatus();
-    void createReport(Report report);
+    Report report(int targetId, String issueType, String description);
 }

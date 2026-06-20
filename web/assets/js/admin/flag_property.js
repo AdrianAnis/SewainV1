@@ -1,6 +1,6 @@
 let activeDeletePropertyId = null;
 
-// 1. Unflag Property via AJAX
+
 async function unflagProperty(propertyId) {
     if (!(await SewainAlert.confirm("Apakah Anda yakin ingin mencabut status flag pada properti ini? Iklan akan kembali aktif."))) return;
 
@@ -34,7 +34,7 @@ async function unflagProperty(propertyId) {
         });
 }
 
-// 2. Permanent Delete Property via Modal & AJAX
+
 function confirmDeletePermanent(propertyId) {
     activeDeletePropertyId = propertyId;
 
@@ -86,7 +86,7 @@ function executeDeletePermanent() {
         });
 }
 
-// 3. UI Helpers
+
 function removeRowFromUI(propertyId) {
     const row = document.querySelector(`.property-row[data-id="${propertyId}"]`);
     if (!row) return;

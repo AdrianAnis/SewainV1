@@ -18,23 +18,60 @@ public class Admin extends User {
         super(userId, name, email, password, phone, role);
     }
 
-    public void manageUser() {
-        System.out.println("Mengelola user");
+    public boolean manageUser(User user, String action) {
+        if (user != null) {
+            if ("suspend".equalsIgnoreCase(action)) {
+                user.setStatus("Suspended");
+            } else if ("activate".equalsIgnoreCase(action)) {
+                user.setStatus("Active");
+            }
+            return true;
+        }
+        return false;
     }
 
-    public void verifyProperty() {
-        System.out.println("Memverifikasi property");
+    public boolean verifyProperty(Property property, String status) {
+        if (property != null) {
+            property.setVerificationStatus(status);
+            DAO.PropertyDAO dao = new DAO.PropertyDAO();
+            return dao.updateVerificationStatus(property.getPropertyId(), status);
+        }
+        return false;
     }
 
-    public void monitorActivity() {
-        System.out.println("Monitoring aktivitas");
+    public java.util.List<Property> viewPendingProperties() {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.getPendingProperties();
     }
 
-    public void handleReport() {
-        System.out.println("Menangani laporan");
+    public Property getPropertyById(int propertyId) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.getPropertyById(propertyId);
     }
 
-    public void flagProperty() {
-        System.out.println("Memberikan flag property");
+    public java.util.List<ActivityLog> monitorActivity(String actionType, String date) {
+        return new ActivityLog().getLogs(actionType, date);
+    }
+
+    public boolean handleReport(Report report, String finalStatus) {
+        if (report != null) {
+            report.updateStatus(finalStatus);
+            return true;
+        }
+        return false;
+    }
+
+    public Flag flagProperty(Property property, String reason) {
+        if (property != null) {
+            Flag flag = new Flag();
+            boolean saved = flag.addFlag(property, reason);
+            if (saved) return flag;
+        }
+        return null;
+    }
+
+    public boolean deleteProperty(int propertyId) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.deleteProperty(propertyId);
     }
 }

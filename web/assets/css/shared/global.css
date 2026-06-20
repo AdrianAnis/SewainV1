@@ -170,10 +170,13 @@ img {
 .sewain-btn-primary {
     background: var(--primary);
     color: var(--white);
+    border: 1px solid var(--primary);
 }
 
 .sewain-btn-primary:hover {
-    background: var(--primary-dark);
+    background: var(--deep);
+    border-color: var(--deep);
+    color: var(--white) !important;
 }
 
 .sewain-btn-primary.danger {

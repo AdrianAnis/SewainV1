@@ -20,24 +20,51 @@ public class Owner extends User {
         super(userId, name, email, password, phone, role);
     }
 
-    public void viewReport() {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") melihat daftar laporan keluhan masuk.");
+    public java.util.List<model.Report> viewReport() {
+        int ownerId = 0;
+        try {
+            ownerId = Integer.parseInt(this.getUserId());
+        } catch (Exception e) {}
+        DAO.ReportDAO dao = new DAO.ReportDAO();
+        return dao.getReportsByOwnerId(ownerId);
     }
 
-    public void addProperty(String propertyName) {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") mendaftarkan properti baru: " + propertyName);
+    public boolean addProperty(Property property) {
+        if (property != null) {
+            property.setVerificationStatus("Pending");
+            property.setFlagStatus("None");
+            
+            int ownerId = 0;
+            try {
+                ownerId = Integer.parseInt(this.getUserId());
+            } catch (Exception e) {}
+            
+            DAO.PropertyDAO dao = new DAO.PropertyDAO();
+            return dao.addProperty(property, ownerId);
+        }
+        return false;
     }
 
 
-    public void viewProperty() {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") melihat daftar properti miliknya.");
+    public java.util.List<Property> viewProperty() {
+        int ownerId = 0;
+        try {
+            ownerId = Integer.parseInt(this.getUserId());
+        } catch (Exception e) {}
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.getPropertiesByOwnerId(ownerId);
     }
 
-    public void editProperty(int propertyId) {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") mengubah data properti ID: " + propertyId);
+    public boolean editProperty(Property property) {
+        if (property != null) {
+            DAO.PropertyDAO dao = new DAO.PropertyDAO();
+            return dao.updateProperty(property);
+        }
+        return false;
     }
 
-    public void deleteProperty(int propertyId) {
-        System.out.println("[Owner] " + getName() + " (ID: " + getUserId() + ") menghapus properti  ID: " + propertyId);
+    public boolean deleteProperty(int propertyId) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.deleteProperty(propertyId);
     }
 }

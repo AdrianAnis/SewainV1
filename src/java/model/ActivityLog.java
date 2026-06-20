@@ -95,16 +95,13 @@ public class ActivityLog {
         this.description = description;
     }
 
-    public void addLog() {
-        System.out.println("Log ditambahkan: " + action + " - " + description);
+    public boolean addLog(int userId, String action, String description) {
+        DAO.ActivityLogDAO dao = new DAO.ActivityLogDAO();
+        return dao.addLog(userId, action, description);
     }
 
-    public void getLogs() {
-        System.out.println("Menampilkan log ID: " + logId);
-    }
-
-
-    public List<ActivityLog> getLogsList() {
-        return new ArrayList<>(); 
+    public List<ActivityLog> getLogs(String actionType, String dateStr) {
+        DAO.ActivityLogDAO dao = new DAO.ActivityLogDAO();
+        return dao.getLogs(actionType, dateStr);
     }
 }

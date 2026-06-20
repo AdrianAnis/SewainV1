@@ -21,21 +21,19 @@ public class SwitchRoleController extends HttpServlet {
         if (currentUser != null) {
             String currentRole = currentUser.getRole();
             
-            if ("Tenant".equalsIgnoreCase(currentRole)) {
-                currentUser.setRole("Owner");
-            } else if ("Owner".equalsIgnoreCase(currentRole)) {
-                currentUser.setRole("Tenant");
-            }
             
-            
-            session.setAttribute("userSession", currentUser);
-            
-            
-            if ("Owner".equalsIgnoreCase(currentUser.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/owner/dashboard");
-                return;
-            } else {
-                response.sendRedirect(request.getContextPath() + "/landing");
+            if ("Owner".equalsIgnoreCase(currentRole)) {
+                String currentRoleSession = (String) session.getAttribute("roleSession");
+                
+                if ("tenant".equalsIgnoreCase(currentRoleSession)) {
+                    
+                    session.setAttribute("roleSession", "owner");
+                    response.sendRedirect(request.getContextPath() + "/owner/dashboard");
+                } else {
+                    
+                    session.setAttribute("roleSession", "tenant");
+                    response.sendRedirect(request.getContextPath() + "/landing");
+                }
                 return;
             }
         }

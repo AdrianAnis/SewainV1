@@ -55,11 +55,10 @@ public class DeletePropertyServlet extends HttpServlet {
             return;
         }
 
+        boolean success = false;
         if (currentUser instanceof model.Owner) {
-            ((model.Owner) currentUser).deleteProperty(propertyId);
+            success = ((model.Owner) currentUser).deleteProperty(propertyId);
         }
-
-        boolean success = dao.deleteProperty(propertyId);
         if (success) {
             response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp?deleted=true");
         } else {

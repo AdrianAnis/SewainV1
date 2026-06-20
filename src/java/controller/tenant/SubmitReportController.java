@@ -1,6 +1,5 @@
 package controller.tenant;
 
-import DAO.ReportDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,15 +13,6 @@ import model.Tenant;
 
 @WebServlet("/submit-report")
 public class SubmitReportController extends HttpServlet {
-
-    private ReportDAO reportDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        reportDAO = new ReportDAO();
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,9 +30,7 @@ public class SubmitReportController extends HttpServlet {
 
         User user = (User) session.getAttribute("userSession");
 
-        if (user instanceof Tenant) {
-            ((Tenant) user).reportProperty();
-        }
+
 
         String propertyIdStr = request.getParameter("propertyId");
         String issueType = request.getParameter("issueType");
@@ -61,11 +49,9 @@ public class SubmitReportController extends HttpServlet {
             int propertyId = Integer.parseInt(propertyIdStr);
             int tenantId = Integer.parseInt(user.getUserId());
 
-            Report report = new Report(propertyId, tenantId, issueType, description);
+            Report report = user.report(propertyId, issueType, description);
 
-            report.submitReport();
-
-            boolean success = reportDAO.insertReport(report);
+            boolean success = report.submitReport();
             if (success) {
                 response.getWriter().write(
                         "{\"status\":\"success\",\"message\":\"Laporan penipuan berhasil dikirim. Tim admin akan segera menginvestigasi!\"}");

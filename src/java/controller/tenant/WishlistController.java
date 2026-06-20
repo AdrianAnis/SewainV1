@@ -43,38 +43,27 @@ public class WishlistController extends HttpServlet {
 
         User user = (User) session.getAttribute("userSession");
 
-        if (user instanceof Tenant) {
-            ((Tenant) user).addToWishlist();
-        }
-
         if (!"/wishlist-properties".equals(request.getServletPath())) {
-            if ("owner".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp");
-                return;
-            } else if ("admin".equalsIgnoreCase(user.getRole())) {
+            String roleSession = (String) session.getAttribute("roleSession");
+            boolean isViewingAsTenant = "tenant".equalsIgnoreCase(roleSession) || "Tenant".equalsIgnoreCase(user.getRole());
+            
+            if ("admin".equalsIgnoreCase(user.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/pages/admin/dashboard_admin.jsp");
+                return;
+            } else if (!isViewingAsTenant) {
+                response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp");
                 return;
             }
         }
 
         if ("/wishlist-properties".equals(request.getServletPath())) {
-            String idsParam = request.getParameter("ids");
-            List<Integer> ids = new ArrayList<>();
-            if (idsParam != null && !idsParam.trim().isEmpty()) {
-                String[] parts = idsParam.split(",");
-                for (String part : parts) {
-                    try {
-                        String cleanId = part.trim();
-                        if (cleanId.toUpperCase().startsWith("PROP-")) {
-                            cleanId = cleanId.substring(5);
-                        }
-                        ids.add(Integer.parseInt(cleanId));
-                    } catch (NumberFormatException ignored) {
-                    }
-                }
-            }
-
-            List<Property> properties = propertyDAO.getPropertiesByIds(ids);
+            Wishlist wishlist = new Wishlist();
+            Tenant dummyTenant = new Tenant();
+            dummyTenant.setUserId(user.getUserId());
+            wishlist.setTenant(dummyTenant);
+            wishlist.loadWishlistFromDB();
+            
+            List<Property> properties = wishlist.getWishlist();
             String json = convertToJson(properties);
 
             response.setContentType("application/json");
@@ -85,6 +74,57 @@ public class WishlistController extends HttpServlet {
         } else {
             request.getRequestDispatcher("/pages/tenant/wishlist.jsp").forward(request, response);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userSession") == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"success\":false}");
+            return;
+        }
+        User user = (User) session.getAttribute("userSession");
+        if ("admin".equalsIgnoreCase(user.getRole())) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("{\"success\":false}");
+            return;
+        }
+
+        String action = request.getParameter("action");
+        String propertyIdStr = request.getParameter("propertyId");
+
+        if (action != null && propertyIdStr != null) {
+            try {
+                int propertyId = Integer.parseInt(propertyIdStr);
+                
+                Tenant dummyTenant = new Tenant();
+                dummyTenant.setUserId(user.getUserId());
+                
+                boolean isSuccess;
+                if ("add".equalsIgnoreCase(action)) {
+                    isSuccess = dummyTenant.addToWishlist(propertyId);
+                } else if ("remove".equalsIgnoreCase(action)) {
+                    isSuccess = dummyTenant.removeFromWishlist(propertyId);
+                } else {
+                    isSuccess = false;
+                }
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                if (isSuccess) {
+                    response.getWriter().write("{\"success\":true, \"message\":\"Action " + action + " success\"}");
+                } else {
+                    response.getWriter().write("{\"success\":false, \"message\":\"Gagal menyimpan ke database.\"}");
+                }
+                return;
+            } catch (NumberFormatException e) {
+            }
+        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"success\":false, \"message\":\"Failed to process request\"}");
     }
 
     private String convertToJson(List<Property> list) {

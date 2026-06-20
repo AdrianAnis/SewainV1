@@ -56,7 +56,7 @@ window.SewainAlert = {
             overlay.appendChild(card);
             document.body.appendChild(overlay);
 
-            // Animation Trigger
+            
             requestAnimationFrame(() => {
                 overlay.classList.add('show');
             });
@@ -75,7 +75,7 @@ window.SewainAlert = {
         return this._createModal(title, message, 'error', false);
     },
 
-    confirm: function (message, title = "Konfirmasi Tindakan") {
-        return this._createModal(title, message, 'warning', true);
+    confirm: function (message, title = "Konfirmasi Tindakan", type = 'warning') {
+        return this._createModal(title, message, type, true);
     }
 };

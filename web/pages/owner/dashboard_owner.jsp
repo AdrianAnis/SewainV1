@@ -26,12 +26,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Dashboard - SewaIn</title>
     
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- CSS Stylesheets -->
+    
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/global.css?v=1.6" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/shared/components.css?v=1.6" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/owner/dashboard_owner.css?v=1.8" />
@@ -223,14 +223,14 @@
                     </c:forEach>
                 </c:otherwise>
             </c:choose>
-        </div><!-- .property-grid -->
+        </div>
 
-        <!-- PAGINATION -->
+        
         <div class="pagination" id="ownerPagination"></div>
 
     </main>
 
-    <!-- DELETE CONFIRMATION MODAL -->
+    
     <div id="dashboardDeleteModal" 
          style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
         <div style="background:white; border-radius:16px; padding:32px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.2);">

@@ -1,8 +1,8 @@
 package controller.admin;
 
 import DAO.UserDAOImpl;
-import DAO.ActivityLogDAO;
 import model.User;
+import model.Admin;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -69,24 +69,27 @@ public class AdminUserServlet extends HttpServlet {
                 return;
             }
 
-            
             if (targetUser.getUserId().equals(currentUser.getUserId())) {
                 response.getWriter()
                         .write("{\"success\": false, \"message\": \"Tidak dapat menangguhkan akun sendiri.\"}");
                 return;
             }
 
-            boolean success = userDAO.updateUserStatus(userId, status);
+            Admin admin = (Admin) currentUser;
+            String manageAction = "Suspended".equalsIgnoreCase(status) ? "suspend" : "activate";
+            admin.manageUser(targetUser, manageAction);
+
+            boolean success = userDAO.updateUserStatus(userId, targetUser.getStatus());
             if (success) {
-                
-                ActivityLogDAO logDAO = new ActivityLogDAO();
+
+                model.ActivityLog logModel = new model.ActivityLog();
                 String actionName = "Suspended".equalsIgnoreCase(status) ? "SUSPEND USER" : "ACTIVATE USER";
                 String description = "Admin " + currentUser.getName() + " mengubah status " + targetUser.getName()
                         + " menjadi " + status;
 
                 try {
                     int adminId = Integer.parseInt(currentUser.getUserId());
-                    logDAO.addLog(adminId, actionName, description);
+                    logModel.addLog(adminId, actionName, description);
                 } catch (Exception ignored) {
                 }
 

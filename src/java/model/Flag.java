@@ -9,7 +9,6 @@ public class Flag {
     private String reason;
     private Date date;
 
-    // Constructors
     public Flag() {
     }
 
@@ -20,7 +19,7 @@ public class Flag {
         this.date = date;
     }
 
-    // Getters and Setters
+    
     public int getFlagId() {
         return flagId;
     }
@@ -53,16 +52,20 @@ public class Flag {
         this.date = date;
     }
 
-    // UML methods
-    public void addFlag() {
-        System.out.println("Flag ditambahkan");
+    public boolean addFlag(Property target, String reasonDetail) {
+        this.property = target;
+        this.reason = reasonDetail;
+        this.date = new Date();
+        DAO.FlagDAO dao = new DAO.FlagDAO();
+        return dao.insert(this);
     }
 
-    public void removeFlag() {
-        System.out.println("Flag dihapus");
+    public boolean removeFlag(int propertyId) {
+        DAO.FlagDAO dao = new DAO.FlagDAO();
+        return dao.deleteByPropertyId(propertyId);
     }
 
     public String getFlagInfo() {
-        return reason;
+        return "Reason: " + this.reason + " (Date: " + this.date + ")";
     }
 }
