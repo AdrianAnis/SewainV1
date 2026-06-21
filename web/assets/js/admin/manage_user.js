@@ -88,14 +88,17 @@ function closeConfirmModal() {
 function executeToggleStatus() {
     if (!activeActionUserId || !activeActionStatus) return;
     
+    const currentUserId = activeActionUserId;
+    const currentStatus = activeActionStatus;
+    
     closeConfirmModal();
     showLoaderSpinner();
 
 
     const params = new URLSearchParams();
     params.append("action", "toggleStatus");
-    params.append("userId", activeActionUserId);
-    params.append("status", activeActionStatus);
+    params.append("userId", currentUserId);
+    params.append("status", currentStatus);
 
     fetch(`${window.contextPath}/admin/users`, {
         method: "POST",
