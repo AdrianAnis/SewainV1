@@ -1,6 +1,6 @@
 package controller.owner;
 
-import DAO.ReportDAO;
+
 import model.Report;
 import model.User;
 import javax.servlet.ServletException;

@@ -1,6 +1,5 @@
 package controller.tenant;
 
-import DAO.PropertyDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -13,14 +12,6 @@ import model.*;
 @WebServlet("/search")
 public class SearchPropertyController extends HttpServlet {
 
-    private PropertyDAO propertyDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new PropertyDAO();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,7 +21,7 @@ public class SearchPropertyController extends HttpServlet {
         String price = request.getParameter("price");
         String type = request.getParameter("type");
 
-        List<Property> properties = propertyDAO.searchProperties(name, location, price, type);
+        List<Property> properties = model.Property.searchProperties(name, location, price, type);
 
         String json = convertToJson(properties);
 

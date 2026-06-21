@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller.auth;
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,9 +18,6 @@ import model.User;
  */
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-
-    private final UserDAO userDAO = new UserDAOImpl();
-
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,7 +33,7 @@ public class LoginController extends HttpServlet {
         String emailOrUsername = request.getParameter("email_or_username");
         String passwordInput = request.getParameter("password");
 
-        User currentUser = userDAO.loginUser(emailOrUsername, passwordInput);
+        User currentUser = User.login(emailOrUsername, passwordInput);
 
         if (currentUser != null) {
             HttpSession session = request.getSession();

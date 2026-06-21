@@ -1,7 +1,5 @@
 package controller.auth;
 
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,8 +12,6 @@ import model.User;
 
 @WebServlet(name = "UpdateProfileController", urlPatterns = {"/profile"})
 public class UpdateProfileController extends HttpServlet {
-
-    private final UserDAO userDAO = new UserDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

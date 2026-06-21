@@ -258,8 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const beds = p.beds || 1;
     const baths = p.baths || 1;
     const area = p.area || "10m²";
-    const verified = (p.verificationStatus === 'Approved') || !!p.verified;
     const available = (p.availability === 1) || !!p.available;
+    const displayBadge = p.displayBadge || "";
     
     const rawPhotos = p.photos || p.image || "";
     const ownerName = p.ownerName || "SewaIn Manager";
@@ -275,8 +275,8 @@ document.addEventListener("DOMContentLoaded", function () {
       beds,
       baths,
       area,
-      verified,
       available,
+      displayBadge,
       image: resolvePropertyImage(p.photos || p.image || ""),
       rawPhotos,
       ownerName,
@@ -481,9 +481,17 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="property-img-wrapper">
             <img src="${prop.image}" alt="${prop.name}">
             
-            ${prop.verified ? `
-            <span class="badge-verified">
-                <i class="fa-solid fa-circle-check"></i> VERIFIED
+            ${prop.displayBadge === 'VERIFIED' ? `
+            <span class="badge-verified" style="background: rgba(16, 185, 129, 0.95); color: white;">
+                <i class="fa-solid fa-circle-check" style="color: white;"></i> VERIFIED
+            </span>
+            ` : prop.displayBadge === 'Dalam Peninjauan' ? `
+            <span class="badge-verified" style="background: rgba(234, 179, 8, 0.95); color: white;">
+                <i class="fa-regular fa-clock" style="color: white;"></i> Dalam Peninjauan
+            </span>
+            ` : prop.displayBadge === 'Tidak Disarankan' ? `
+            <span class="badge-verified" style="background: rgba(249, 115, 22, 0.95); color: white;">
+                <i class="fa-solid fa-triangle-exclamation" style="color: white;"></i> Tidak Disarankan
             </span>
             ` : ""}
             

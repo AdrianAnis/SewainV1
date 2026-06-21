@@ -1,6 +1,5 @@
 package controller.owner;
 
-import DAO.PropertyDAO;
 import model.*;
 import util.CloudinaryUploader;
 import javax.servlet.ServletException;
@@ -53,10 +52,16 @@ public class EditPropertyServlet extends HttpServlet {
         } catch (Exception e) {
         }
 
-        PropertyDAO dao = new PropertyDAO();
-        Property property = dao.getPropertyById(propertyId);
+        Owner ownerUser = (Owner) currentUser;
+        Property property = ownerUser.getPropertyById(propertyId);
 
         if (property == null || property.getOwnerId() != ownerId) {
+            response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp");
+            return;
+        }
+
+        if (!property.isEditable()) {
+            request.getSession().setAttribute("errorMsg", "Properti ini sudah diblokir permanen dan tidak dapat diedit.");
             response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp");
             return;
         }
@@ -100,11 +105,16 @@ public class EditPropertyServlet extends HttpServlet {
         } catch (Exception e) {
         }
 
-        PropertyDAO dao = new PropertyDAO();
-        Property existingProperty = dao.getPropertyById(propertyId);
+        Owner ownerUserPost = (Owner) currentUser;
+        Property existingProperty = ownerUserPost.getPropertyById(propertyId);
 
         if (existingProperty == null || existingProperty.getOwnerId() != ownerId) {
             sendResponse(request, response, false, "Forbidden access to this property.", null);
+            return;
+        }
+
+        if (!existingProperty.isEditable()) {
+            sendResponse(request, response, false, "Properti ini sudah diblokir permanen dan tidak dapat diedit.", null);
             return;
         }
 

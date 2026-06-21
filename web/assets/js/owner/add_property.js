@@ -381,6 +381,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 activeFacilities.push(badge.getAttribute('data-value'));
             });
 
+            if (activeFacilities.length === 0) {
+                e.preventDefault();
+                goToStep(2);
+                SewainAlert.alert("Minimal pilih 1 fasilitas untuk properti Anda.", "Fasilitas Kosong", "warning");
+                return;
+            }
+
+            const coverInput = document.getElementById('coverPhotoInput');
+            if (!coverInput || !coverInput.files || coverInput.files.length === 0) {
+                e.preventDefault();
+                goToStep(3);
+                SewainAlert.alert("Mohon unggah minimal Cover Image untuk properti Anda.", "Foto Belum Lengkap", "warning");
+                return;
+            }
+
             const galleryInput = document.getElementById('galleryInput');
             if (galleryInput && typeof selectedGalleryFiles !== 'undefined') {
                 const dt = new DataTransfer();

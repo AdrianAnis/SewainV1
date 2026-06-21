@@ -45,6 +45,7 @@ document.getElementById('propertyForm').addEventListener('submit', function (e) 
     const originalPhotosArr = originalPhotosStr ? originalPhotosStr.split(',').map(p => p.trim()) : [];
     const coverPreview = document.getElementById('coverPreview');
     const coverInput = document.getElementById('coverPhotoInput');
+    const existingPhotosList = [];
 
     if (coverPreview.style.display === 'block' && (!coverInput.files || coverInput.files.length === 0)) {
         if (originalPhotosArr.length > 0) {

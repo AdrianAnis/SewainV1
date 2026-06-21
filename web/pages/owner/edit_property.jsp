@@ -98,23 +98,19 @@
                                 value="<%= property.getPropertyType() %>">
 
                             <div class="type-selector" style="pointer-events: none; opacity: 0.85; margin-bottom: 0;">
-                                <div class="type-btn <%= " Rumah".equalsIgnoreCase(property.getPropertyType())
-                                    ? "active" : "" %>">
+                                <div class="type-btn <%= "Rumah".equalsIgnoreCase(property.getPropertyType()) ? "active" : "" %>">
                                     <i class="fa-solid fa-house" style="font-size: 24px;"></i>
                                     Rumah
                                 </div>
-                                <div class="type-btn <%= " Apartement".equalsIgnoreCase(property.getPropertyType())
-                                    || "Apartemen" .equalsIgnoreCase(property.getPropertyType()) ? "active" : "" %>">
+                                <div class="type-btn <%= "Apartement".equalsIgnoreCase(property.getPropertyType()) || "Apartemen".equalsIgnoreCase(property.getPropertyType()) ? "active" : "" %>">
                                     <i class="fa-solid fa-building" style="font-size: 24px;"></i>
                                     Apartement
                                 </div>
-                                <div class="type-btn <%= " Kost".equalsIgnoreCase(property.getPropertyType()) ? "active"
-                                    : "" %>">
+                                <div class="type-btn <%= "Kost".equalsIgnoreCase(property.getPropertyType()) ? "active" : "" %>">
                                     <i class="fa-solid fa-bed" style="font-size: 24px;"></i>
                                     Kost
                                 </div>
-                                <div class="type-btn <%= " Kontrakan".equalsIgnoreCase(property.getPropertyType())
-                                    ? "active" : "" %>">
+                                <div class="type-btn <%= "Kontrakan".equalsIgnoreCase(property.getPropertyType()) ? "active" : "" %>">
                                     <i class="fa-solid fa-door-open" style="font-size: 24px;"></i>
                                     Kontrakan
                                 </div>
@@ -141,8 +137,7 @@
                             <div class="form-group">
                                 <label class="form-label">Status Ketersediaan</label>
                                 <div class="custom-select-container">
-                                    <input type="hidden" name="status" value="<%= property.isAvailability() ? "
-                                        Available" : "Unavailable" %>" required>
+                                    <input type="hidden" name="status" value="<%= property.isAvailability() ? "Available" : "Unavailable" %>" required>
                                     <div class="custom-select-trigger has-value" onclick="toggleDropdown(this)">
                                         <span>
                                             <%= property.isAvailability() ? "Available" : "Unavailable" %>
@@ -150,10 +145,8 @@
                                         <i class="fa-solid fa-chevron-down"></i>
                                     </div>
                                     <div class="custom-select-options">
-                                        <div class="custom-select-option <%= property.isAvailability() ? " selected"
-                                            : "" %>" onclick="selectOption(this, 'Available')">Available</div>
-                                        <div class="custom-select-option <%= !property.isAvailability() ? " selected"
-                                            : "" %>" onclick="selectOption(this, 'Unavailable')">Unavailable</div>
+                                        <div class="custom-select-option <%= property.isAvailability() ? "selected" : "" %>" onclick="selectOption(this, 'Available')">Available</div>
+                                        <div class="custom-select-option <%= !property.isAvailability() ? "selected" : "" %>" onclick="selectOption(this, 'Unavailable')">Unavailable</div>
                                     </div>
                                 </div>
                             </div>
@@ -175,12 +168,9 @@
                                         <div class="segmented-control">
                                             <input type="hidden" name="gender" id="genderInput"
                                                 value="<%= currentGender %>" required>
-                                            <div class="segment-btn <%= " Male".equalsIgnoreCase(currentGender)
-                                                ? "active" : "" %>" onclick="selectGender(this, 'Male')">Male</div>
-                                            <div class="segment-btn <%= " Female".equalsIgnoreCase(currentGender)
-                                                ? "active" : "" %>" onclick="selectGender(this, 'Female')">Female</div>
-                                            <div class="segment-btn <%= " Mixed".equalsIgnoreCase(currentGender)
-                                                ? "active" : "" %>" onclick="selectGender(this, 'Mixed')">Mixed</div>
+                                            <div class="segment-btn <%= "Male".equalsIgnoreCase(currentGender) ? "active" : "" %>" onclick="selectGender(this, 'Male')">Male</div>
+                                            <div class="segment-btn <%= "Female".equalsIgnoreCase(currentGender) ? "active" : "" %>" onclick="selectGender(this, 'Female')">Female</div>
+                                            <div class="segment-btn <%= "Mixed".equalsIgnoreCase(currentGender) ? "active" : "" %>" onclick="selectGender(this, 'Mixed')">Mixed</div>
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-bottom: 0;">
@@ -188,23 +178,16 @@
                                         <div class="custom-select-container">
                                             <input type="hidden" name="roomType" value="<%= currentRoomType %>"
                                                 required>
-                                            <div class="custom-select-trigger <%= !currentRoomType.isEmpty() ? "
-                                                has-value" : "" %>" onclick="toggleDropdown(this)">
+                                            <div class="custom-select-trigger <%= !currentRoomType.isEmpty() ? "has-value" : "" %>" onclick="toggleDropdown(this)">
                                                 <span>
-                                                    <%= !currentRoomType.isEmpty() ? currentRoomType
-                                                        : "Select Room Type" %>
+                                                    <%= !currentRoomType.isEmpty() ? currentRoomType : "Select Room Type" %>
                                                 </span>
                                                 <i class="fa-solid fa-chevron-down"></i>
                                             </div>
                                             <div class="custom-select-options">
-                                                <div class="custom-select-option <%= " Standar
-                                                    Room".equals(currentRoomType) ? "selected" : "" %>"
-                                                    onclick="selectOption(this, 'Standar Room')">Standar Room</div>
-                                                <div class="custom-select-option <%= " Deluxe
-                                                    Room".equals(currentRoomType) ? "selected" : "" %>"
-                                                    onclick="selectOption(this, 'Deluxe Room')">Deluxe Room</div>
-                                                <div class="custom-select-option <%= " VIP".equals(currentRoomType)
-                                                    ? "selected" : "" %>" onclick="selectOption(this, 'VIP')">VIP</div>
+                                                <div class="custom-select-option <%= "Standar Room".equals(currentRoomType) ? "selected" : "" %>" onclick="selectOption(this, 'Standar Room')">Standar Room</div>
+                                                <div class="custom-select-option <%= "Deluxe Room".equals(currentRoomType) ? "selected" : "" %>" onclick="selectOption(this, 'Deluxe Room')">Deluxe Room</div>
+                                                <div class="custom-select-option <%= "VIP".equals(currentRoomType) ? "selected" : "" %>" onclick="selectOption(this, 'VIP')">VIP</div>
                                             </div>
                                         </div>
                                     </div>
@@ -256,30 +239,17 @@
                                                     <div class="custom-select-container">
                                                         <input type="hidden" name="tipeUnit"
                                                             value="<%= currentTipeUnit %>" required>
-                                                        <div class="custom-select-trigger <%= !currentTipeUnit.isEmpty() ? "
-                                                            has-value" : "" %>" onclick="toggleDropdown(this)">
+                                                        <div class="custom-select-trigger <%= !currentTipeUnit.isEmpty() ? "has-value" : "" %>" onclick="toggleDropdown(this)">
                                                             <span>
-                                                                <%= !currentTipeUnit.isEmpty() ? currentTipeUnit
-                                                                    : "Select Unit Type" %>
+                                                                <%= !currentTipeUnit.isEmpty() ? currentTipeUnit : "Select Unit Type" %>
                                                             </span>
                                                             <i class="fa-solid fa-chevron-down"></i>
                                                         </div>
                                                         <div class="custom-select-options">
-                                                            <div class="custom-select-option <%= "
-                                                                Studio".equals(currentTipeUnit) ? "selected" : "" %>"
-                                                                onclick="selectOption(this, 'Studio')">Studio</div>
-                                                            <div class="custom-select-option <%= "
-                                                                1BR".equals(currentTipeUnit) ? "selected" : "" %>"
-                                                                onclick="selectOption(this, '1BR')">1 Bedroom (1BR)
-                                                            </div>
-                                                            <div class="custom-select-option <%= "
-                                                                2BR".equals(currentTipeUnit) ? "selected" : "" %>"
-                                                                onclick="selectOption(this, '2BR')">2 Bedroom (2BR)
-                                                            </div>
-                                                            <div class="custom-select-option <%= "
-                                                                Penthouse".equals(currentTipeUnit) ? "selected" : "" %>"
-                                                                onclick="selectOption(this, 'Penthouse')">Penthouse
-                                                            </div>
+                                                            <div class="custom-select-option <%= "Studio".equals(currentTipeUnit) ? "selected" : "" %>" onclick="selectOption(this, 'Studio')">Studio</div>
+                                                            <div class="custom-select-option <%= "1BR".equals(currentTipeUnit) ? "selected" : "" %>" onclick="selectOption(this, '1BR')">1 Bedroom (1BR)</div>
+                                                            <div class="custom-select-option <%= "2BR".equals(currentTipeUnit) ? "selected" : "" %>" onclick="selectOption(this, '2BR')">2 Bedroom (2BR)</div>
+                                                            <div class="custom-select-option <%= "Penthouse".equals(currentTipeUnit) ? "selected" : "" %>" onclick="selectOption(this, 'Penthouse')">Penthouse</div>
                                                         </div>
                                                     </div>
                                                 </div>

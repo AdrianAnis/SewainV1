@@ -12,18 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
 import model.Tenant;
-import DAO.PropertyDAO;
 
 @WebServlet(name = "WishlistController", urlPatterns = { "/wishlist", "/wishlist-properties" })
 public class WishlistController extends HttpServlet {
-
-    private PropertyDAO propertyDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new PropertyDAO();
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

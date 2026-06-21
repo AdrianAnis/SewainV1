@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller.auth;
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +17,6 @@ import model.Tenant;
  */
 @WebServlet("/register")
 public class RegisterController extends HttpServlet {
-
-    private final UserDAO userDAO = new UserDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +55,7 @@ public class RegisterController extends HttpServlet {
         newUser.setPhone(phoneInput);
         newUser.setRole("tenant"); 
 
-        boolean isSuccess = userDAO.registerUser(newUser);
+        boolean isSuccess = User.register(newUser);
 
         if (isSuccess) {
             request.setAttribute("successMsg", "Akun berhasil dibuat! Silakan masuk.");

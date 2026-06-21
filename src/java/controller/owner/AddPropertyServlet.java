@@ -1,6 +1,6 @@
 package controller.owner;
 
-import DAO.PropertyDAO;
+
 import model.*;
 import util.CloudinaryUploader;
 import javax.servlet.ServletException;

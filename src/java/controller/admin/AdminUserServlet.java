@@ -1,6 +1,5 @@
 package controller.admin;
 
-import DAO.UserDAOImpl;
 import model.User;
 import model.Admin;
 import javax.servlet.ServletException;
@@ -27,8 +26,8 @@ public class AdminUserServlet extends HttpServlet {
             return;
         }
 
-        UserDAOImpl userDAO = new UserDAOImpl();
-        List<User> list = userDAO.getAllUsers();
+        Admin adminUser = (Admin) currentUser;
+        List<User> list = adminUser.viewAllUsers();
         request.setAttribute("users", list);
 
         request.getRequestDispatcher("/pages/admin/manage_user.jsp").forward(request, response);
@@ -62,8 +61,8 @@ public class AdminUserServlet extends HttpServlet {
                 return;
             }
 
-            UserDAOImpl userDAO = new UserDAOImpl();
-            User targetUser = userDAO.getUserById(userId);
+            Admin adminUser = (Admin) currentUser;
+            User targetUser = adminUser.getUserById(userId);
             if (targetUser == null) {
                 response.getWriter().write("{\"success\": false, \"message\": \"User tidak ditemukan.\"}");
                 return;
@@ -77,9 +76,7 @@ public class AdminUserServlet extends HttpServlet {
 
             Admin admin = (Admin) currentUser;
             String manageAction = "Suspended".equalsIgnoreCase(status) ? "suspend" : "activate";
-            admin.manageUser(targetUser, manageAction);
-
-            boolean success = userDAO.updateUserStatus(userId, targetUser.getStatus());
+            boolean success = admin.manageUser(targetUser, manageAction);
             if (success) {
 
                 model.ActivityLog logModel = new model.ActivityLog();

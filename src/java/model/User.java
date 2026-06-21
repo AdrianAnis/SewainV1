@@ -91,6 +91,16 @@ public abstract class User implements Reportable {
         return dao.updateProfile(this);
     }
 
+    public static User login(String emailOrUsername, String password) {
+        DAO.UserDAO dao = new DAO.UserDAOImpl();
+        return dao.loginUser(emailOrUsername, password);
+    }
+
+    public static boolean register(User user) {
+        DAO.UserDAO dao = new DAO.UserDAOImpl();
+        return dao.registerUser(user);
+    }
+
     @Override
     public Report report(int targetId, String issueType, String desc) {
         int tId = 0;

@@ -132,12 +132,20 @@ document.addEventListener("DOMContentLoaded", function () {
         <line x1="7" y1="7" x2="7.01" y2="7"/>
     </svg>`;
 
-    const verifiedTag = property.verified ? `
-        <div class="verified-badge">
+    const verifiedTag = property.displayBadge === 'VERIFIED' ? `
+        <div class="verified-badge" style="background: rgba(16, 185, 129, 0.95); color: white; display: inline-flex; align-items: center; gap: 4px; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
-            Verified
+            VERIFIED
+        </div>` : property.displayBadge === 'Dalam Peninjauan' ? `
+        <div class="verified-badge" style="background: rgba(234, 179, 8, 0.95); color: white; display: inline-flex; align-items: center; gap: 4px; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
+            <i class="fa-regular fa-clock"></i>
+            Dalam Peninjauan
+        </div>` : property.displayBadge === 'Tidak Disarankan' ? `
+        <div class="verified-badge" style="background: rgba(249, 115, 22, 0.95); color: white; display: inline-flex; align-items: center; gap: 4px; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Tidak Disarankan
         </div>` : '';
 
     const capitalize = (str) => {
@@ -217,16 +225,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let flagBannerHtml = "";
+    if (property.verificationStatus === 'Rejected' && property.rejectionReason) {
+        flagBannerHtml += `
+            <div class="flag-banner" style="background-color: #fef2f2; border: 1px solid #fecaca; color: #ef4444; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                <strong><i class="fa-solid fa-circle-xmark"></i> Verifikasi Properti Ditolak</strong>
+                <p style="margin-top: 8px;">Alasan: ${property.rejectionReason}</p>
+                <p style="margin-top: 4px;">Silakan hapus properti ini dan ajukan kembali.</p>
+            </div>
+        `;
+    }
     if (property.flagCount >= 1 && property.flagCount < 3) {
-        flagBannerHtml = `
+        flagBannerHtml += `
             <div class="flag-banner flag-banner-warning">
-                <strong>Properti Anda Sedang Ditangguhkan</strong>
+                <strong>Properti Anda Mendapat Peringatan</strong>
                 <p>Alasan: ${property.flagReason}</p>
                 <p>Peringatan ke-${property.flagCount} dari 3. Pada peringatan ke-3, properti akan diblokir permanen.</p>
             </div>
         `;
     } else if (property.flagCount >= 3) {
-        flagBannerHtml = `
+        flagBannerHtml += `
             <div class="flag-banner flag-banner-banned">
                 <strong>Properti Ini Telah Diblokir Permanen</strong>
                 <p>Alasan: ${property.flagReason}</p>

@@ -1,6 +1,5 @@
 package controller.tenant;
 
-import DAO.PropertyDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -15,14 +14,6 @@ import model.Tenant;
 
 @WebServlet(name = "DetailPropertyController", urlPatterns = { "/property/detail" })
 public class DetailPropertyController extends HttpServlet {
-
-    private PropertyDAO propertyDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new PropertyDAO();
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,7 +31,7 @@ public class DetailPropertyController extends HttpServlet {
         if (user instanceof Tenant) {
             properties = ((Tenant) user).viewProperty();
         } else {
-            properties = propertyDAO.searchProperties(null, null, null, null);
+            properties = Property.searchProperties(null, null, null, null);
         }
         request.setAttribute("propertiesList", properties);
 

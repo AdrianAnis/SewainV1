@@ -14,14 +14,6 @@ import model.Tenant;
 @WebServlet("/landing")
 public class DashboardTenantController extends HttpServlet {
 
-    private DAO.PropertyDAO propertyDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new DAO.PropertyDAO();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,7 +37,7 @@ public class DashboardTenantController extends HttpServlet {
         if (user instanceof Tenant) {
             properties = ((Tenant) user).viewProperty();
         } else {
-            properties = propertyDAO.searchProperties(null, null, null, null);
+            properties = Property.searchProperties(null, null, null, null);
         }
         String json = convertToJson(properties);
         request.setAttribute("propertiesJson", json);

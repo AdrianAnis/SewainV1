@@ -1,9 +1,7 @@
 package controller.admin;
 
-import DAO.UserDAOImpl;
-import DAO.PropertyDAO;
-import DAO.ReportDAO;
 import model.User;
+import model.Admin;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -26,14 +24,12 @@ public class AdminDashboardServlet extends HttpServlet {
             return;
         }
 
-        UserDAOImpl userDAO = new UserDAOImpl();
-        PropertyDAO propertyDAO = new PropertyDAO();
-        ReportDAO reportDAO = new ReportDAO();
-
-        int totalUsers = userDAO.getAllUsers().size();
-        int totalProperties = propertyDAO.getTotalPropertyCount();
-        int pendingVerifications = propertyDAO.getPendingPropertyCount();
-        int pendingReports = reportDAO.getPendingReportsCount();
+        Admin adminUser = (Admin) currentUser;
+        
+        int totalUsers = adminUser.getTotalUsersCount();
+        int totalProperties = adminUser.getTotalPropertyCount();
+        int pendingVerifications = adminUser.getPendingPropertyCount();
+        int pendingReports = adminUser.getPendingReportsCount();
 
         request.setAttribute("totalUsers", totalUsers);
         request.setAttribute("totalProperties", totalProperties);

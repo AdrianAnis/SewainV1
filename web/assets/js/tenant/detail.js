@@ -123,12 +123,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 </svg>`;
 
 
-    const verifiedTag = property.verified ? `
-                <div class="verified-badge">
+    const verifiedTag = property.displayBadge === 'VERIFIED' ? `
+                <div class="verified-badge" style="background: rgba(16, 185, 129, 0.95); color: white; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    Verified
+                    VERIFIED
+                </div>` : property.displayBadge === 'Dalam Peninjauan' ? `
+                <div class="verified-badge" style="background: rgba(234, 179, 8, 0.95); color: white; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
+                    <i class="fa-regular fa-clock"></i>
+                    Dalam Peninjauan
+                </div>` : property.displayBadge === 'Tidak Disarankan' ? `
+                <div class="verified-badge" style="background: rgba(249, 115, 22, 0.95); color: white; padding: 7px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Tidak Disarankan
                 </div>` : '';
 
     const capitalize = (str) => {
@@ -180,9 +188,15 @@ document.addEventListener("DOMContentLoaded", async function () {
                         <div class="property-img-wrapper">
                             <img src="${recCoverSrc}" alt="${p.name}">
                             
-                            ${p.verified ? `
-                            <span class="badge-verified">
-                                <i class="fa-solid fa-circle-check"></i> VERIFIED
+                            ${p.displayBadge === 'VERIFIED' ? `
+                            <span class="badge-verified" style="background: rgba(16, 185, 129, 0.95); color: white;">
+                                <i class="fa-solid fa-circle-check" style="color: white;"></i> VERIFIED
+                            </span>` : p.displayBadge === 'Dalam Peninjauan' ? `
+                            <span class="badge-verified" style="background: rgba(234, 179, 8, 0.95); color: white;">
+                                <i class="fa-regular fa-clock" style="color: white;"></i> Dalam Peninjauan
+                            </span>` : p.displayBadge === 'Tidak Disarankan' ? `
+                            <span class="badge-verified" style="background: rgba(249, 115, 22, 0.95); color: white;">
+                                <i class="fa-solid fa-triangle-exclamation" style="color: white;"></i> Tidak Disarankan
                             </span>` : ""}
                             
                             <button class="property-wishlist ${isFav ? 'active' : ''}" data-id="${p.id}" aria-label="Wishlist">

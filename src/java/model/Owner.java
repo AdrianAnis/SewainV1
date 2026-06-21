@@ -63,6 +63,11 @@ public class Owner extends User {
         return false;
     }
 
+    public Property getPropertyById(int propertyId) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.getPropertyById(propertyId);
+    }
+
     public boolean deleteProperty(int propertyId) {
         DAO.PropertyDAO dao = new DAO.PropertyDAO();
         return dao.deleteProperty(propertyId);

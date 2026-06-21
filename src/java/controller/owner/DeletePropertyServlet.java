@@ -1,7 +1,7 @@
 package controller.owner;
 
-import DAO.PropertyDAO;
 import model.Property;
+import model.Owner;
 import model.User;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,8 +46,8 @@ public class DeletePropertyServlet extends HttpServlet {
         } catch (Exception e) {
         }
 
-        PropertyDAO dao = new PropertyDAO();
-        Property property = dao.getPropertyById(propertyId);
+        Owner ownerUser = (Owner) currentUser;
+        Property property = ownerUser.getPropertyById(propertyId);
 
         if (property == null || property.getOwnerId() != ownerId) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN,

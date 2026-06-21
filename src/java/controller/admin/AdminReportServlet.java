@@ -1,8 +1,7 @@
 package controller.admin;
 
-import DAO.ReportDAO;
-import DAO.PropertyDAO;
 import model.User;
+import model.Admin;
 import model.Report;
 import model.Property;
 import javax.servlet.ServletException;
@@ -32,8 +31,8 @@ public class AdminReportServlet extends HttpServlet {
             return;
         }
 
-        ReportDAO reportDAO = new ReportDAO();
-        List<Report> list = reportDAO.getAllReports();
+        Admin adminUser = (Admin) currentUser;
+        List<Report> list = adminUser.viewAllReports();
         request.setAttribute("reports", list);
 
         request.getRequestDispatcher("/pages/admin/handle_report.jsp").forward(request, response);
@@ -71,14 +70,12 @@ public class AdminReportServlet extends HttpServlet {
             }
 
             int reportId = Integer.parseInt(reportIdParam);
-            ReportDAO reportDAO = new ReportDAO();
-            Report report = reportDAO.getReportById(reportId);
             model.Admin admin = (model.Admin) currentUser;
-            admin.handleReport(report, "Resolved");
+            Report report = admin.getReportById(reportId);
             
             boolean success = false;
             if (report != null) {
-                success = reportDAO.updateReportStatus(report.getReportId(), report.getStatus());
+                success = admin.handleReport(report, "Resolved");
             }
 
             if (success) {
@@ -100,26 +97,27 @@ public class AdminReportServlet extends HttpServlet {
             }
 
             int propertyId = Integer.parseInt(propertyIdParam);
-            PropertyDAO propertyDAO = new PropertyDAO();
-            Property prop = propertyDAO.getPropertyById(propertyId);
+            model.Admin admin = (model.Admin) currentUser;
+            Property prop = admin.getPropertyById(propertyId);
 
             if (prop == null) {
                 response.getWriter().write("{\"success\": false, \"message\": \"Properti tidak ditemukan.\"}");
                 return;
             }
 
-            model.Admin admin = (model.Admin) currentUser;
             model.Flag newFlag = admin.flagProperty(prop, reason);
             boolean success = (newFlag != null);
             if (success) {
-                propertyDAO.incrementFlagCount(propertyId, reason);
+                admin.incrementPropertyFlagCount(propertyId, reason);
             }
             if (success) {
                 if (reportIdParam != null && !reportIdParam.isEmpty()) {
                     try {
                         int reportId = Integer.parseInt(reportIdParam);
-                        ReportDAO reportDAO = new ReportDAO();
-                        reportDAO.updateReportStatus(reportId, "Resolved");
+                        Report report = admin.getReportById(reportId);
+                        if (report != null) {
+                            admin.handleReport(report, "Resolved");
+                        }
                     } catch (Exception ignored) {}
                 }
 

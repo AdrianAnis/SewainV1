@@ -92,8 +92,6 @@ public class OwnerRequest {
         return isPending();
     }
 
-    
-
     public static OwnerRequest getLatestStatusForTenant(String tenantId) {
         DAO.OwnerRequestDAO dao = new DAO.OwnerRequestDAO();
         return dao.findLatestByTenantId(tenantId);

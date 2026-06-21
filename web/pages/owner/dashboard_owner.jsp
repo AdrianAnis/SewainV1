@@ -102,14 +102,33 @@
                             <div class="property-img-wrapper">
                                 <c:choose>
                                     <c:when test="${prop.verificationStatus == 'Approved'}">
-                                        <div class="badge-verification badge-approved">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Approved
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${prop.displayBadge == 'VERIFIED'}">
+                                                <div class="badge-verification badge-approved" style="background: rgba(16, 185, 129, 0.9); color: white; border: none;">
+                                                    <i class="fa-solid fa-circle-check"></i> VERIFIED
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${prop.displayBadge == 'Dalam Peninjauan'}">
+                                                <div class="badge-verification" style="background: rgba(234, 179, 8, 0.95); color: white; border: none;">
+                                                    <i class="fa-regular fa-clock"></i> Dalam Peninjauan
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${prop.displayBadge == 'Tidak Disarankan'}">
+                                                <div class="badge-verification" style="background: rgba(249, 115, 22, 0.95); color: white; border: none;">
+                                                    <i class="fa-solid fa-triangle-exclamation"></i> Tidak Disarankan
+                                                </div>
+                                            </c:when>
+                                        </c:choose>
                                     </c:when>
                                     <c:when test="${prop.verificationStatus == 'Rejected'}">
                                         <div class="badge-verification badge-rejected">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Rejected
                                         </div>
+                                        <c:if test="${not empty prop.rejectionReason}">
+                                            <div style="position: absolute; top: 44px; left: 12px; z-index: 10; background: rgba(254, 242, 242, 0.95); border: 1px solid #fecaca; color: #ef4444; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; max-width: calc(100% - 24px); word-wrap: break-word; line-height: 1.3; backdrop-filter: blur(4px);">
+                                                ${prop.rejectionReason}
+                                            </div>
+                                        </c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <div class="badge-verification badge-pending">
@@ -120,12 +139,24 @@
 
                                 <c:if test="${prop.flagCount == 1}">
                                   <span class="badge-flag badge-flag-1" style="position:absolute; top:12px; right:12px; z-index:10;">⚠ 1/3</span>
+                                  <div style="position: absolute; top: 44px; left: 12px; right: 12px; z-index: 10; background: rgba(254, 252, 232, 0.95); border: 1px solid #fef08a; color: #a16207; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; word-wrap: break-word; line-height: 1.3; backdrop-filter: blur(4px);">
+                                      <div><i class="fa-solid fa-triangle-exclamation"></i> Peringatan 1/3</div>
+                                      <div style="margin-top: 2px; font-weight: 400;">${prop.flagReason}</div>
+                                  </div>
                                 </c:if>
                                 <c:if test="${prop.flagCount == 2}">
                                   <span class="badge-flag badge-flag-2" style="position:absolute; top:12px; right:12px; z-index:10;">⚠ 2/3</span>
+                                  <div style="position: absolute; top: 44px; left: 12px; right: 12px; z-index: 10; background: rgba(254, 252, 232, 0.95); border: 1px solid #fef08a; color: #a16207; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; word-wrap: break-word; line-height: 1.3; backdrop-filter: blur(4px);">
+                                      <div><i class="fa-solid fa-triangle-exclamation"></i> Peringatan 2/3</div>
+                                      <div style="margin-top: 2px; font-weight: 400;">${prop.flagReason}</div>
+                                  </div>
                                 </c:if>
                                 <c:if test="${prop.flagCount >= 3}">
                                   <span class="badge-flag badge-flag-banned" style="position:absolute; top:12px; right:12px; z-index:10;">🔴 DIBLOKIR</span>
+                                  <div style="position: absolute; top: 44px; left: 12px; right: 12px; z-index: 10; background: rgba(254, 242, 242, 0.95); border: 1px solid #fecaca; color: #ef4444; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; word-wrap: break-word; line-height: 1.3; backdrop-filter: blur(4px);">
+                                      <div><i class="fa-solid fa-circle-xmark"></i> Properti Diblokir Permanen</div>
+                                      <div style="margin-top: 2px; font-weight: 400;">${prop.flagReason}</div>
+                                  </div>
                                 </c:if>
                                 
                                 <c:if test="${prop.availability}">
@@ -159,24 +190,7 @@
                                     <h3 class="property-name">${prop.name}</h3>
                                     <span class="property-price">Rp <fmt:formatNumber value="${prop.price}" type="number" groupingUsed="true" /></span>
                                 </div>
-                                <c:if test="${prop.flagCount == 1}">
-                                  <div class="flag-warning flag-1">
-                                    <span>⚠️ Peringatan 1/3 — Disembunyikan dari pencarian</span>
-                                    <span class="flag-reason">${prop.flagReason}</span>
-                                  </div>
-                                </c:if>
-                                <c:if test="${prop.flagCount == 2}">
-                                  <div class="flag-warning flag-2">
-                                    <span>⚠️ Peringatan 2/3 — Disembunyikan dari pencarian</span>
-                                    <span class="flag-reason">${prop.flagReason}</span>
-                                  </div>
-                                </c:if>
-                                <c:if test="${prop.flagCount >= 3}">
-                                  <div class="flag-warning flag-banned">
-                                    <span>🔴 Properti diblokir permanen</span>
-                                    <span class="flag-reason">${prop.flagReason}</span>
-                                  </div>
-                                </c:if>
+
                                 <p class="property-location" style="display: flex; align-items: center; gap: 4px; color: var(--text-secondary); font-size: 13px; margin: 8px 0 16px 0;">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                                     ${prop.location}

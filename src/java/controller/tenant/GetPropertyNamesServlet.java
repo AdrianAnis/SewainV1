@@ -1,6 +1,5 @@
 package controller.tenant;
 
-import DAO.PropertyDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -12,14 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet({ "/get-property-names", "/getPropertyNames" })
 public class GetPropertyNamesServlet extends HttpServlet {
 
-    private PropertyDAO propertyDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new PropertyDAO();
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,7 +20,7 @@ public class GetPropertyNamesServlet extends HttpServlet {
             query = request.getParameter("query");
         }
 
-        List<String> names = propertyDAO.autocompletePropertyNames(query);
+        List<String> names = model.Property.autocompletePropertyNames(query);
 
         String json = convertListToJson(names);
 

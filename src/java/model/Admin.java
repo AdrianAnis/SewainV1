@@ -25,16 +25,27 @@ public class Admin extends User {
             } else if ("activate".equalsIgnoreCase(action)) {
                 user.setStatus("Active");
             }
-            return true;
+            return new DAO.UserDAOImpl().updateUserStatus(user.getUserId(), user.getStatus());
         }
         return false;
     }
 
-    public boolean verifyProperty(Property property, String status) {
+    public java.util.List<User> viewAllUsers() {
+        return new DAO.UserDAOImpl().getAllUsers();
+    }
+
+    public User getUserById(String userId) {
+        return new DAO.UserDAOImpl().getUserById(userId);
+    }
+
+    public boolean verifyProperty(Property property, String status, String reason) {
         if (property != null) {
             property.setVerificationStatus(status);
+            if ("Approved".equalsIgnoreCase(status)) {
+                reason = null;
+            }
             DAO.PropertyDAO dao = new DAO.PropertyDAO();
-            return dao.updateVerificationStatus(property.getPropertyId(), status);
+            return dao.updateVerificationStatus(property.getPropertyId(), status, reason);
         }
         return false;
     }
@@ -42,6 +53,32 @@ public class Admin extends User {
     public java.util.List<Property> viewPendingProperties() {
         DAO.PropertyDAO dao = new DAO.PropertyDAO();
         return dao.getPendingProperties();
+    }
+
+    public java.util.List<Property> viewFlaggedProperties() {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.getFlaggedProperties();
+    }
+
+    public boolean unflagProperty(int propertyId) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.updateFlagStatus(propertyId, "None", null);
+    }
+
+    public int getTotalUsersCount() {
+        return new DAO.UserDAOImpl().getAllUsers().size();
+    }
+
+    public int getTotalPropertyCount() {
+        return new DAO.PropertyDAO().getTotalPropertyCount();
+    }
+
+    public int getPendingPropertyCount() {
+        return new DAO.PropertyDAO().getPendingPropertyCount();
+    }
+
+    public int getPendingReportsCount() {
+        return new DAO.ReportDAO().getPendingReportsCount();
     }
 
     public Property getPropertyById(int propertyId) {
@@ -56,9 +93,21 @@ public class Admin extends User {
     public boolean handleReport(Report report, String finalStatus) {
         if (report != null) {
             report.updateStatus(finalStatus);
-            return true;
+            return new DAO.ReportDAO().updateReportStatus(report.getReportId(), finalStatus);
         }
         return false;
+    }
+
+    public java.util.List<Report> viewAllReports() {
+        return new DAO.ReportDAO().getAllReports();
+    }
+
+    public Report getReportById(int reportId) {
+        return new DAO.ReportDAO().getReportById(reportId);
+    }
+
+    public boolean incrementPropertyFlagCount(int propertyId, String reason) {
+        return new DAO.PropertyDAO().incrementFlagCount(propertyId, reason);
     }
 
     public Flag flagProperty(Property property, String reason) {

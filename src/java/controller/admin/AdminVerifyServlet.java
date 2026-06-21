@@ -1,6 +1,6 @@
 package controller.admin;
 
-import DAO.PropertyDAO;
+
 import model.User;
 import model.Property;
 import javax.servlet.ServletException;
@@ -79,7 +79,7 @@ public class AdminVerifyServlet extends HttpServlet {
         } catch (Exception ignored) {}
 
         if ("approve".equalsIgnoreCase(action)) {
-            success = ((model.Admin) currentUser).verifyProperty(prop, "Approved");
+            success = ((model.Admin) currentUser).verifyProperty(prop, "Approved", null);
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menyetujui properti: " + prop.getName() + " (ID: " + propertyId + ")";
                 logModel.addLog(adminId, "VERIFY PROPERTY", desc);
@@ -89,7 +89,7 @@ public class AdminVerifyServlet extends HttpServlet {
             if (reason == null || reason.trim().isEmpty()) {
                 reason = "Tidak ada alasan spesifik";
             }
-            success = ((model.Admin) currentUser).verifyProperty(prop, "Rejected");
+            success = ((model.Admin) currentUser).verifyProperty(prop, "Rejected", reason);
             if (success) {
                 String desc = "Admin " + currentUser.getName() + " menolak properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
                 logModel.addLog(adminId, "VERIFY PROPERTY", desc);

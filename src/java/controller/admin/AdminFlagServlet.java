@@ -1,7 +1,7 @@
 package controller.admin;
 
-import DAO.PropertyDAO;
 import model.User;
+import model.Admin;
 import model.Property;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +27,8 @@ public class AdminFlagServlet extends HttpServlet {
             return;
         }
 
-        PropertyDAO propertyDAO = new PropertyDAO();
-        List<Property> list = propertyDAO.getFlaggedProperties();
+        Admin adminUser = (Admin) currentUser;
+        List<Property> list = adminUser.viewFlaggedProperties();
         request.setAttribute("flaggedProperties", list);
 
         request.getRequestDispatcher("/pages/admin/flag_property.jsp").forward(request, response);
@@ -61,8 +61,8 @@ public class AdminFlagServlet extends HttpServlet {
         }
 
         int propertyId = Integer.parseInt(propertyIdParam);
-        PropertyDAO propertyDAO = new PropertyDAO();
-        Property prop = propertyDAO.getPropertyById(propertyId);
+        Admin adminUser = (Admin) currentUser;
+        Property prop = adminUser.getPropertyById(propertyId);
 
         if (prop == null) {
             response.getWriter().write("{\"success\": false, \"message\": \"Properti tidak ditemukan.\"}");
@@ -78,7 +78,7 @@ public class AdminFlagServlet extends HttpServlet {
 
         boolean success = false;
         if ("unflagProperty".equalsIgnoreCase(action)) {
-            success = propertyDAO.updateFlagStatus(propertyId, "None", null);
+            success = adminUser.unflagProperty(propertyId);
             if (success) {
                 
                 model.Flag flagModel = new model.Flag();

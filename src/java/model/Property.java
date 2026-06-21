@@ -11,6 +11,7 @@ public abstract class Property implements Reportable {
     protected String verificationStatus;
     protected String flagStatus;
     protected String flagReason;
+    protected String rejectionReason;
     protected int flagCount;
     protected String photos;
     protected String description;
@@ -118,12 +119,34 @@ public abstract class Property implements Reportable {
         this.flagReason = flagReason;
     }
 
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+
     public int getFlagCount() {
         return flagCount;
     }
 
     public void setFlagCount(int flagCount) {
         this.flagCount = flagCount;
+    }
+
+    public String getDisplayBadge() {
+        if (!"Approved".equalsIgnoreCase(verificationStatus)) {
+            return "";
+        }
+        if (flagCount == 0) return "VERIFIED";
+        if (flagCount == 1) return "Dalam Peninjauan";
+        if (flagCount == 2) return "Tidak Disarankan";
+        return "Banned";
+    }
+
+    public boolean isEditable() {
+        return flagCount < 3;
     }
 
     public String getPhotos() {
@@ -237,7 +260,9 @@ public abstract class Property implements Reportable {
         sb.append("\"availability\":").append(availability ? 1 : 0).append(",");
         sb.append("\"verificationStatus\":\"").append(escapeJson(verificationStatus)).append("\",");
         sb.append("\"flagCount\":").append(flagCount).append(",");
+        sb.append("\"displayBadge\":\"").append(escapeJson(getDisplayBadge())).append("\",");
         sb.append("\"flagReason\":\"").append(escapeJson(flagReason != null ? flagReason : "")).append("\",");
+        sb.append("\"rejectionReason\":\"").append(escapeJson(rejectionReason != null ? rejectionReason : "")).append("\",");
         sb.append("\"photos\":\"").append(escapeJson(photos)).append("\",");
         sb.append("\"image\":\"").append(escapeJson(photos)).append("\",");
         sb.append("\"rawPhotos\":\"").append(escapeJson(photos)).append("\",");
@@ -268,5 +293,20 @@ public abstract class Property implements Reportable {
         }
         sb.append("\"priceLabel\":\"").append(escapeJson(priceLabel)).append("\"");
         return sb.toString();
+    }
+
+    public static java.util.List<Property> searchProperties(String name, String location, String priceRange, String propertyType) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.searchProperties(name, location, priceRange, propertyType);
+    }
+
+    public static java.util.List<String> autocompleteLocations(String query) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.autocompleteLocations(query);
+    }
+
+    public static java.util.List<String> autocompletePropertyNames(String query) {
+        DAO.PropertyDAO dao = new DAO.PropertyDAO();
+        return dao.autocompletePropertyNames(query);
     }
 }

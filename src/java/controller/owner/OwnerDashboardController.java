@@ -1,7 +1,5 @@
 package controller.owner;
 
-import DAO.PropertyDAO;
-import DAO.ReportDAO;
 import model.Owner;
 import model.Property;
 import model.Report;
@@ -18,16 +16,6 @@ import java.util.List;
 
 @WebServlet("/owner/dashboard")
 public class OwnerDashboardController extends HttpServlet {
-
-    private PropertyDAO propertyDAO;
-    private ReportDAO reportDAO;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        propertyDAO = new PropertyDAO();
-        reportDAO = new ReportDAO();
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
