@@ -54,13 +54,13 @@
           >
             <div class="field">
               <input
-                id="email"
+                id="email_or_username"
                 name="email_or_username"
-                type="email"
+                type="text"
                 required
-                autocomplete="email"
+                autocomplete="username"
               />
-              <label for="email">Email Address</label>
+              <label for="email_or_username">Email or Username</label>
             </div>
 
             <div class="field field-password">
