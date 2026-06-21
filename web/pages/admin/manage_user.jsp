@@ -136,7 +136,6 @@
         <div class="modal-card">
             <div class="modal-header">
                 <h3>Detail Profil Pengguna</h3>
-                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="detail-avatar-container">
@@ -174,7 +173,6 @@
         <div class="modal-card modal-confirm">
             <div class="modal-header header-warning">
                 <h3 id="confirm-title">Konfirmasi Aksi</h3>
-                <button class="modal-close" onclick="closeConfirmModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <p id="confirm-message">Apakah Anda yakin ingin melakukan aksi ini?</p>

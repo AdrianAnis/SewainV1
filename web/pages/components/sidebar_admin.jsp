@@ -21,7 +21,7 @@
         <a href="${pageContext.request.contextPath}/admin/users" class="menu-item ${pageContext.request.requestURI.contains('users') || pageContext.request.requestURI.contains('manage_user') ? 'active' : ''}">
             <i class="fa-solid fa-user-gear"></i> <span>User Management</span>
         </a>
-        <a href="${pageContext.request.contextPath}/admin/owner-requests" class="menu-item ${pageContext.request.requestURI.contains('owner-requests') ? 'active' : ''}">
+        <a href="${pageContext.request.contextPath}/admin/owner-requests" class="menu-item ${pageContext.request.requestURI.contains('owner-requests') || pageContext.request.requestURI.contains('owner_requests') ? 'active' : ''}">
             <i class="fa-solid fa-id-card"></i> <span>Permintaan Owner</span>
         </a>
         <a href="${pageContext.request.contextPath}/admin/reports" class="menu-item ${pageContext.request.requestURI.contains('reports') || pageContext.request.requestURI.contains('handle_report') || pageContext.request.requestURI.contains('flagged') || pageContext.request.requestURI.contains('flag_property') ? 'active' : ''}">
