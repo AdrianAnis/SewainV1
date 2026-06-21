@@ -36,6 +36,12 @@ public class LoginController extends HttpServlet {
         User currentUser = User.login(emailOrUsername, passwordInput);
 
         if (currentUser != null) {
+            if ("Suspended".equalsIgnoreCase(currentUser.getStatus())) {
+                request.setAttribute("errorMsg", "Akun Anda telah ditangguhkan. Silakan hubungi Admin.");
+                request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
+                return;
+            }
+
             HttpSession session = request.getSession();
             session.setAttribute("userSession", currentUser);
             session.setAttribute("roleSession", currentUser.getRole());
