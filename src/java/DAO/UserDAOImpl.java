@@ -22,6 +22,17 @@ public class UserDAOImpl implements UserDAO {
                 return;
             }
             try (Statement stmt = conn.createStatement()) {
+                String createUsersSql = "CREATE TABLE IF NOT EXISTS users (" +
+                        "userId INT AUTO_INCREMENT PRIMARY KEY, " +
+                        "name VARCHAR(255) NOT NULL, " +
+                        "email VARCHAR(255) NOT NULL UNIQUE, " +
+                        "password VARCHAR(255) NOT NULL, " +
+                        "phone VARCHAR(50), " +
+                        "role VARCHAR(50) NOT NULL, " +
+                        "status VARCHAR(50) NOT NULL DEFAULT 'Active'" +
+                        ")";
+                stmt.execute(createUsersSql);
+
                 try {
                     stmt.execute("ALTER TABLE users ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'Active'");
                 } catch (SQLException ignored) {
