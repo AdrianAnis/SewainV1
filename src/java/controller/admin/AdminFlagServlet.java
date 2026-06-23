@@ -84,14 +84,14 @@ public class AdminFlagServlet extends HttpServlet {
                 model.Flag flagModel = new model.Flag();
                 flagModel.removeFlag(propertyId);
 
-                String desc = "Admin " + currentUser.getName() + " mencabut flag pada properti: " + prop.getName()
+                String desc = currentUser.getName() + " mencabut flag pada properti: " + prop.getName()
                         + " (ID: " + propertyId + ")";
                 logModel.addLog(adminId, "UNFLAG PROPERTY", desc);
             }
         } else if ("deleteProperty".equalsIgnoreCase(action)) {
             success = ((model.Admin) currentUser).deleteProperty(propertyId);
             if (success) {
-                String desc = "Admin " + currentUser.getName() + " menghapus properti secara permanen: "
+                String desc = currentUser.getName() + " menghapus properti secara permanen: "
                         + prop.getName() + " (ID: " + propertyId + ")";
                 logModel.addLog(adminId, "DELETE PROPERTY", desc);
             }

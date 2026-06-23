@@ -1,6 +1,5 @@
 package controller.owner;
 
-
 import model.*;
 import util.CloudinaryUploader;
 import javax.servlet.ServletException;
@@ -34,8 +33,6 @@ public class AddPropertyServlet extends HttpServlet {
         }
 
         String name = request.getParameter("name");
-
-
 
         String location = request.getParameter("location");
         double price = 0;
@@ -76,8 +73,6 @@ public class AddPropertyServlet extends HttpServlet {
                 String cloudinaryUrl = CloudinaryUploader.upload(fileBytes, fileName);
                 if (cloudinaryUrl != null) {
                     photoUrls.add(cloudinaryUrl);
-                } else {
-                    System.err.println("[AddPropertyServlet] Gagal upload gallery photo: " + fileName);
                 }
             }
         }
@@ -140,6 +135,8 @@ public class AddPropertyServlet extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             if (success) {
+                model.ActivityLog.recordLog(ownerId, "ADD_PROPERTY",
+                        "Owner " + currentUser.getName() + " menambahkan properti baru: " + prop.getName());
                 response.getWriter().write("{\"success\": true}");
             } else {
                 response.getWriter().write("{\"success\": false, \"message\": \"Database error.\"}");
@@ -166,7 +163,7 @@ public class AddPropertyServlet extends HttpServlet {
                 if (eqIdx != -1) {
                     String fileName = trimmed.substring(eqIdx + 1).trim()
                             .replace("\"", "");
-                    
+
                     int lastSlash = Math.max(fileName.lastIndexOf('/'), fileName.lastIndexOf('\\'));
                     if (lastSlash >= 0) {
                         fileName = fileName.substring(lastSlash + 1);

@@ -91,9 +91,13 @@ public abstract class User implements Reportable {
         return dao.updateProfile(this);
     }
 
-    public static User login(String emailOrUsername, String password) {
+    public static User getUserByEmailOrUsername(String emailOrUsername) {
         DAO.UserDAO dao = new DAO.UserDAOImpl();
-        return dao.loginUser(emailOrUsername, password);
+        return dao.loginUser(emailOrUsername);
+    }
+
+    public boolean login(String rawPassword) {
+        return util.PasswordUtil.checkPassword(rawPassword, this.password);
     }
 
     public static boolean register(User user) {

@@ -507,9 +507,6 @@ public class PropertyDAO {
     }
 
     public boolean updateVerificationStatus(int propertyId, String status, String reason) {
-        if ("Approved".equalsIgnoreCase(status)) {
-            reason = null;
-        }
         String sql = "UPDATE properties SET verificationStatus = ?, rejectionReason = ? WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -550,30 +547,15 @@ public class PropertyDAO {
         }
     }
 
-    public boolean incrementFlagCount(int propertyId, String reason) {
-        String countSql = "SELECT flagCount FROM properties WHERE propertyId = ?";
+    public boolean updateFlagAndCount(int propertyId, int newCount, String newStatus, String reason) {
         String updateSql = "UPDATE properties SET flagCount = ?, flagStatus = ?, flagReason = ? WHERE propertyId = ?";
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            int currentCount = 0;
-            try (PreparedStatement pstmt = conn.prepareStatement(countSql)) {
-                pstmt.setInt(1, propertyId);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        currentCount = rs.getInt("flagCount");
-                    } else {
-                        return false;
-                    }
-                }
-            }
-            int newCount = currentCount + 1;
-            String newStatus = (newCount >= 3) ? "Banned" : "Flagged";
-            try (PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
-                pstmt.setInt(1, newCount);
-                pstmt.setString(2, newStatus);
-                pstmt.setString(3, reason);
-                pstmt.setInt(4, propertyId);
-                return pstmt.executeUpdate() > 0;
-            }
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
+            pstmt.setInt(1, newCount);
+            pstmt.setString(2, newStatus);
+            pstmt.setString(3, reason);
+            pstmt.setInt(4, propertyId);
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

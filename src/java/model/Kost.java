@@ -61,6 +61,11 @@ public class Kost extends Property {
                 + "\"roomType\":\"" + escapeJson(roomType) + "\""
                 + "}";
     }
+
+    @Override
+    public String getPropertyTypeLabel() {
+        return "Kost";
+    }
 }
 
 

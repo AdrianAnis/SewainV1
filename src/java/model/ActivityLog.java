@@ -104,4 +104,20 @@ public class ActivityLog {
         DAO.ActivityLogDAO dao = new DAO.ActivityLogDAO();
         return dao.getLogs(actionType, dateStr);
     }
+
+    public static void recordLog(int userId, String action, String description) {
+        try {
+            DAO.ActivityLogDAO dao = new DAO.ActivityLogDAO();
+            dao.addLog(userId, action, description);
+        } catch (Exception ignored) {}
+    }
+
+    public static List<ActivityLog> getAllLogs() {
+        try {
+            DAO.ActivityLogDAO dao = new DAO.ActivityLogDAO();
+            return dao.getLogs(null, null);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }

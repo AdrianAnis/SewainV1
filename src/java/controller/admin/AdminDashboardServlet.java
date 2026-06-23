@@ -36,6 +36,9 @@ public class AdminDashboardServlet extends HttpServlet {
         request.setAttribute("pendingVerificationsCount", pendingVerifications);
         request.setAttribute("pendingReportsCount", pendingReports);
 
+        java.util.List<model.ActivityLog> activityLogs = model.ActivityLog.getAllLogs();
+        request.setAttribute("activityLogs", activityLogs);
+
         request.getRequestDispatcher("/pages/admin/dashboard_admin.jsp").forward(request, response);
     }
 }   

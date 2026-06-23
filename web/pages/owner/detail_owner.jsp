@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page
-        import="model.User, model.Property, model.Kost, model.Rumah, model.Kontrakan, model.Apartement, DAO.PropertyDAO"
+        import="model.User, model.Property, model.Kost, model.Rumah, model.Kontrakan, model.Apartement"
         %>
         <% User currentUser=(User) session.getAttribute("userSession"); if (currentUser==null ||
             !("Owner".equalsIgnoreCase(currentUser.getRole()) || "Admin" .equalsIgnoreCase(currentUser.getRole()))) {

@@ -22,17 +22,6 @@ public class UserDAOImpl implements UserDAO {
                 return;
             }
             try (Statement stmt = conn.createStatement()) {
-                String createUsersSql = "CREATE TABLE IF NOT EXISTS users (" +
-                        "userId INT AUTO_INCREMENT PRIMARY KEY, " +
-                        "name VARCHAR(255) NOT NULL, " +
-                        "email VARCHAR(255) NOT NULL UNIQUE, " +
-                        "password VARCHAR(255) NOT NULL, " +
-                        "phone VARCHAR(50), " +
-                        "role VARCHAR(50) NOT NULL, " +
-                        "status VARCHAR(50) NOT NULL DEFAULT 'Active'" +
-                        ")";
-                stmt.execute(createUsersSql);
-
                 try {
                     stmt.execute("ALTER TABLE users ADD COLUMN status VARCHAR(50) NOT NULL DEFAULT 'Active'");
                 } catch (SQLException ignored) {
@@ -70,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, util.PasswordUtil.hashPassword(user.getPassword()));
+            stmt.setString(3, user.getPassword());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getRole().toLowerCase());
             stmt.setString(6, user.getStatus() != null ? user.getStatus() : "Active");
@@ -90,7 +79,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User loginUser(String emailOrUsername, String password) {
+    public User loginUser(String emailOrUsername) {
         String sql = "SELECT * FROM users WHERE (email = ? OR name = ?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -101,37 +90,23 @@ public class UserDAOImpl implements UserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String pass = rs.getString("password");
+                    String role = rs.getString("role");
+                    String userId = String.valueOf(rs.getInt("userId"));
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String status = rs.getString("status");
+                    String phone = rs.getString("phone");
 
-                    if (util.PasswordUtil.checkPassword(password, pass)) {
-                        if (pass != null && !pass.contains(":")) {
-                            String newHash = util.PasswordUtil.hashPassword(password);
-                            String updateSql = "UPDATE users SET password = ? WHERE userId = ?";
-                            try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
-                                updateStmt.setString(1, newHash);
-                                updateStmt.setInt(2, rs.getInt("userId"));
-                                updateStmt.executeUpdate();
-                            }
-                            pass = newHash;
-                        }
-
-                        String role = rs.getString("role");
-                        String userId = String.valueOf(rs.getInt("userId"));
-                        String name = rs.getString("name");
-                        String email = rs.getString("email");
-                        String status = rs.getString("status");
-                        String phone = rs.getString("phone");
-
-                        User user;
-                        if ("admin".equalsIgnoreCase(role)) {
-                            user = new Admin(userId, name, email, pass, phone, role);
-                        } else if ("owner".equalsIgnoreCase(role)) {
-                            user = new Owner(userId, name, email, pass, phone, role);
-                        } else {
-                            user = new Tenant(userId, name, email, pass, phone, role);
-                        }
-                        user.setStatus(status);
-                        return user;
+                    User user;
+                    if ("admin".equalsIgnoreCase(role)) {
+                        user = new Admin(userId, name, email, pass, phone, role);
+                    } else if ("owner".equalsIgnoreCase(role)) {
+                        user = new Owner(userId, name, email, pass, phone, role);
+                    } else {
+                        user = new Tenant(userId, name, email, pass, phone, role);
                     }
+                    user.setStatus(status);
+                    return user;
                 }
             }
         } catch (SQLException e) {

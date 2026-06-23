@@ -118,7 +118,6 @@
                                                     <i class="fa-solid fa-xmark"></i>
                                                 </button>
                                                 <button class="btn-action btn-flag" onclick="openFlagModal('${r.propertyId}', '${fn:escapeXml(r.propertyName)}', '${r.reportId}')" title="Flag Properti">
-                                                    <i class="fa-solid fa-flag"></i> </button>
                                                     <i class="fa-solid fa-flag"></i>
                                                 </button>
                                             </c:if>

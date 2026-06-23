@@ -57,5 +57,10 @@ public class Kontrakan extends Property {
                 + "\"durasiMinimum\":" + durasiMinimum
                 + "}";
     }
+
+    @Override
+    public String getPropertyTypeLabel() {
+        return "Kontrakan";
+    }
 }
 

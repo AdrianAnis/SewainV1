@@ -106,8 +106,15 @@ public class Admin extends User {
         return new DAO.ReportDAO().getReportById(reportId);
     }
 
-    public boolean incrementPropertyFlagCount(int propertyId, String reason) {
-        return new DAO.PropertyDAO().incrementFlagCount(propertyId, reason);
+    public boolean incrementPropertyFlagCount(Property prop, String reason) {
+        int newCount = prop.getFlagCount() + 1;
+        String newStatus = (newCount >= 3) ? "Banned" : "Flagged";
+        
+        prop.setFlagCount(newCount);
+        prop.setFlagStatus(newStatus);
+        prop.setFlagReason(reason);
+        
+        return new DAO.PropertyDAO().updateFlagAndCount(prop.getPropertyId(), newCount, newStatus, reason);
     }
 
     public Flag flagProperty(Property property, String reason) {

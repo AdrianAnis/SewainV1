@@ -81,7 +81,7 @@ public class AdminUserServlet extends HttpServlet {
 
                 model.ActivityLog logModel = new model.ActivityLog();
                 String actionName = "Suspended".equalsIgnoreCase(status) ? "SUSPEND USER" : "ACTIVATE USER";
-                String description = "Admin " + currentUser.getName() + " mengubah status " + targetUser.getName()
+                String description = currentUser.getName() + " mengubah status " + targetUser.getName()
                         + " menjadi " + status;
 
                 try {

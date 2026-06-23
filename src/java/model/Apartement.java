@@ -69,5 +69,10 @@ public class Apartement extends Property {
                 + "\"tipeUnit\":\"" + escapeJson(tipeUnit) + "\""
                 + "}";
     }
+
+    @Override
+    public String getPropertyTypeLabel() {
+        return "Apartemen";
+    }
 }
 

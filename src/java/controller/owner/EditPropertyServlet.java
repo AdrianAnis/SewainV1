@@ -238,6 +238,7 @@ public class EditPropertyServlet extends HttpServlet {
                 success = ((Owner) currentUser).editProperty(prop);
             }
             if (success) {
+                model.ActivityLog.recordLog(ownerId, "EDIT_PROPERTY", "Owner " + currentUser.getName() + " mengedit properti: " + prop.getName() + " (ID: " + propertyId + ")");
                 sendResponse(request, response, true, "Success", propertyId);
             } else {
                 sendResponse(request, response, false, "Gagal memperbarui database.", null);

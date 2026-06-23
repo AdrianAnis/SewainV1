@@ -53,6 +53,7 @@ public class SubmitReportController extends HttpServlet {
 
             boolean success = report.submitReport();
             if (success) {
+                model.ActivityLog.recordLog(tenantId, "SUBMIT_REPORT", "Tenant " + user.getName() + " mengirim laporan untuk properti ID: " + propertyId);
                 response.getWriter().write(
                         "{\"status\":\"success\",\"message\":\"Laporan penipuan berhasil dikirim. Tim admin akan segera menginvestigasi!\"}");
             } else {

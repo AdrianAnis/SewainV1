@@ -99,10 +99,6 @@ public class ReportDAO {
         }
     }
 
-    /**
-     * Retrieve all reports submitted by a specific tenant, newest first.
-     * The property name is resolved via LEFT JOIN on the properties table.
-     */
     public List<Report> getReportsByTenantId(int tenantId) {
         List<Report> list = new ArrayList<>();
         String sql = "SELECT r.reportId, r.propertyId, r.tenantId, r.issueType, " +

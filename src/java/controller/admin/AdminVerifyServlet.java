@@ -81,7 +81,7 @@ public class AdminVerifyServlet extends HttpServlet {
         if ("approve".equalsIgnoreCase(action)) {
             success = ((model.Admin) currentUser).verifyProperty(prop, "Approved", null);
             if (success) {
-                String desc = "Admin " + currentUser.getName() + " menyetujui properti: " + prop.getName() + " (ID: " + propertyId + ")";
+                String desc = currentUser.getName() + " menyetujui properti: " + prop.getName() + " (ID: " + propertyId + ")";
                 logModel.addLog(adminId, "VERIFY PROPERTY", desc);
             }
         } else if ("reject".equalsIgnoreCase(action)) {
@@ -91,7 +91,7 @@ public class AdminVerifyServlet extends HttpServlet {
             }
             success = ((model.Admin) currentUser).verifyProperty(prop, "Rejected", reason);
             if (success) {
-                String desc = "Admin " + currentUser.getName() + " menolak properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
+                String desc = currentUser.getName() + " menolak properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
                 logModel.addLog(adminId, "VERIFY PROPERTY", desc);
             }
         }

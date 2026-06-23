@@ -21,7 +21,7 @@ public interface UserDAO {
     boolean updateProfile(User user);
 
     boolean registerUser(User user);
-    User loginUser(String emailOrUsername, String password);
+    User loginUser(String emailOrUsername);
     boolean upgradeToOwner(String userId); 
     boolean updateUserStatus(String userId, String status);
 }

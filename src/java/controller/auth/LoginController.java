@@ -33,9 +33,17 @@ public class LoginController extends HttpServlet {
         String emailOrUsername = request.getParameter("email_or_username");
         String passwordInput = request.getParameter("password");
 
-        User currentUser = User.login(emailOrUsername, passwordInput);
+        User currentUser = User.getUserByEmailOrUsername(emailOrUsername);
 
         if (currentUser != null) {
+            if (!currentUser.login(passwordInput)) {
+                model.ActivityLog.recordLog(0, "LOGIN_FAILED", "Percobaan login gagal untuk email: " + emailOrUsername);
+
+                request.setAttribute("errorMsg", "Email/Username atau Password Anda salah!");
+                request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
+                return;
+            }
+
             if ("Suspended".equalsIgnoreCase(currentUser.getStatus())) {
                 request.setAttribute("errorMsg", "Akun Anda telah ditangguhkan. Silakan hubungi Admin.");
                 request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
@@ -46,6 +54,8 @@ public class LoginController extends HttpServlet {
             session.setAttribute("userSession", currentUser);
             session.setAttribute("roleSession", currentUser.getRole());
 
+            model.ActivityLog.recordLog(Integer.parseInt(currentUser.getUserId()), "LOGIN", currentUser.getName() + " berhasil login sebagai " + currentUser.getRole());
+
             String role = currentUser.getRole();
             if ("Admin".equalsIgnoreCase(role)) {
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
@@ -55,6 +65,8 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/landing"); 
             }
         } else {
+            model.ActivityLog.recordLog(0, "LOGIN_FAILED", "Percobaan login gagal untuk email: " + emailOrUsername);
+
             request.setAttribute("errorMsg", "Email/Username atau Password Anda salah!");
             request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
         }

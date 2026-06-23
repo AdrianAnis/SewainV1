@@ -51,13 +51,17 @@ public class RegisterController extends HttpServlet {
         
         newUser.setName(usernameInput);
         newUser.setEmail(emailInput);
-        newUser.setPassword(passwordInput);
+        newUser.setPassword(util.PasswordUtil.hashPassword(passwordInput));
         newUser.setPhone(phoneInput);
         newUser.setRole("tenant"); 
 
         boolean isSuccess = User.register(newUser);
 
         if (isSuccess) {
+            int newId = 0;
+            try { newId = Integer.parseInt(newUser.getUserId()); } catch(Exception e) {}
+            model.ActivityLog.recordLog(newId, "REGISTER", newUser.getName() + " berhasil mendaftar akun baru sebagai Tenant");
+
             request.setAttribute("successMsg", "Akun berhasil dibuat! Silakan masuk.");
             request.getRequestDispatcher("/pages/auth/login.jsp").forward(request, response);
         } else {

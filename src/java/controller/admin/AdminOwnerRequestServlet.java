@@ -50,7 +50,7 @@ public class AdminOwnerRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userSession") == null) {
             response.sendRedirect(request.getContextPath() + "/pages/auth/login.jsp");
@@ -73,9 +73,8 @@ public class AdminOwnerRequestServlet extends HttpServlet {
             return;
         }
 
-        
         OwnerRequest ownerReq = OwnerRequest.getById(requestId);
-        
+
         if (ownerReq == null) {
             session.setAttribute("errorMsg", "Permintaan tidak ditemukan.");
             response.sendRedirect(request.getContextPath() + "/admin/owner-requests");
@@ -86,6 +85,9 @@ public class AdminOwnerRequestServlet extends HttpServlet {
         if ("approve".equalsIgnoreCase(action)) {
             success = ownerReq.approve();
             if (success) {
+                model.ActivityLog.recordLog(Integer.parseInt(currentUser.getUserId()), "APPROVE_OWNER_REQUEST",
+                        currentUser.getName() + " menyetujui permintaan Owner dari: "
+                                + ownerReq.getTenant().getName());
                 session.setAttribute("successMsg", "Permintaan berhasil disetujui, tenant sekarang adalah Owner.");
             } else {
                 session.setAttribute("errorMsg", "Gagal menyetujui permintaan. Pastikan status masih pending.");
@@ -96,6 +98,9 @@ public class AdminOwnerRequestServlet extends HttpServlet {
             }
             success = ownerReq.reject(rejectReason);
             if (success) {
+                model.ActivityLog.recordLog(Integer.parseInt(currentUser.getUserId()), "REJECT_OWNER_REQUEST",
+                        currentUser.getName() + " menolak permintaan Owner dari: "
+                                + ownerReq.getTenant().getName());
                 session.setAttribute("successMsg", "Permintaan berhasil ditolak.");
             } else {
                 session.setAttribute("errorMsg", "Gagal menolak permintaan. Pastikan status masih pending.");

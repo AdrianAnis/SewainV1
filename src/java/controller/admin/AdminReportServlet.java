@@ -69,7 +69,14 @@ public class AdminReportServlet extends HttpServlet {
                 return;
             }
 
-            int reportId = Integer.parseInt(reportIdParam);
+            int reportId;
+            try {
+                reportId = Integer.parseInt(reportIdParam);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\":false,\"message\":\"ID tidak valid\"}");
+                return;
+            }
             model.Admin admin = (model.Admin) currentUser;
             Report report = admin.getReportById(reportId);
             
@@ -79,7 +86,7 @@ public class AdminReportServlet extends HttpServlet {
             }
 
             if (success) {
-                String desc = "Admin " + currentUser.getName() + " menyelesaikan laporan ID: " + reportId;
+                String desc = currentUser.getName() + " menyelesaikan laporan ID: " + reportId;
                 logModel.addLog(adminId, "RESOLVE REPORT", desc);
                 response.getWriter().write("{\"success\": true}");
             } else {
@@ -96,7 +103,14 @@ public class AdminReportServlet extends HttpServlet {
                 return;
             }
 
-            int propertyId = Integer.parseInt(propertyIdParam);
+            int propertyId;
+            try {
+                propertyId = Integer.parseInt(propertyIdParam);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\":false,\"message\":\"ID tidak valid\"}");
+                return;
+            }
             model.Admin admin = (model.Admin) currentUser;
             Property prop = admin.getPropertyById(propertyId);
 
@@ -108,7 +122,7 @@ public class AdminReportServlet extends HttpServlet {
             model.Flag newFlag = admin.flagProperty(prop, reason);
             boolean success = (newFlag != null);
             if (success) {
-                admin.incrementPropertyFlagCount(propertyId, reason);
+                admin.incrementPropertyFlagCount(prop, reason);
             }
             if (success) {
                 if (reportIdParam != null && !reportIdParam.isEmpty()) {
@@ -121,7 +135,7 @@ public class AdminReportServlet extends HttpServlet {
                     } catch (Exception ignored) {}
                 }
 
-                String desc = "Admin " + currentUser.getName() + " menandai (flagged) properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
+                String desc = currentUser.getName() + " menandai (flagged) properti: " + prop.getName() + " (ID: " + propertyId + ") karena: " + reason;
                 logModel.addLog(adminId, "FLAG PROPERTY", desc);
                 response.getWriter().write("{\"success\": true}");
             } else {

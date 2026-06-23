@@ -88,9 +88,7 @@ public class OwnerRequest {
         return "pending".equals(this.status);
     }
 
-    public boolean canBeReviewed() {
-        return isPending();
-    }
+
 
     public static OwnerRequest getLatestStatusForTenant(String tenantId) {
         DAO.OwnerRequestDAO dao = new DAO.OwnerRequestDAO();

@@ -309,4 +309,6 @@ public abstract class Property implements Reportable {
         DAO.PropertyDAO dao = new DAO.PropertyDAO();
         return dao.autocompletePropertyNames(query);
     }
+
+    public abstract String getPropertyTypeLabel();
 }

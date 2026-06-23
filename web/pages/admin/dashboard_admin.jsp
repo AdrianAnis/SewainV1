@@ -1,5 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="model.User, DAO.ActivityLogDAO, model.ActivityLog, java.util.List" %>
+<%@page import="model.User, model.ActivityLog, java.util.List" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <% 
@@ -15,11 +15,6 @@
         response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         return;
     }
-
-    
-    ActivityLogDAO logDAO = new ActivityLogDAO();
-    List<ActivityLog> activityLogs = logDAO.getLogs(null, null);
-    request.setAttribute("activityLogs", activityLogs);
 %>
 <!DOCTYPE html>
 <html lang="id">

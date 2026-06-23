@@ -8,24 +8,6 @@ import java.sql.SQLException;
 public class WishlistDAO {
 
     public WishlistDAO() {
-        initializeDatabase();
-    }
-
-    private void initializeDatabase() {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            if (conn != null) {
-                try (java.sql.Statement stmt = conn.createStatement()) {
-                    String sql = "CREATE TABLE IF NOT EXISTS wishlists (" +
-                                 "wishlistId INT AUTO_INCREMENT PRIMARY KEY, " +
-                                 "tenantId INT NOT NULL, " +
-                                 "propertyId INT NOT NULL" +
-                                 ")";
-                    stmt.execute(sql);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean addToWishlist(int tenantId, int propertyId) {

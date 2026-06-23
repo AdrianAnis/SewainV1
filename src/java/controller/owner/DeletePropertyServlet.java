@@ -60,6 +60,7 @@ public class DeletePropertyServlet extends HttpServlet {
             success = ((model.Owner) currentUser).deleteProperty(propertyId);
         }
         if (success) {
+            model.ActivityLog.recordLog(ownerId, "DELETE_PROPERTY", "Owner " + currentUser.getName() + " menghapus properti: " + property.getName() + " (ID: " + propertyId + ")");
             response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp?deleted=true");
         } else {
             response.sendRedirect(request.getContextPath() + "/pages/owner/dashboard_owner.jsp?deleted=false");

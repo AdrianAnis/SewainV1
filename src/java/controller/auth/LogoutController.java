@@ -17,6 +17,12 @@ public class LogoutController extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if (session != null) {
+            try {
+                model.User currentUser = (model.User) session.getAttribute("userSession");
+                if (currentUser != null) {
+                    model.ActivityLog.recordLog(Integer.parseInt(currentUser.getUserId()), "LOGOUT", currentUser.getName() + " logout dari sistem");
+                }
+            } catch (Exception ignored) {}
             session.invalidate();
         }
         

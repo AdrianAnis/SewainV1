@@ -56,5 +56,10 @@ public class Rumah extends Property {
                 + "\"luasTanah\":" + luasTanah
                 + "}";
     }
+
+    @Override
+    public String getPropertyTypeLabel() {
+        return "Rumah";
+    }
 }
 

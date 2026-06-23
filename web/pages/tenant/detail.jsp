@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@page import="model.User" %>
         <%@page import="model.Property" %>
-            <%@page import="DAO.PropertyDAO" %>
                 <%@page import="java.util.List" %>
                     <% 
                         /* Ensure user session exists and role is tenant */

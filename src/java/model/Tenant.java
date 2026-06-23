@@ -37,7 +37,7 @@ public class Tenant extends User {
         try {
             tId = Integer.parseInt(this.getUserId());
         } catch (NumberFormatException e) {
-            System.err.println("Invalid user ID for Tenant: " + this.getUserId());
+            throw new IllegalArgumentException("Invalid user ID: " + this.getUserId());
         }
         return dao.getReportRowsByTenantId(tId);
     }

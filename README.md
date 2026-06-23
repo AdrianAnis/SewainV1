@@ -13,13 +13,18 @@ Pastikan *software* berikut sudah terinstal di komputer Anda:
 
 ---
 
-## 2. Persiapan Database (Auto-Generate)
-Kabar baik: Anda **TIDAK PERLU** melakukan *import* struktur tabel SQL secara manual. Proyek ini sudah dirancang dengan lapisan DAO cerdas yang akan otomatis membuat seluruh tabel beserta relasinya.
+## 2. Persiapan Database
+Proyek ini membutuhkan *database* MySQL untuk dapat berjalan. Berikut adalah cara untuk mem-*setup* *database*-nya:
 
 1. Buka **XAMPP Control Panel**.
 2. Klik tombol **Start** pada modul **Apache** dan **MySQL**.
 3. Buka *browser* dan akses **`http://localhost/phpmyadmin`**.
-4. Klik *New*, lalu buat sebuah *database* baru yang benar-benar **kosong** dengan nama persis seperti ini: **`sewain.db`** (pastikan penulisan sama persis).
+4. Klik *New*, lalu buat sebuah *database* baru dengan nama persis seperti ini: **`sewain.db`** (pastikan penulisan sama persis).
+5. Setelah berhasil terbuat, klik pada *database* `sewain.db` di sebelah kiri.
+6. Masuk ke tab **Import** di bagian atas layar.
+7. Pilih *Choose File* dan cari file bernama **`sewain_db.sql`** yang ada di *root folder* dari *project* ini.
+8. Scroll ke bawah lalu klik **Import** (atau **Go**).
+9. Tunggu hingga proses selesai dan pastikan seluruh tabel sudah muncul di dalam *database* `sewain.db`.
 
 ---
 
