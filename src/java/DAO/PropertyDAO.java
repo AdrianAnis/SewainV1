@@ -12,7 +12,7 @@ public class PropertyDAO {
     }
 
     private void initializeDatabase() {
-            String createTableSql = "CREATE TABLE IF NOT EXISTS properties (" +
+        String createTableSql = "CREATE TABLE IF NOT EXISTS properties (" +
                 "propertyId INT PRIMARY KEY AUTO_INCREMENT, " +
                 "name VARCHAR(255) NOT NULL, " +
                 "location VARCHAR(255) NOT NULL, " +
@@ -53,7 +53,7 @@ public class PropertyDAO {
             boolean isEmpty = true;
             if (tableExists) {
                 try (Statement stmt = conn.createStatement();
-                     ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM properties")) {
+                        ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM properties")) {
                     if (rs.next() && rs.getInt(1) > 0) {
                         isEmpty = false;
                     }
@@ -72,23 +72,77 @@ public class PropertyDAO {
             }
             if (tableExists && !isEmpty) {
                 try (Statement stmt = conn.createStatement()) {
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN description TEXT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN facilities TEXT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN propertyType VARCHAR(100) NOT NULL DEFAULT 'Kost'"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN verificationStatus VARCHAR(50) NOT NULL DEFAULT 'Pending'"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN flagStatus VARCHAR(50) NOT NULL DEFAULT 'None'"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN flagReason TEXT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN rejectionReason TEXT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN flagCount INT NOT NULL DEFAULT 0"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN ownerId INT NOT NULL DEFAULT 1"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN gender VARCHAR(50)"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN roomType VARCHAR(100)"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN jumlahKamar INT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN luasTanah DOUBLE"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN durasiMinimum INT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN lantai INT"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN nomorUnit VARCHAR(50)"); } catch (SQLException ignored) {}
-                    try { stmt.execute("ALTER TABLE properties ADD COLUMN tipeUnit VARCHAR(50)"); } catch (SQLException ignored) {}
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN description TEXT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN facilities TEXT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute(
+                                "ALTER TABLE properties ADD COLUMN propertyType VARCHAR(100) NOT NULL DEFAULT 'Kost'");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute(
+                                "ALTER TABLE properties ADD COLUMN verificationStatus VARCHAR(50) NOT NULL DEFAULT 'Pending'");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute(
+                                "ALTER TABLE properties ADD COLUMN flagStatus VARCHAR(50) NOT NULL DEFAULT 'None'");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN flagReason TEXT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN rejectionReason TEXT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN flagCount INT NOT NULL DEFAULT 0");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN ownerId INT NOT NULL DEFAULT 1");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN gender VARCHAR(50)");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN roomType VARCHAR(100)");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN jumlahKamar INT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN luasTanah DOUBLE");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN durasiMinimum INT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN lantai INT");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN nomorUnit VARCHAR(50)");
+                    } catch (SQLException ignored) {
+                    }
+                    try {
+                        stmt.execute("ALTER TABLE properties ADD COLUMN tipeUnit VARCHAR(50)");
+                    } catch (SQLException ignored) {
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -100,7 +154,7 @@ public class PropertyDAO {
         String sql = "INSERT INTO properties (name, location, price, propertyType, availability, verificationStatus, flagStatus, photos, description, facilities, ownerId, gender, roomType, jumlahKamar, luasTanah, durasiMinimum, lantai, nomorUnit, tipeUnit) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, p.getName());
             pstmt.setString(2, p.getLocation());
@@ -114,14 +168,14 @@ public class PropertyDAO {
             pstmt.setString(10, p.getFacilities());
             pstmt.setInt(11, ownerId);
 
-            pstmt.setNull(12, Types.VARCHAR); 
-            pstmt.setNull(13, Types.VARCHAR); 
-            pstmt.setNull(14, Types.INTEGER); 
-            pstmt.setNull(15, Types.DOUBLE);  
-            pstmt.setNull(16, Types.INTEGER); 
-            pstmt.setNull(17, Types.INTEGER); 
-            pstmt.setNull(18, Types.VARCHAR); 
-            pstmt.setNull(19, Types.VARCHAR); 
+            pstmt.setNull(12, Types.VARCHAR);
+            pstmt.setNull(13, Types.VARCHAR);
+            pstmt.setNull(14, Types.INTEGER);
+            pstmt.setNull(15, Types.DOUBLE);
+            pstmt.setNull(16, Types.INTEGER);
+            pstmt.setNull(17, Types.INTEGER);
+            pstmt.setNull(18, Types.VARCHAR);
+            pstmt.setNull(19, Types.VARCHAR);
 
             if (p instanceof Kost) {
                 Kost k = (Kost) p;
@@ -155,7 +209,7 @@ public class PropertyDAO {
         String sql = "SELECT * FROM properties WHERE ownerId = ? ORDER BY propertyId DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, ownerId);
 
@@ -171,10 +225,10 @@ public class PropertyDAO {
         return results;
     }
 
-    
     public List<Property> searchProperties(String name, String location, String priceRange, String propertyType) {
         List<Property> results = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId WHERE p.verificationStatus = 'Approved' AND p.flagCount < 3 AND p.availability = 1");
+        StringBuilder sql = new StringBuilder(
+                "SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId WHERE p.verificationStatus = 'Approved' AND p.flagCount < 3 AND p.availability = 1");
         List<Object> params = new ArrayList<>();
 
         if (name != null && !name.trim().isEmpty()) {
@@ -207,7 +261,7 @@ public class PropertyDAO {
         }
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+                PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
                 pstmt.setObject(i + 1, params.get(i));
@@ -218,7 +272,10 @@ public class PropertyDAO {
                     Property prop = mapResultSetToProperty(rs);
                     String pOwnerName = "";
                     String pOwnerProfilePic = "";
-                    try { pOwnerName = rs.getString("ownerName"); } catch(Exception ignored) {}
+                    try {
+                        pOwnerName = rs.getString("ownerName");
+                    } catch (Exception ignored) {
+                    }
                     prop.setOwnerName(pOwnerName);
                     prop.setOwnerProfilePic(pOwnerProfilePic);
                     results.add(prop);
@@ -230,14 +287,14 @@ public class PropertyDAO {
         return results;
     }
 
-    
     public List<Property> getPropertiesByIds(List<Integer> ids) {
         List<Property> results = new ArrayList<>();
         if (ids == null || ids.isEmpty()) {
             return results;
         }
 
-        StringBuilder sql = new StringBuilder("SELECT * FROM properties WHERE verificationStatus = 'Approved' AND flagCount = 0 AND propertyId IN (");
+        StringBuilder sql = new StringBuilder(
+                "SELECT * FROM properties WHERE verificationStatus = 'Approved' AND flagCount < 3 AND propertyId IN (");
         for (int i = 0; i < ids.size(); i++) {
             sql.append("?");
             if (i < ids.size() - 1) {
@@ -247,7 +304,7 @@ public class PropertyDAO {
         sql.append(")");
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+                PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
             for (int i = 0; i < ids.size(); i++) {
                 pstmt.setInt(i + 1, ids.get(i));
@@ -305,7 +362,7 @@ public class PropertyDAO {
         String sql = "SELECT DISTINCT location FROM properties WHERE location LIKE ? LIMIT 10";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, "%" + (query == null ? "" : query.trim()) + "%");
 
@@ -325,7 +382,7 @@ public class PropertyDAO {
         String sql = "SELECT DISTINCT name FROM properties WHERE name LIKE ? LIMIT 10";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, "%" + (query == null ? "" : query.trim()) + "%");
 
@@ -343,7 +400,7 @@ public class PropertyDAO {
     public Property getPropertyById(int propertyId) {
         String sql = "SELECT * FROM properties WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, propertyId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -362,14 +419,14 @@ public class PropertyDAO {
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement pstmt1 = conn.prepareStatement(deleteReportsSql);
-                 PreparedStatement pstmt2 = conn.prepareStatement(deletePropertySql)) {
-                
+                    PreparedStatement pstmt2 = conn.prepareStatement(deletePropertySql)) {
+
                 pstmt1.setInt(1, propertyId);
                 pstmt1.executeUpdate();
-                
+
                 pstmt2.setInt(1, propertyId);
                 int affected = pstmt2.executeUpdate();
-                
+
                 conn.commit();
                 return affected > 0;
             } catch (SQLException e) {
@@ -388,7 +445,7 @@ public class PropertyDAO {
                 + "gender = ?, roomType = ?, jumlahKamar = ?, luasTanah = ?, durasiMinimum = ?, lantai = ?, nomorUnit = ?, tipeUnit = ? "
                 + "WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, p.getName());
             pstmt.setString(2, p.getLocation());
@@ -398,15 +455,15 @@ public class PropertyDAO {
             pstmt.setString(6, p.getDescription());
             pstmt.setString(7, p.getFacilities());
 
-            pstmt.setNull(8, Types.VARCHAR); 
-            pstmt.setNull(9, Types.VARCHAR); 
-            pstmt.setNull(10, Types.INTEGER); 
-            pstmt.setNull(11, Types.DOUBLE); 
-            pstmt.setNull(12, Types.INTEGER); 
-            pstmt.setNull(13, Types.INTEGER); 
-            pstmt.setNull(14, Types.VARCHAR); 
-            pstmt.setNull(15, Types.VARCHAR); 
-            
+            pstmt.setNull(8, Types.VARCHAR);
+            pstmt.setNull(9, Types.VARCHAR);
+            pstmt.setNull(10, Types.INTEGER);
+            pstmt.setNull(11, Types.DOUBLE);
+            pstmt.setNull(12, Types.INTEGER);
+            pstmt.setNull(13, Types.INTEGER);
+            pstmt.setNull(14, Types.VARCHAR);
+            pstmt.setNull(15, Types.VARCHAR);
+
             if (p instanceof Kost) {
                 Kost k = (Kost) p;
                 pstmt.setString(8, k.getGenderType());
@@ -439,9 +496,10 @@ public class PropertyDAO {
     public int getTotalPropertyCount() {
         String sql = "SELECT COUNT(*) FROM properties";
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) return rs.getInt(1);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -451,9 +509,10 @@ public class PropertyDAO {
     public int getPendingPropertyCount() {
         String sql = "SELECT COUNT(*) FROM properties WHERE verificationStatus = 'Pending'";
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) return rs.getInt(1);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -463,9 +522,10 @@ public class PropertyDAO {
     public int getFlaggedPropertyCount() {
         String sql = "SELECT COUNT(*) FROM properties WHERE flagStatus != 'None'";
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) return rs.getInt(1);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -476,8 +536,8 @@ public class PropertyDAO {
         List<Property> list = new ArrayList<>();
         String sql = "SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId WHERE p.verificationStatus = 'Pending' ORDER BY p.propertyId DESC";
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Property prop = mapResultSetToProperty(rs);
                 prop.setOwnerName(rs.getString("ownerName"));
@@ -493,8 +553,8 @@ public class PropertyDAO {
         List<Property> list = new ArrayList<>();
         String sql = "SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId WHERE p.flagStatus != 'None' ORDER BY p.propertyId DESC";
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Property prop = mapResultSetToProperty(rs);
                 prop.setOwnerName(rs.getString("ownerName"));
@@ -509,7 +569,7 @@ public class PropertyDAO {
     public boolean updateVerificationStatus(int propertyId, String status, String reason) {
         String sql = "UPDATE properties SET verificationStatus = ?, rejectionReason = ? WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
             pstmt.setString(2, reason);
             pstmt.setInt(3, propertyId);
@@ -523,7 +583,7 @@ public class PropertyDAO {
     public boolean updateAvailability(int propertyId, boolean available) {
         String sql = "UPDATE properties SET availability = ? WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, available ? 1 : 0);
             pstmt.setInt(2, propertyId);
             return pstmt.executeUpdate() > 0;
@@ -536,7 +596,7 @@ public class PropertyDAO {
     public boolean updateFlagStatus(int propertyId, String flagStatus, String flagReason) {
         String sql = "UPDATE properties SET flagStatus = ?, flagReason = ? WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, flagStatus);
             pstmt.setString(2, flagReason);
             pstmt.setInt(3, propertyId);
@@ -550,7 +610,7 @@ public class PropertyDAO {
     public boolean updateFlagAndCount(int propertyId, int newCount, String newStatus, String reason) {
         String updateSql = "UPDATE properties SET flagCount = ?, flagStatus = ?, flagReason = ? WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
+                PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
             pstmt.setInt(1, newCount);
             pstmt.setString(2, newStatus);
             pstmt.setString(3, reason);
@@ -565,15 +625,18 @@ public class PropertyDAO {
     public List<Property> getLandingProperties() {
         List<Property> results = new ArrayList<>();
         String sql = "SELECT p.*, u.name AS ownerName FROM properties p LEFT JOIN users u ON p.ownerId = u.userId " +
-                     "WHERE p.verificationStatus = 'Approved' AND p.flagCount < 3 " +
-                     "ORDER BY p.price DESC";
+                "WHERE p.verificationStatus = 'Approved' AND p.flagCount < 3 " +
+                "ORDER BY p.price DESC";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     Property prop = mapResultSetToProperty(rs);
                     String pOwnerName = "";
-                    try { pOwnerName = rs.getString("ownerName"); } catch(Exception ignored) {}
+                    try {
+                        pOwnerName = rs.getString("ownerName");
+                    } catch (Exception ignored) {
+                    }
                     prop.setOwnerName(pOwnerName);
                     results.add(prop);
                 }
