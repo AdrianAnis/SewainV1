@@ -52,55 +52,62 @@ public class AdminFlagServlet extends HttpServlet {
             return;
         }
 
-        String action = request.getParameter("action");
-        String propertyIdParam = request.getParameter("propertyId");
-
-        if (action == null || propertyIdParam == null) {
-            response.getWriter().write("{\"success\": false, \"message\": \"Parameter tidak lengkap.\"}");
-            return;
-        }
-
-        int propertyId = Integer.parseInt(propertyIdParam);
-        Admin adminUser = (Admin) currentUser;
-        Property prop = adminUser.getPropertyById(propertyId);
-
-        if (prop == null) {
-            response.getWriter().write("{\"success\": false, \"message\": \"Properti tidak ditemukan.\"}");
-            return;
-        }
-
-        model.ActivityLog logModel = new model.ActivityLog();
-        int adminId = 0;
         try {
-            adminId = Integer.parseInt(currentUser.getUserId());
-        } catch (Exception ignored) {
-        }
+            String action = request.getParameter("action");
+            String propertyIdParam = request.getParameter("propertyId");
 
-        boolean success = false;
-        if ("unflagProperty".equalsIgnoreCase(action)) {
-            success = adminUser.unflagProperty(propertyId);
-            if (success) {
-                
-                model.Flag flagModel = new model.Flag();
-                flagModel.removeFlag(propertyId);
-
-                String desc = currentUser.getName() + " mencabut flag pada properti: " + prop.getName()
-                        + " (ID: " + propertyId + ")";
-                logModel.addLog(adminId, "UNFLAG PROPERTY", desc);
+            if (action == null || propertyIdParam == null) {
+                response.getWriter().write("{\"success\": false, \"message\": \"Parameter tidak lengkap.\"}");
+                return;
             }
-        } else if ("deleteProperty".equalsIgnoreCase(action)) {
-            success = ((model.Admin) currentUser).deleteProperty(propertyId);
-            if (success) {
-                String desc = currentUser.getName() + " menghapus properti secara permanen: "
-                        + prop.getName() + " (ID: " + propertyId + ")";
-                logModel.addLog(adminId, "DELETE PROPERTY", desc);
-            }
-        }
 
-        if (success) {
-            response.getWriter().write("{\"success\": true}");
-        } else {
-            response.getWriter().write("{\"success\": false, \"message\": \"Gagal memproses aksi di database.\"}");
+            int propertyId = Integer.parseInt(propertyIdParam);
+            Admin adminUser = (Admin) currentUser;
+            Property prop = adminUser.getPropertyById(propertyId);
+
+            if (prop == null) {
+                response.getWriter().write("{\"success\": false, \"message\": \"Properti tidak ditemukan.\"}");
+                return;
+            }
+
+            model.ActivityLog logModel = new model.ActivityLog();
+            int adminId = 0;
+            try {
+                adminId = Integer.parseInt(currentUser.getUserId());
+            } catch (Exception ignored) {
+            }
+
+            boolean success = false;
+            if ("unflagProperty".equalsIgnoreCase(action)) {
+                success = adminUser.unflagProperty(propertyId);
+                if (success) {
+                    
+                    model.Flag flagModel = new model.Flag();
+                    flagModel.removeFlag(propertyId);
+
+                    String desc = currentUser.getName() + " mencabut flag pada properti: " + prop.getName()
+                            + " (ID: " + propertyId + ")";
+                    logModel.addLog(adminId, "UNFLAG PROPERTY", desc);
+                }
+            } else if ("deleteProperty".equalsIgnoreCase(action)) {
+                success = ((model.Admin) currentUser).deleteProperty(propertyId);
+                if (success) {
+                    String desc = currentUser.getName() + " menghapus properti secara permanen: "
+                            + prop.getName() + " (ID: " + propertyId + ")";
+                    logModel.addLog(adminId, "DELETE PROPERTY", desc);
+                }
+            }
+
+            if (success) {
+                response.getWriter().write("{\"success\": true}");
+            } else {
+                response.getWriter().write("{\"success\": false, \"message\": \"Gagal memproses aksi di database.\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            String errorMsg = e.getMessage() != null ? e.getMessage().replace("\"", "'").replace("\n", " ") : "Unknown Error";
+            response.getWriter().write("{\"success\": false, \"message\": \"Kesalahan Server: " + errorMsg + "\"}");
         }
     }
 }

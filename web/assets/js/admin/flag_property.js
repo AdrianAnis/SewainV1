@@ -55,12 +55,13 @@ function closeDeleteModal() {
 function executeDeletePermanent() {
     if (!activeDeletePropertyId) return;
 
-    closeDeleteModal();
+    const propertyIdToDelete = activeDeletePropertyId; // Simpan dulu
+    closeDeleteModal(); // Sekarang aman ditutup
     showLoader();
 
     const params = new URLSearchParams();
     params.append("action", "deleteProperty");
-    params.append("propertyId", activeDeletePropertyId);
+    params.append("propertyId", propertyIdToDelete);
 
     fetch(`${window.contextPath}/admin/flagged`, {
         method: "POST",

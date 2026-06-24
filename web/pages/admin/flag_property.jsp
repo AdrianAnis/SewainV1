@@ -150,7 +150,7 @@
 
                     
                     <script src="${pageContext.request.contextPath}/assets/js/shared/ui-alerts.js"></script>
-                    <script src="${pageContext.request.contextPath}/assets/js/admin/flag_property.js"></script>
+                    <script src="${pageContext.request.contextPath}/assets/js/admin/flag_property.js?v=2"></script>
                 </body>
 
                 </html>

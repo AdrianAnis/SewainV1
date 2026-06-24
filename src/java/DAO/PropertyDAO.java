@@ -414,26 +414,11 @@ public class PropertyDAO {
     }
 
     public boolean deleteProperty(int propertyId) {
-        String deleteReportsSql = "DELETE FROM reports WHERE propertyId = ?";
-        String deletePropertySql = "DELETE FROM properties WHERE propertyId = ?";
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            conn.setAutoCommit(false);
-            try (PreparedStatement pstmt1 = conn.prepareStatement(deleteReportsSql);
-                    PreparedStatement pstmt2 = conn.prepareStatement(deletePropertySql)) {
-
-                pstmt1.setInt(1, propertyId);
-                pstmt1.executeUpdate();
-
-                pstmt2.setInt(1, propertyId);
-                int affected = pstmt2.executeUpdate();
-
-                conn.commit();
-                return affected > 0;
-            } catch (SQLException e) {
-                conn.rollback();
-                e.printStackTrace();
-                return false;
-            }
+        String sql = "DELETE FROM properties WHERE propertyId = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, propertyId);
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
