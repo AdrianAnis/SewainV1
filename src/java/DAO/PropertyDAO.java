@@ -594,7 +594,7 @@ public class PropertyDAO {
     }
 
     public boolean updateFlagStatus(int propertyId, String flagStatus, String flagReason) {
-        String sql = "UPDATE properties SET flagStatus = ?, flagReason = ? WHERE propertyId = ?";
+        String sql = "UPDATE properties SET flagStatus = ?, flagReason = ?, flagCount = 0 WHERE propertyId = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, flagStatus);

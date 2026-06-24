@@ -1,11 +1,26 @@
+.btn-action {
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin-right: 4px;
+}
+
 .btn-unflag {
     background-color: #EAF2F8;
     color: #2980B9;
 }
 
 .btn-unflag:hover {
-    background-color: #D4E6F1;
-    color: #1A5276;
+    background-color: #2980B9;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(41,128,185,0.2);
 }
 
 .btn-delete-perm {
@@ -14,8 +29,10 @@
 }
 
 .btn-delete-perm:hover {
-    background-color: #FADBD8;
-    color: #922B21;
+    background-color: #E74C3C;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231,76,60,0.2);
 }
 
 .text-danger-warning {

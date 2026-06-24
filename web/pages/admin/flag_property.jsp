@@ -36,6 +36,8 @@
                     <link rel="stylesheet"
                         href="${pageContext.request.contextPath}/assets/css/admin/dashboard_admin.css?v=2.2" />
                     <link rel="stylesheet"
+                        href="${pageContext.request.contextPath}/assets/css/admin/handle_report.css?v=3.2" />
+                    <link rel="stylesheet"
                         href="${pageContext.request.contextPath}/assets/css/admin/flag_property.css" />
                     <link rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -60,16 +62,7 @@
                         
                         <main class="admin-main">
                             
-                            <header class="main-header">
-                                <div class="header-title-container">
-                                    <h1 class="main-title">Properti Bermasalah</h1>
-                                    <ul class="breadcrumb">
-                                        <li><a href="${pageContext.request.contextPath}/admin/dashboard">Admin</a></li>
-                                        <li><i class="fa-solid fa-chevron-right separator"></i></li>
-                                        <li class="active">Properti Bermasalah</li>
-                                    </ul>
-                                </div>
-                            </header>
+                            
 
                             
                             <section class="table-card">
@@ -106,7 +99,7 @@
                                                             <button class="btn-action btn-unflag"
                                                                 onclick="unflagProperty(${p.propertyId})"
                                                                 title="Cabut Flag">
-                                                                <i class="fa-solid fa-flag-slash"></i>
+                                                                <i class="fa-solid fa-rotate-left"></i>
                                                             </button>
                                                             <button class="btn-action btn-delete-perm"
                                                                 onclick="confirmDeletePermanent(${p.propertyId})"
